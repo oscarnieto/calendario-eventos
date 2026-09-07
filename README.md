@@ -110,7 +110,11 @@ Todo el color, la tipografía y la geometría viven en variables CSS bajo
   no hay scroll en ningún estado.
 - **Card amarilla** (`#ffdf00`) los días con eventos, número en rojo `#c90c0f`.
   **Card azul** (`#2d2e45`) los días sin eventos, número en amarillo.
-- Hasta 3 eventos por card; a partir de ahí, los dos primeros más `+N más`.
+- Hasta 3 eventos por card; a partir de ahí, los dos primeros más `+N más`. Los
+  títulos que no caben se recortan con puntos suspensivos: cuantos menos eventos
+  tenga el día, más líneas de título caben.
+- Tipografía de la rejilla ligeramente por encima del Figma (evento 16 px,
+  cabecera 20 px, número 32 px) porque el MOPI se usa de cerca y con el dedo.
 - Tipografía **Montserrat** (Light/Medium/Bold) embebida en base64 dentro del
   HTML, con WOFF2 y WOFF de reserva. Los modos escritorio y móvil siguen con la
   pila del sistema.
@@ -129,12 +133,22 @@ Las dos son **provisionales**: se generaron aquí porque el entorno no tiene
 acceso de red a `figma.com` para exportarlas. Sustituirlas es arrastrar el
 archivo con el mismo nombre; no hay que tocar código.
 
-### Capa de detalle y modo atracción
+### Popup del día y modo atracción
 
-El Figma cubre el estado en reposo (el cartel). La interacción táctil —tocar un
-día abre el detalle con su QR, y la rotación automática de destacados— se
-resuelve con una capa a pantalla completa en la misma paleta, con los tamaños
-legibles a 1-2 m. Cuando tengas ese frame en Figma, sustituye solo ese bloque.
+El Figma cubre el estado en reposo (el cartel). La interacción táctil no está
+dibujada y se resuelve con dos piezas en la misma paleta:
+
+- **Popup del día.** Tocar una card abre un cuadro centrado sobre el cartel, con
+  cabecera amarilla y la fecha en rojo (el mismo par de la card). Si el día tiene
+  un evento, sale el detalle completo con su QR; si tiene varios, sale la lista y
+  al tocar uno se abre su detalle. Se cierra con la X o tocando fuera. Nunca hay
+  scroll: la lista evita que el contenido crezca.
+- **Modo atracción.** A los 2 minutos sin tocar, el cartel deja paso a una capa a
+  pantalla completa que rota los eventos destacados cada 12 segundos. Cualquier
+  toque la corta.
+
+Los tamaños del popup son de lectura a un brazo de distancia, que es como se usa
+el MOPI. Cuando tengas ese frame en Figma, sustituye solo ese bloque.
 
 ### Comprobar en local
 

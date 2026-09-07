@@ -135,10 +135,10 @@ a{ color: inherit; }
   --mopi-fuente: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
   --mopi-fs-h1: 71px;
   --mopi-lh-h1: 87px;
-  --mopi-fs-cabecera: 16px;
-  --mopi-fs-dia: 30px;
-  --mopi-fs-evento: 14px;
-  --mopi-lh-evento: 1.18;
+  --mopi-fs-cabecera: 20px;
+  --mopi-fs-dia: 32px;
+  --mopi-fs-evento: 16px;
+  --mopi-lh-evento: 1.2;
   --mopi-fs-pie: 45px;
   --mopi-lh-pie: 39.7px;
 
@@ -162,8 +162,17 @@ a{ color: inherit; }
   --mopi-pie-linea-top: 1759.25px;
   --mopi-pie-top: 1775.09px;
 
-  /* --- capa de detalle y atraccion (no viene del Figma: se mantienen los
-         tamanos legibles a 1-2 m del brief original) --- */
+  /* --- popup del dia (no viene del Figma). El MOPI se usa de cerca:
+         los tamanos son de lectura a un brazo de distancia. --- */
+  --mopi-modal-ancho: 980px;
+  --mopi-modal-pad: 44px;
+  --mopi-modal-fs-fecha: 40px;
+  --mopi-modal-fs-titulo: 46px;
+  --mopi-modal-fs-cuerpo: 28px;
+  --mopi-modal-fs-meta: 28px;
+  --mopi-modal-fs-min: 22px;
+
+  /* --- capa de atraccion a pantalla completa (se lee desde mas lejos) --- */
   --mopi-capa-pad: 72px;
   --mopi-capa-fs-titulo: 64px;
   --mopi-capa-fs-sub: 40px;
@@ -289,8 +298,7 @@ a{ color: inherit; }
 }
 .mopi-card[data-eventos="1"] .mopi-card-num{ color: var(--mopi-c-num-con); }
 .mopi-card-lista{
-  display:flex; flex-direction:column; justify-content:flex-end;
-  min-height:0; overflow:hidden;
+  display:block; min-height:0; overflow:hidden;
 }
 .mopi-card-ev{
   border-top: 1px solid var(--mopi-c-linea-ev);
@@ -299,10 +307,26 @@ a{ color: inherit; }
   line-height: var(--mopi-lh-evento);
   color: var(--mopi-c-tinta-card);
   overflow-wrap: break-word; word-wrap: break-word;
+  overflow:hidden;
+  display:-webkit-box; -webkit-box-orient: vertical;
+  -webkit-line-clamp:2; max-height: 2.4em; max-height: calc(2.4em + 7px);
+}
+/* cuantos menos eventos, mas lineas de titulo caben sin desbordar la card */
+.mopi-card-lista[data-n="1"] .mopi-card-ev{ -webkit-line-clamp:4; max-height: calc(4.8em + 7px); }
+.mopi-card-lista[data-n="2"] .mopi-card-ev{ -webkit-line-clamp:3; max-height: calc(3.6em + 7px); }
+.mopi-card-lista[data-n="3"] .mopi-card-ev{ -webkit-line-clamp:2; max-height: calc(2.4em + 7px); }
+/* con line-clamp el recorte ya es exacto y pinta los puntos suspensivos;
+   el max-height solo hace de red para WebViews que no lo soporten */
+@supports (-webkit-line-clamp: 2){
+  .mopi-card-ev,
+  .mopi-card-lista[data-n="1"] .mopi-card-ev,
+  .mopi-card-lista[data-n="2"] .mopi-card-ev,
+  .mopi-card-lista[data-n="3"] .mopi-card-ev{ max-height: none; }
 }
 .mopi-card-ev[data-estado="cancelado"]{ text-decoration: line-through; opacity:.6; }
 .mopi-card-ev b{ font-weight:700; }
 .mopi-card-mas{
+  display:block;
   border-top: 1px solid var(--mopi-c-linea-ev);
   padding-top: 6px; margin-top: 6px;
   font-size: var(--mopi-fs-evento); font-weight:700;
@@ -340,7 +364,55 @@ a{ color: inherit; }
 .mopi-btn:active{ background: var(--mopi-c-acento); color: var(--mopi-c-fondo); border-color: var(--mopi-c-acento); }
 .mopi-btn-hoy{ width:auto; padding:0 26px; font-size: 26px; font-weight:700; }
 
-/* ---------- capa de detalle / atraccion ---------- */
+/* ---------- popup del dia (uso de cerca, tactil) ---------- */
+.mopi-modal-fondo{
+  position:absolute; left:0; top:0;
+  width: var(--mopi-ancho); height: var(--mopi-alto);
+  background: rgba(21,22,33,.84);
+  display:flex; align-items:center; justify-content:center;
+  padding: 60px;
+}
+.mopi-modal{
+  width: var(--mopi-modal-ancho);
+  max-height: 1560px;
+  background: var(--mopi-c-card-sin);
+  border: 1px solid var(--mopi-c-suave);
+  border-radius: 2px;
+  box-shadow: 0 40px 120px rgba(0,0,0,.55);
+  display:flex; flex-direction:column;
+  overflow:hidden;
+  font-family: var(--mopi-fuente);
+}
+.mopi-modal-cab{
+  flex:0 0 auto;
+  background: var(--mopi-c-card-con);
+  padding: 24px var(--mopi-modal-pad);
+  display:flex; align-items:center; justify-content:space-between; gap:24px;
+}
+.mopi-modal-fecha{
+  font-size: var(--mopi-modal-fs-fecha); font-weight:700; line-height:1.15;
+  color: var(--mopi-c-num-con);
+}
+.mopi-modal-sub{
+  font-size: var(--mopi-modal-fs-min); font-weight:500; margin-top:4px;
+  color: var(--mopi-c-tinta-card);
+}
+.mopi-cerrar{
+  flex:0 0 auto;
+  width: var(--mopi-tactil-min); height: var(--mopi-tactil-min);
+  background: var(--mopi-c-fondo); color: var(--mopi-c-acento);
+  border-radius:2px; font-size:36px; font-weight:300; line-height:1;
+  font-family: var(--mopi-fuente);
+  display:flex; align-items:center; justify-content:center;
+}
+.mopi-cerrar:active{ background: var(--mopi-c-num-con); color:#fff; }
+.mopi-modal-cuerpo{
+  flex:1 1 auto; min-height:0;
+  padding: var(--mopi-modal-pad);
+  overflow:hidden;
+}
+
+/* ---------- capa de atraccion a pantalla completa ---------- */
 .mopi-capa{
   position:absolute; left:0; top:0;
   width: var(--mopi-ancho); height: var(--mopi-alto);
@@ -373,6 +445,15 @@ a{ color: inherit; }
 
 .mopi-det{ display:flex; flex-direction:column; }
 .mopi-det-tags{ margin-bottom: 28px; display:flex; flex-wrap:wrap; gap:14px; }
+.mopi-modal .mopi-det h3{ font-size: var(--mopi-modal-fs-titulo); }
+.mopi-modal .mopi-det-meta{ font-size: var(--mopi-modal-fs-meta); margin-bottom:28px; }
+.mopi-modal .mopi-det-desc{ font-size: var(--mopi-modal-fs-cuerpo); max-height:340px; }
+.mopi-modal .mopi-det-fila{ gap: var(--mopi-modal-pad); }
+.mopi-modal .mopi-lista-item{ min-height:112px; padding:20px 28px; }
+.mopi-modal .mopi-lista-hora,
+.mopi-modal .mopi-lista-tit{ font-size: var(--mopi-modal-fs-cuerpo); }
+.mopi-modal .mopi-qr-pie{ font-size: var(--mopi-modal-fs-min); }
+.mopi-modal .etiqueta{ font-size: var(--mopi-modal-fs-min); padding:8px 20px; }
 .mopi-det h3{
   font-size: var(--mopi-capa-fs-titulo); line-height:1.08; font-weight:700;
   color: var(--mopi-c-blanco); margin-bottom: 32px;
@@ -748,6 +829,19 @@ a{ color: inherit; }
 
       <div class="mopi-pie-linea"></div>
       <div class="mopi-pie">Para más información contacta con<b>eventosmkt@savills.es</b></div>
+
+      <div class="mopi-modal-fondo oculto" id="mopiModal">
+        <div class="mopi-modal" role="dialog" aria-modal="true" aria-labelledby="mopiModalFecha">
+          <div class="mopi-modal-cab">
+            <div>
+              <div class="mopi-modal-fecha" id="mopiModalFecha">&nbsp;</div>
+              <div class="mopi-modal-sub" id="mopiModalSub">&nbsp;</div>
+            </div>
+            <button type="button" class="mopi-cerrar" id="mopiCerrar" aria-label="Cerrar">&#10005;</button>
+          </div>
+          <div class="mopi-modal-cuerpo" id="mopiModalCuerpo"></div>
+        </div>
+      </div>
 
       <div class="mopi-capa oculto" id="mopiCapa">
         <div class="mopi-capa-cab">
@@ -1424,19 +1518,22 @@ var CAL = (function () {
         var lista = '';
         for (k = 0; k < vis; k++) {
           var e = c.eventos[k];
-          lista += '<span class="mopi-card-ev" data-estado="' + e.estado + '">' + esc(e.titulo) +
-                   (e.estado === 'completo' ? ' <b>(completo)</b>' : '') + '</span>';
+          lista += '<span class="mopi-card-ev" data-estado="' + e.estado + '">' +
+                     '<span class="mopi-card-t" data-titulo="' + esc(e.titulo) + '">' + esc(e.titulo) + '</span>' +
+                     (e.estado === 'completo' ? ' <b>(completo)</b>' : '') +
+                   '</span>';
         }
         if (n > MOPI_MAX_EVENTOS) { lista += '<span class="mopi-card-mas">+' + (n - vis) + ' más</span>'; }
         h += '<button type="button" class="mopi-card" data-fecha="' + c.iso + '"' +
              ' data-eventos="' + (n ? '1' : '0') + '"' +
              ' data-hoy="' + (c.iso === hoy ? '1' : '0') + '">' +
              '<span class="mopi-card-num">' + pad2(c.dia) + '</span>' +
-             '<span class="mopi-card-lista">' + lista + '</span>' +
+             '<span class="mopi-card-lista" data-n="' + (n > MOPI_MAX_EVENTOS ? MOPI_MAX_EVENTOS : n) + '">' + lista + '</span>' +
              '</button>';
       }
     }
     el('mopiRejilla').innerHTML = h;
+    recortarTitulos();
 
     avisarFinDeSemana(f);
     pintarPanelMopi();
@@ -1445,6 +1542,30 @@ var CAL = (function () {
     el('mopiAviso').textContent = aviso;
     mostrar(el('mopiAviso'), !!aviso);
   }
+
+  /* El recorte de CSS corta limpio pero no siempre pinta los puntos
+     suspensivos, y un titulo cortado sin marca se lee como si fuera entero.
+     Se mide el desbordamiento real y se recorta por busqueda binaria. */
+  function recortarTitulos() {
+    var evs = el('mopiRejilla').getElementsByClassName('mopi-card-ev');
+    var i, caja, t, texto, lo, hi, mid;
+    for (i = 0; i < evs.length; i++) {
+      caja = evs[i];
+      t = caja.getElementsByClassName('mopi-card-t')[0];
+      if (!t) continue;
+      texto = t.getAttribute('data-titulo') || '';
+      t.textContent = texto;
+      if (caja.scrollHeight <= caja.clientHeight + 1) continue;
+      lo = 0; hi = texto.length;
+      while (lo < hi) {
+        mid = Math.ceil((lo + hi) / 2);
+        t.textContent = limpiarCola(texto.slice(0, mid)) + '…';
+        if (caja.scrollHeight <= caja.clientHeight + 1) { lo = mid; } else { hi = mid - 1; }
+      }
+      t.textContent = limpiarCola(texto.slice(0, lo)) + '…';
+    }
+  }
+  function limpiarCola(s) { return s.replace(/[\s,.;:·\-]+$/, ''); }
 
   /* La rejilla del Figma es de lunes a viernes. Un mes nunca ocupa mas de
      cinco filas laborables, asi que el lienzo de 1920 px siempre cuadra. */
@@ -1525,66 +1646,73 @@ var CAL = (function () {
            '</div>';
   }
 
+  /* El popup del dia y la capa de atraccion son dos piezas distintas:
+     el popup es para tocarlo de cerca, la capa es el estado ambiente. */
   function pintarPanelMopi() {
-    var capa = el('mopiCapa');
-    var cuerpo = el('mopiCapaCuerpo');
-    var marca = el('mopiCapaMarca');
-    var fecha = el('mopiCapaFecha');
-    var pista = el('mopiCapaPista');
-    var puntos = el('mopiCapaPuntos');
-    var lista, ev, i, h;
-
-    if (!est.diaSel && !est.enAtraccion) { mostrar(capa, false); return; }
-
     if (est.diaSel) {
-      lista = eventosDe(est.diaSel);
-      if (!lista.length) { est.diaSel = ''; mostrar(capa, false); return; }
-      puntos.innerHTML = '';
-      fecha.textContent = capitalizar(fechaLarga(est.diaSel));
-      ev = est.eventoSel;
-      if (!ev && lista.length === 1) { ev = lista[0]; }
-      if (ev) {
-        marca.textContent = lista.length > 1
-          ? 'Evento ' + (indiceEn(lista, ev) + 1) + ' de ' + lista.length
-          : 'Evento del día';
-        cuerpo.innerHTML = detalleMopi(ev, lista.length);
-        pista.textContent = 'Toca el fondo para volver al calendario';
-        mostrar(capa, true);
-        if (ev.url && ev.estado !== 'cancelado') { pintarQr(el('mopiQrCaja'), urlConUtm(ev.url, 'mopi')); }
-        return;
-      }
-      marca.textContent = lista.length + ' eventos';
-      h = '<div class="mopi-lista">';
-      for (i = 0; i < lista.length; i++) {
-        h += '<button type="button" class="mopi-lista-item" data-evento="' + esc(lista[i].id) +
-               '" data-estado="' + lista[i].estado + '">' +
-               '<i class="mopi-lista-punto" style="background:' + colorCategoria(lista[i].categoria) + '"></i>' +
-               '<span class="mopi-lista-hora">' + esc(lista[i].horaInicio || '--:--') + '</span>' +
-               '<span class="mopi-lista-tit">' + esc(lista[i].titulo) + '</span>' +
-               (lista[i].estado === 'activo' ? '' : etiquetasEstado(lista[i])) +
-             '</button>';
-      }
-      cuerpo.innerHTML = h + '</div>';
-      pista.textContent = 'Toca un evento para ver el detalle y su QR';
-      mostrar(capa, true);
+      mostrar(el('mopiCapa'), false);
+      pintarModalMopi();
+      return;
+    }
+    mostrar(el('mopiModal'), false);
+    if (est.enAtraccion) { pintarAtraccionMopi(); }
+    else { mostrar(el('mopiCapa'), false); }
+  }
+
+  function listaEventosMopi(lista) {
+    var h = '<div class="mopi-lista">', i;
+    for (i = 0; i < lista.length; i++) {
+      h += '<button type="button" class="mopi-lista-item" data-evento="' + esc(lista[i].id) +
+             '" data-estado="' + lista[i].estado + '">' +
+             '<i class="mopi-lista-punto" style="background:' + colorCategoria(lista[i].categoria) + '"></i>' +
+             '<span class="mopi-lista-hora">' + esc(lista[i].horaInicio || '--:--') + '</span>' +
+             '<span class="mopi-lista-tit">' + esc(lista[i].titulo) + '</span>' +
+             (lista[i].estado === 'activo' ? '' : etiquetasEstado(lista[i])) +
+           '</button>';
+    }
+    return h + '</div>';
+  }
+
+  function pintarModalMopi() {
+    var modal = el('mopiModal'), cuerpo = el('mopiModalCuerpo');
+    var lista = eventosDe(est.diaSel), ev;
+
+    if (!lista.length) { est.diaSel = ''; mostrar(modal, false); return; }
+    el('mopiModalFecha').textContent = capitalizar(fechaLarga(est.diaSel));
+
+    ev = est.eventoSel;
+    if (!ev && lista.length === 1) { ev = lista[0]; }
+
+    if (ev) {
+      el('mopiModalSub').textContent = lista.length > 1
+        ? 'Evento ' + (indiceEn(lista, ev) + 1) + ' de ' + lista.length
+        : '1 evento';
+      cuerpo.innerHTML = detalleMopi(ev, lista.length);
+      mostrar(modal, true);
+      if (ev.url && ev.estado !== 'cancelado') { pintarQr(el('mopiQrCaja'), urlConUtm(ev.url, 'mopi')); }
       return;
     }
 
-    /* modo atraccion: rotacion de destacados del mes */
+    el('mopiModalSub').textContent = lista.length + ' eventos · toca uno para ver su QR';
+    cuerpo.innerHTML = listaEventosMopi(lista);
+    mostrar(modal, true);
+  }
+
+  function pintarAtraccionMopi() {
+    var capa = el('mopiCapa'), ev, i, h = '';
     calcularDestacados();
     if (!est.destacados.length) { mostrar(capa, false); return; }
     ev = est.destacados[est.idxDestacado];
-    marca.textContent = 'Destacados del mes';
-    fecha.textContent = capitalizar(fechaLarga(ev.fecha));
-    cuerpo.innerHTML = detalleMopi(ev, 1);
-    pista.textContent = 'Toca la pantalla para explorar el calendario';
-    h = '';
+    el('mopiCapaMarca').textContent = 'Destacados del mes';
+    el('mopiCapaFecha').textContent = capitalizar(fechaLarga(ev.fecha));
+    el('mopiCapaCuerpo').innerHTML = detalleMopi(ev, 1);
+    el('mopiCapaPista').textContent = 'Toca la pantalla para explorar el calendario';
     if (est.destacados.length > 1) {
       for (i = 0; i < est.destacados.length; i++) {
         h += '<i' + (i === est.idxDestacado ? ' data-on="1"' : '') + '></i>';
       }
     }
-    puntos.innerHTML = h;
+    el('mopiCapaPuntos').innerHTML = h;
     mostrar(capa, true);
     if (ev.url && ev.estado !== 'cancelado') { pintarQr(el('mopiQrCaja'), urlConUtm(ev.url, 'mopi')); }
   }
@@ -1999,7 +2127,9 @@ var CAL = (function () {
       pintarPanelMopi();
     });
 
-    escuchar(el('mopiCapa'), 'click', function (e) {
+    escuchar(el('mopiCerrar'), 'click', function () { cerrarCapaMopi(); });
+
+    escuchar(el('mopiModal'), 'click', function (e) {
       var item = celdaPulsada(e, 'mopi-lista-item');
       if (item) {
         est.eventoSel = porId(item.getAttribute('data-evento'));
@@ -2013,11 +2143,14 @@ var CAL = (function () {
           pintarPanelMopi();
           return;
         }
-        if (n === el('mopiCapa')) { break; }
         n = n.parentNode;
       }
-      cerrarCapaMopi();
+      /* solo cierra si el toque cae fuera del cuadro */
+      if (e.target === el('mopiModal')) { cerrarCapaMopi(); }
     });
+
+    /* la capa de atraccion se cierra con cualquier toque */
+    escuchar(el('mopiCapa'), 'click', function () { cerrarCapaMopi(); });
 
     /* --- ESCRITORIO --- */
     escuchar(el('escAnterior'), 'click', function () { irAMes(-1); });
@@ -2147,6 +2280,11 @@ var CAL = (function () {
 
     conectarEventos();
     pintar();
+    if (document.fonts && document.fonts.ready && document.fonts.ready.then) {
+      document.fonts.ready.then(function () {
+        if (est.modo === 'mopi') { recortarTitulos(); }
+      });
+    }
     cargarDatos(true);
 
     setInterval(function () { cargarDatos(false); }, MS_RECARGA);
