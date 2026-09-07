@@ -98,6 +98,44 @@ si hay que revisarlos.
   modo atracción y rota los eventos destacados cada 12 s. Cualquier toque lo
   interrumpe.
 
+## Diseño del MOPI
+
+El modo MOPI implementa el frame `1:2 Muppie_1080x1920` del Figma
+[Calendario](https://www.figma.com/design/LqOyrOC477j02aAt3ok6az/Calendario?node-id=1-2).
+Todo el color, la tipografía y la geometría viven en variables CSS bajo
+`:root[data-modo="mopi"]`, así que un reajuste del Figma es un cambio localizado.
+
+- **Rejilla de lunes a viernes**, 5 columnas × hasta 5 filas. Un mes nunca ocupa
+  más de cinco filas laborables, por eso el lienzo de 1920 px siempre cuadra y
+  no hay scroll en ningún estado.
+- **Card amarilla** (`#ffdf00`) los días con eventos, número en rojo `#c90c0f`.
+  **Card azul** (`#2d2e45`) los días sin eventos, número en amarillo.
+- Hasta 3 eventos por card; a partir de ahí, los dos primeros más `+N más`.
+- Tipografía **Montserrat** (Light/Medium/Bold) embebida en base64 dentro del
+  HTML, con WOFF2 y WOFF de reserva. Los modos escritorio y móvil siguen con la
+  pila del sistema.
+- Los eventos en **sábado o domingo** no caben en una rejilla de lunes a viernes:
+  no salen en la rejilla pero sí en la rotación de destacados, y quedan
+  registrados con `console.warn`.
+
+### Imágenes de marca
+
+| Archivo | Qué es |
+|---|---|
+| `assets/img/hero.jpg` | Foto de cabecera, 1080×542. Sustitúyela por la del Figma arrastrándola encima. |
+| `assets/img/logo-savills.svg` | Logo de la esquina superior izquierda, 121×121. |
+
+Las dos son **provisionales**: se generaron aquí porque el entorno no tiene
+acceso de red a `figma.com` para exportarlas. Sustituirlas es arrastrar el
+archivo con el mismo nombre; no hay que tocar código.
+
+### Capa de detalle y modo atracción
+
+El Figma cubre el estado en reposo (el cartel). La interacción táctil —tocar un
+día abre el detalle con su QR, y la rotación automática de destacados— se
+resuelve con una capa a pantalla completa en la misma paleta, con los tamaños
+legibles a 1-2 m. Cuando tengas ese frame en Figma, sustituye solo ese bloque.
+
 ### Comprobar en local
 
 ```
