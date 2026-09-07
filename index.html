@@ -346,22 +346,29 @@ a{ color: inherit; }
 .mopi-pie b{ display:block; font-weight:700; color: var(--mopi-c-acento); }
 
 /* ---------- navegacion tactil discreta ---------- */
+/* Barra unica y solida arriba a la derecha: es el unico hueco libre del
+   cartel y sobre la foto necesita fondo propio para leerse. */
 .mopi-nav{
   position:absolute; right: var(--mopi-margen); top: 26px;
-  display:flex; align-items:center; gap:12px;
+  display:flex; align-items:center;
+  background: var(--mopi-c-fondo);
+  border: 1px solid var(--mopi-c-suave);
+  border-radius: 2px;
+  overflow:hidden;
 }
 .mopi-btn{
   width: var(--mopi-tactil-min); height: var(--mopi-tactil-min);
   min-width: var(--mopi-tactil-min); min-height: var(--mopi-tactil-min);
-  background: rgba(37,39,58,.55);
-  border: 1px solid var(--mopi-c-suave);
-  border-radius: 2px;
+  background: transparent;
+  border: 0; border-left: 1px solid var(--mopi-c-suave);
+  border-radius: 0;
   color: var(--mopi-c-acento);
   font-family: var(--mopi-fuente);
   font-size: 40px; font-weight:300; line-height:1;
   display:flex; align-items:center; justify-content:center;
 }
-.mopi-btn:active{ background: var(--mopi-c-acento); color: var(--mopi-c-fondo); border-color: var(--mopi-c-acento); }
+.mopi-nav .mopi-btn:first-child{ border-left:0; }
+.mopi-btn:active{ background: var(--mopi-c-acento); color: var(--mopi-c-fondo); }
 .mopi-btn-hoy{ width:auto; padding:0 26px; font-size: 26px; font-weight:700; }
 
 /* ---------- popup del dia (uso de cerca, tactil) ---------- */
