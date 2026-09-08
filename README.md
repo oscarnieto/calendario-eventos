@@ -16,67 +16,74 @@ calendario detecta el dispositivo.
 
 ## Actualizar los eventos (equipo no técnico)
 
-1. Descarga `datos/eventos.xlsx`.
-2. Edítalo en Excel o Google Sheets (si usas Sheets, exporta de nuevo a `.xlsx`).
-3. En GitHub, entra en la carpeta `datos/` y arrastra el archivo encima para
-   sustituirlo. **El nombre tiene que seguir siendo `eventos.xlsx`.**
-4. Confirma el cambio ("Commit changes").
-5. Espera entre 30 segundos y 2 minutos y recarga la página del calendario.
+1. Abre `datos/info_mupi.xlsx` y edítalo (Excel o Google Sheets; si usas Sheets,
+   exporta de nuevo a `.xlsx`).
+2. En GitHub, entra en la carpeta `datos/` y arrastra el archivo encima para
+   sustituirlo. **El nombre tiene que seguir siendo `info_mupi.xlsx`.**
+3. Confirma el cambio ("Commit changes").
+4. Espera entre 30 segundos y 2 minutos y recarga la página.
 
-No hay que tocar ningún otro archivo. El calendario lee el Excel cada vez que
-se abre y, además, lo vuelve a comprobar solo cada 30 minutos (importante para
-el MOPI, que está encendido todo el día).
-
-### Imágenes
-
-Si un evento lleva imagen, súbela a `assets/img/` y escribe **solo el nombre
-del archivo** en la columna `imagen` (por ejemplo `afterwork.jpg`). Si el
-archivo no existe, el evento se muestra igual, sin imagen.
-
----
+No hay que tocar ningún otro archivo. El calendario lee el Excel cada vez que se
+abre y, además, lo vuelve a comprobar solo cada 30 minutos, que es lo que importa
+en el MOPI porque está encendido todo el día.
 
 ## Estructura del Excel
 
-### Hoja `Eventos`
+Una sola hoja con las cabeceras en la primera fila. **El nombre de la hoja da
+igual**: si no hay ninguna llamada `Eventos`, se usa la primera del libro.
 
-La primera fila son las cabeceras y **no se deben renombrar**.
+| Columna | Obligatoria | Qué hace |
+|---|---|---|
+| `Nombre evento` | **Sí** | Título del evento |
+| `Fecha` | **Sí** | Formato fecha de Excel, o `DD/MM/AAAA` escrito a mano |
+| `Horario` | No | `19:00`, o un rango en la misma casilla: `19:00 - 21:00` |
+| `Lugar` | No | Sale bajo el título en el popup |
+| `Tipo de evento` | No | Se muestra como etiqueta |
+| `¿Quién participa?` | No | Varios nombres separados por punto y coma `;` |
+| `Link QR` | No | De aquí sale el QR. Sin link, no se reserva el hueco |
 
-| Columna | Tipo | Obligatorio | Notas |
-|---|---|---|---|
-| `id` | texto | Sí | Identificador único (`EVT-001`, …) |
-| `fecha` | fecha | Sí | `DD/MM/AAAA` |
-| `hora_inicio` | texto | No | `HH:MM` |
-| `hora_fin` | texto | No | `HH:MM` |
-| `titulo` | texto | Sí | |
-| `descripcion` | texto | No | Puede ser largo |
-| `categoria` | texto | Sí | Determina el color |
-| `ubicacion` | texto | No | |
-| `ponentes` | texto | No | Separados por punto y coma `;` |
-| `url_registro` | texto | No | Origen del QR y del botón de inscripción |
-| `imagen` | texto | No | Nombre de archivo dentro de `assets/img/` |
-| `destacado` | SÍ/NO | No | Entra en la rotación automática del MOPI |
-| `estado` | texto | Sí | `activo`, `cancelado` o `completo` |
+Una fila sin fecha o sin nombre **se ignora en silencio** y el resto del
+calendario se pinta igual. Los avisos quedan en la consola del navegador
+(F12 → Consola) por si hay que revisarlos.
 
-### Hoja `Categorias`
+### Los nombres de las columnas admiten variantes
 
-Dos columnas: `categoria` y `color` (hexadecimal, `#2F6FED`). De aquí sale el
-código de color del calendario. Si una categoría usada en la hoja `Eventos` no
-aparece aquí, se pinta en gris neutro y el calendario sigue funcionando.
+No hace falta escribirlas exactamente así. Se ignoran mayúsculas, tildes,
+signos (`¿?`) y espacios sobrantes, y cada campo acepta varios nombres:
 
-### Estados
+| Campo | Cabeceras que valen |
+|---|---|
+| Título | `Nombre evento`, `Evento`, `Nombre`, `Título` |
+| Fecha | `Fecha`, `Día` |
+| Hora | `Horario`, `Hora`, `Hora inicio`, `Inicio` |
+| Hora de fin | `Hora fin`, `Fin`, `Hasta` |
+| Lugar | `Lugar`, `Ubicación`, `Sala`, `Dónde` |
+| Tipo | `Tipo de evento`, `Tipo`, `Categoría` |
+| Participantes | `¿Quién participa?`, `Ponentes`, `Participantes` |
+| Enlace | `Link QR`, `QR`, `Link`, `URL`, `Enlace`, `Inscripción` |
 
-- **activo** — se muestra normal, con QR y botón de inscripción.
-- **cancelado** — título tachado, sin QR ni botón.
-- **completo** — visible, con etiqueta "Aforo completo" y la inscripción desactivada.
+### Columnas opcionales que añaden cosas
 
-### Si una fila está mal
+Si en algún momento quieres más, basta con añadir la columna:
 
-Una fila con la fecha mal escrita o sin título **se ignora en silencio**: el
-resto del calendario se pinta igual. Nunca se queda en blanco por un error de
-una celda. Los avisos quedan en la consola del navegador (F12 → Consola) por
-si hay que revisarlos.
+| Columna | Qué añade |
+|---|---|
+| `Descripción` | Texto largo bajo los datos del evento, en el popup |
+| `Estado` | `cancelado` (título tachado, sin QR) o `completo` (registro desactivado) |
+| `Destacado` | `SÍ` para entrar en la rotación automática del modo atracción |
+| `Imagen` | Nombre de un archivo de `assets/img/` |
+| `id` | Identificador propio; si no está, se genera solo |
 
----
+Y una segunda hoja llamada `Categorias`, con las columnas `categoria` y `color`
+(hexadecimal), pinta cada tipo de evento con su color. Sin esa hoja, las
+etiquetas van en el amarillo de marca.
+
+### Si el archivo se llama de otra forma
+
+El calendario busca `datos/info_mupi.xlsx` y, si no lo encuentra,
+`datos/eventos.xlsx`. Cualquiera de los dos nombres vale, pero **conviene tener
+solo uno** en el repositorio para no acabar mirando datos viejos sin darte
+cuenta.
 
 ## Notas técnicas
 
@@ -90,7 +97,7 @@ si hay que revisarlos.
   Excel no se puede descargar, el calendario pinta desde esa copia y muestra un
   aviso discreto con la fecha del último dato bueno. El Excel siempre manda
   cuando está disponible.
-- **QR.** Se generan en el navegador a partir de `url_registro`, con corrección
+- **QR.** Se generan en el navegador a partir de la columna `Link QR`, con corrección
   de errores M y zona de silencio, y llevan UTM según el modo
   (`mopi/cartel`, `email/escritorio`, `email/movil`). En móvil no hay QR: hay
   botón directo.

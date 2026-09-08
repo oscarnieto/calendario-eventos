@@ -481,11 +481,12 @@ a{ color: inherit; }
 .mopi-det[data-estado="cancelado"] h3{ text-decoration: line-through; color: var(--mopi-c-suave); }
 .mopi-det-fila{ display:flex; gap:56px; align-items:flex-start; }
 .mopi-det-txt{ flex:1 1 auto; min-width:0; }
+/* una linea por dato: al envolverse, un separador quedaria huerfano */
 .mopi-det-meta{
   font-size: var(--mopi-capa-fs-meta); line-height:1.5;
   color: var(--mopi-c-suave); margin-bottom: 34px;
-  display:flex; flex-wrap:wrap; gap: 8px 28px;
 }
+.mopi-det-meta > div + div{ margin-top: 4px; }
 .mopi-det-meta strong{ color: var(--mopi-c-acento); font-weight:700; }
 .mopi-det-desc{
   font-size: var(--mopi-capa-fs-cuerpo); line-height:1.5;
@@ -959,7 +960,9 @@ var CAL = (function () {
   'use strict';
 
   /* ---------------- Configuracion ---------------- */
-  var RUTA_XLSX      = 'datos/eventos.xlsx';
+  /* Se prueban en orden: vale el nombre con el que el equipo sube el archivo
+     y, si no esta, el nombre historico. */
+  var RUTAS_XLSX     = ['datos/info_mupi.xlsx', 'datos/eventos.xlsx'];
   var CLAVE_CACHE    = 'calendario-eventos-v1';
   var MS_RECARGA     = 30 * 60 * 1000;   // recarga de datos
   var MS_RELOJ       = 60 * 1000;        // comprobacion de cambio de mes
@@ -984,9 +987,24 @@ var CAL = (function () {
   var DIAS_MINI   = ['L','M','X','J','V','S','D'];
   var MOPI_DIAS   = ['Lunes','Martes','Miércoles','Jueves','Viernes'];
 
-  var COLUMNAS = ['id','fecha','hora_inicio','hora_fin','titulo','descripcion',
-                  'categoria','ubicacion','ponentes','url_registro','imagen',
-                  'destacado','estado'];
+  /* Cada campo acepta varias cabeceras: el equipo escribe el Excel en
+     castellano y con sus propias palabras, no hay que renombrar nada. */
+  var ALIAS = {
+    id:           ['id', 'codigo', 'ref', 'referencia'],
+    fecha:        ['fecha', 'dia', 'fecha_evento', 'fecha_del_evento'],
+    hora_inicio:  ['hora_inicio', 'horario', 'hora', 'inicio', 'hora_de_inicio'],
+    hora_fin:     ['hora_fin', 'fin', 'hora_de_fin', 'hasta'],
+    titulo:       ['titulo', 'nombre_evento', 'nombre_del_evento', 'evento', 'nombre'],
+    descripcion:  ['descripcion', 'detalle', 'detalles', 'resumen', 'de_que_va'],
+    categoria:    ['categoria', 'tipo_de_evento', 'tipo', 'tipologia'],
+    ubicacion:    ['ubicacion', 'lugar', 'sala', 'sitio', 'donde'],
+    ponentes:     ['ponentes', 'quien_participa', 'participa', 'participantes', 'ponente'],
+    url_registro: ['url_registro', 'link_qr', 'qr', 'link', 'url', 'enlace', 'inscripcion', 'registro'],
+    imagen:       ['imagen', 'foto', 'img'],
+    destacado:    ['destacado', 'destacada'],
+    estado:       ['estado', 'situacion']
+  };
+  var COLUMNAS_MINIMAS = ['fecha', 'titulo'];
 
   /* ---------------- Estado ---------------- */
   var est = {
@@ -994,6 +1012,7 @@ var CAL = (function () {
     eventos: [],
     categorias: {},
     origen: '',              // 'excel' | 'cache' | ''
+    archivo: '',             // ruta del xlsx que ha respondido
     tsDatos: 0,
     mesVista: null,          // Date, dia 1 del mes visible
     mesReal: '',             // 'AAAA-MM' del mes en curso, para detectar el salto
@@ -1091,6 +1110,16 @@ var CAL = (function () {
     return pad2(h) + ':' + pad2(mi);
   }
 
+  /* Una sola casilla "Horario" puede traer el rango entero: "19:00 - 21:00" */
+  function aHoras(vIni, vFin) {
+    var ini = aHora(vIni), fin = aHora(vFin), m;
+    if (!fin && typeof vIni === 'string') {
+      m = vIni.match(/(\d{1,2}\s*[:.hH]\s*\d{0,2})[^\d]+(\d{1,2}\s*[:.hH]\s*\d{0,2})/);
+      if (m) { ini = aHora(m[1]) || ini; fin = aHora(m[2]); }
+    }
+    return { inicio: ini, fin: fin };
+  }
+
   function fechaLarga(isoStr) {
     var f = deIso(isoStr);
     return DIAS_LARGOS[f.getDay()] + ' ' + f.getDate() + ' de ' + MESES[f.getMonth()];
@@ -1183,29 +1212,50 @@ var CAL = (function () {
   }
 
   /* ---------------- Lectura del Excel ---------------- */
-  function buscarHoja(wb, nombre) {
+  function buscarHoja(wb, nombre, porDefectoPrimera) {
     for (var i = 0; i < wb.SheetNames.length; i++) {
       if (clave(wb.SheetNames[i]) === nombre) return wb.Sheets[wb.SheetNames[i]];
     }
+    /* Si la hoja no se llama como esperamos, se usa la primera del libro. */
+    if (porDefectoPrimera && wb.SheetNames.length) { return wb.Sheets[wb.SheetNames[0]]; }
     return null;
   }
 
+  /* Quita acentos, signos y espacios sobrantes de una cabecera:
+     "¿Quién participa?" -> "quien_participa", "Horario " -> "horario" */
+  function claveCabecera(v) {
+    var k = clave(v).replace(/[¿?¡!().,:;"'\u00ab\u00bb]/g, '');
+    k = k.replace(/\s+/g, ' ').replace(/^ | $/g, '');
+    return k.replace(/[ \-\/]/g, '_');
+  }
+
   function mapaColumnas(cabeceras) {
-    var mapa = {}, i, k;
+    var crudo = {}, mapa = {}, i, k, campo, j, a;
     for (i = 0; i < cabeceras.length; i++) {
-      k = clave(cabeceras[i]).replace(/[ \-]/g, '_');
-      if (k) { mapa[k] = i; }
+      k = claveCabecera(cabeceras[i]);
+      if (k && crudo[k] === undefined) { crudo[k] = i; }
     }
+    for (campo in ALIAS) {
+      if (!ALIAS.hasOwnProperty(campo)) continue;
+      a = ALIAS[campo];
+      for (j = 0; j < a.length; j++) {
+        if (crudo[a[j]] !== undefined) { mapa[campo] = crudo[a[j]]; break; }
+      }
+    }
+    /* cualquier cabecera literal sigue valiendo aunque no este en los alias */
+    for (k in crudo) { if (crudo.hasOwnProperty(k) && mapa[k] === undefined) { mapa[k] = crudo[k]; } }
     return mapa;
   }
 
   function leerCategorias(wb) {
     var cats = {};
-    var hoja = buscarHoja(wb, 'categorias');
+    var hoja = buscarHoja(wb, 'categorias', false);
     if (!hoja) {
-      console.warn('[calendario] no existe la hoja "Categorias"; se usara el color neutro por defecto.');
+      console.warn('[calendario] el Excel no trae hoja "Categorias": las categorias van sin color propio.');
+      est.sinHojaCategorias = true;
       return cats;
     }
+    est.sinHojaCategorias = false;
     var filas = XLSX.utils.sheet_to_json(hoja, { header: 1, raw: true, defval: '' });
     if (!filas.length) return cats;
     var mapa = mapaColumnas(filas[0]);
@@ -1226,21 +1276,30 @@ var CAL = (function () {
 
   function leerEventos(wb) {
     var lista = [];
-    var hoja = buscarHoja(wb, 'eventos');
+    var hoja = buscarHoja(wb, 'eventos', true);
     if (!hoja) {
-      console.warn('[calendario] no existe la hoja "Eventos" en el Excel.');
+      console.warn('[calendario] el Excel no tiene ninguna hoja legible.');
       return lista;
     }
     var filas = XLSX.utils.sheet_to_json(hoja, { header: 1, raw: true, defval: '' });
     if (filas.length < 2) return lista;
 
     var mapa = mapaColumnas(filas[0]);
-    var faltan = [];
-    for (var c = 0; c < COLUMNAS.length; c++) {
-      if (mapa[COLUMNAS[c]] === undefined) { faltan.push(COLUMNAS[c]); }
+    var faltan = [], c;
+    for (c = 0; c < COLUMNAS_MINIMAS.length; c++) {
+      if (mapa[COLUMNAS_MINIMAS[c]] === undefined) { faltan.push(COLUMNAS_MINIMAS[c]); }
     }
     if (faltan.length) {
-      console.warn('[calendario] columnas ausentes en la hoja Eventos: ' + faltan.join(', '));
+      console.warn('[calendario] faltan columnas imprescindibles (' + faltan.join(', ') +
+        '). Cabeceras encontradas: ' + filas[0].join(' | '));
+      return lista;
+    }
+    var opcionales = [];
+    for (c in ALIAS) {
+      if (ALIAS.hasOwnProperty(c) && mapa[c] === undefined) { opcionales.push(c); }
+    }
+    if (opcionales.length) {
+      console.warn('[calendario] columnas opcionales no encontradas, se omiten: ' + opcionales.join(', '));
     }
     function celda(fila, nombre) {
       var i = mapa[nombre];
@@ -1270,7 +1329,9 @@ var CAL = (function () {
       var id = texto(celda(fila, 'id'));
       if (!id) {
         id = 'fila-' + numFila;
-        console.warn('[calendario] fila ' + numFila + ': sin id, se genera "' + id + '".');
+        if (mapa.id !== undefined) {
+          console.warn('[calendario] fila ' + numFila + ': sin id, se genera "' + id + '".');
+        }
       }
       if (vistos[id]) {
         console.warn('[calendario] fila ' + numFila + ': id duplicado "' + id + '".');
@@ -1281,7 +1342,7 @@ var CAL = (function () {
       var categoria = texto(celda(fila, 'categoria'));
       if (!categoria) {
         console.warn('[calendario] fila ' + numFila + ': sin categoria; se usa el color neutro.');
-      } else if (!est.catsTmp[clave(categoria)] && !catsAvisadas[clave(categoria)]) {
+      } else if (!est.sinHojaCategorias && !est.catsTmp[clave(categoria)] && !catsAvisadas[clave(categoria)]) {
         catsAvisadas[clave(categoria)] = true;
         console.warn('[calendario] categoria "' + categoria + '" sin color en la hoja Categorias; se usa el neutro.');
       }
@@ -1317,11 +1378,13 @@ var CAL = (function () {
         }
       }
 
+      var horas = aHoras(celda(fila, 'hora_inicio'), celda(fila, 'hora_fin'));
+
       lista.push({
         id: id,
         fecha: fechaIso,
-        horaInicio: aHora(celda(fila, 'hora_inicio')),
-        horaFin: aHora(celda(fila, 'hora_fin')),
+        horaInicio: horas.inicio,
+        horaFin: horas.fin,
         titulo: titulo,
         descripcion: texto(celda(fila, 'descripcion')),
         categoria: categoria,
@@ -1377,34 +1440,42 @@ var CAL = (function () {
   }
 
   function cargarDatos(esPrimera) {
-    var url = RUTA_XLSX + '?v=' + (new Date()).getTime();
+    if (esPrimera) {
+      var cacheIni = leerCache();
+      if (cacheIni) {
+        est.eventos = cacheIni.eventos;
+        est.categorias = cacheIni.categorias || {};
+        est.origen = 'cache';
+        est.tsDatos = cacheIni.ts || 0;
+        pintar();
+      }
+    }
+    intentarRuta(0);
+  }
+
+  /* Prueba las rutas en orden. Solo pasa a la siguiente si el archivo no
+     esta o no se puede leer; un archivo valido con cero filas se respeta. */
+  function intentarRuta(indice) {
+    if (indice >= RUTAS_XLSX.length) { sinDatos(); return; }
+
+    var ruta = RUTAS_XLSX[indice];
     var xhr = new XMLHttpRequest();
     var binario = false;
-    xhr.open('GET', url, true);
+    xhr.open('GET', ruta + '?v=' + (new Date()).getTime(), true);
     try { xhr.responseType = 'arraybuffer'; }
     catch (e) { binario = true; }
     if (!binario && xhr.responseType !== 'arraybuffer') { binario = true; }
     if (binario && xhr.overrideMimeType) { xhr.overrideMimeType('text/plain; charset=x-user-defined'); }
     xhr.timeout = 25000;
 
-    function fallar(motivo) {
-      console.warn('[calendario] no se pudo leer ' + RUTA_XLSX + ': ' + motivo);
-      if (est.eventos.length && est.origen === 'excel') { return; }
-      var cache = leerCache();
-      if (cache) {
-        est.eventos = cache.eventos;
-        est.categorias = cache.categorias || {};
-        est.origen = 'cache';
-        est.tsDatos = cache.ts || 0;
-      } else {
-        est.origen = 'vacio';
-      }
-      pintar();
+    function siguiente(motivo) {
+      console.warn('[calendario] ' + ruta + ': ' + motivo);
+      intentarRuta(indice + 1);
     }
 
     xhr.onload = function () {
       var ok = (xhr.status >= 200 && xhr.status < 300) || xhr.status === 0;
-      if (!ok) { fallar('HTTP ' + xhr.status); return; }
+      if (!ok) { siguiente('HTTP ' + xhr.status); return; }
       var datos;
       try {
         var wb = binario
@@ -1412,36 +1483,42 @@ var CAL = (function () {
           : XLSX.read(new Uint8Array(xhr.response), { type: 'array' });
         datos = interpretar(wb);
       } catch (e) {
-        console.warn('[calendario] el Excel no se ha podido interpretar.', e);
-        fallar('excel ilegible');
+        console.warn('[calendario] ' + ruta + ' no se ha podido interpretar.', e);
+        siguiente('excel ilegible');
         return;
       }
       if (!datos.eventos.length) {
-        console.warn('[calendario] el Excel no contiene ninguna fila valida.');
+        console.warn('[calendario] ' + ruta + ' no contiene ninguna fila valida.');
       }
       est.eventos = datos.eventos;
       est.categorias = datos.categorias;
       est.origen = 'excel';
+      est.archivo = ruta;
       est.tsDatos = (new Date()).getTime();
       guardarCache(datos);
       if (est.diaSel && !eventosDe(est.diaSel).length) { est.diaSel = ''; est.eventoSel = null; }
       if (est.eventoSel) { est.eventoSel = porId(est.eventoSel.id); }
       pintar();
     };
-    xhr.onerror = function () { fallar('error de red'); };
-    xhr.ontimeout = function () { fallar('tiempo de espera agotado'); };
-    try { xhr.send(); } catch (e) { fallar('envio bloqueado'); }
+    xhr.onerror = function () { siguiente('error de red'); };
+    xhr.ontimeout = function () { siguiente('tiempo de espera agotado'); };
+    try { xhr.send(); } catch (e) { siguiente('envio bloqueado'); }
+  }
 
-    if (esPrimera) {
-      var cache = leerCache();
-      if (cache) {
-        est.eventos = cache.eventos;
-        est.categorias = cache.categorias || {};
-        est.origen = 'cache';
-        est.tsDatos = cache.ts || 0;
-        pintar();
-      }
+  /* Ninguna ruta ha respondido: se pinta desde la copia local si la hay. */
+  function sinDatos() {
+    console.warn('[calendario] no se pudo leer ningun archivo de datos (' + RUTAS_XLSX.join(', ') + ').');
+    if (est.eventos.length && est.origen === 'excel') { return; }
+    var cache = leerCache();
+    if (cache) {
+      est.eventos = cache.eventos;
+      est.categorias = cache.categorias || {};
+      est.origen = 'cache';
+      est.tsDatos = cache.ts || 0;
+    } else {
+      est.origen = 'vacio';
     }
+    pintar();
   }
 
   /* ---------------- Consultas sobre los datos ---------------- */
@@ -1619,10 +1696,17 @@ var CAL = (function () {
     }
   }
 
+  /* Si el Excel no trae hoja de colores, en el MOPI manda el amarillo de
+     marca en vez del gris neutro de la maqueta base. */
+  function colorCategoriaMopi(cat) {
+    var propio = est.categorias[clave(cat)];
+    return propio ? propio : '#ffdf00';
+  }
+
   function tagsMopi(ev) {
     var h = '';
     if (ev.categoria) {
-      var col = colorCategoria(ev.categoria);
+      var col = colorCategoriaMopi(ev.categoria);
       h += '<span class="etiqueta" data-tipo="categoria" style="background:' + col +
            ';color:' + contraste(col) + '">' + esc(ev.categoria) + '</span>';
     }
@@ -1633,7 +1717,7 @@ var CAL = (function () {
     var meta = '';
     if (franja(ev)) { meta += '<div><strong>' + esc(franja(ev)) + '</strong></div>'; }
     if (ev.ubicacion) { meta += '<div>' + esc(ev.ubicacion) + '</div>'; }
-    if (ev.ponentes.length) { meta += '<div>' + esc(ev.ponentes.join(' · ')) + '</div>'; }
+    if (ev.ponentes.length) { meta += '<div>Participa: ' + esc(ev.ponentes.join(', ')) + '</div>'; }
 
     var qr = '';
     if (ev.url && ev.estado !== 'cancelado') {
@@ -1683,7 +1767,7 @@ var CAL = (function () {
     for (i = 0; i < lista.length; i++) {
       h += '<button type="button" class="mopi-lista-item" data-evento="' + esc(lista[i].id) +
              '" data-estado="' + lista[i].estado + '">' +
-             '<i class="mopi-lista-punto" style="background:' + colorCategoria(lista[i].categoria) + '"></i>' +
+             '<i class="mopi-lista-punto" style="background:' + colorCategoriaMopi(lista[i].categoria) + '"></i>' +
              '<span class="mopi-lista-hora">' + esc(lista[i].horaInicio || '--:--') + '</span>' +
              '<span class="mopi-lista-tit">' + esc(lista[i].titulo) + '</span>' +
              (lista[i].estado === 'activo' ? '' : etiquetasEstado(lista[i])) +
