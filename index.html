@@ -315,13 +315,22 @@ a{ color: inherit; }
 .mopi-card-lista[data-n="1"] .mopi-card-ev{ -webkit-line-clamp:5; max-height: calc(6.0em + 6px); }
 .mopi-card-lista[data-n="2"] .mopi-card-ev{ -webkit-line-clamp:4; max-height: calc(4.8em + 6px); }
 .mopi-card-lista[data-n="3"] .mopi-card-ev{ -webkit-line-clamp:2; max-height: calc(2.4em + 6px); }
+/* el filete es un separador entre eventos: el primero de la card no lo lleva */
+.mopi-card-ev:first-child{ border-top:0; padding-top:0; margin-top:0; max-height: 2.4em; }
+.mopi-card-lista[data-n="1"] .mopi-card-ev:first-child{ max-height: 6.0em; }
+.mopi-card-lista[data-n="2"] .mopi-card-ev:first-child{ max-height: 4.8em; }
+.mopi-card-lista[data-n="3"] .mopi-card-ev:first-child{ max-height: 2.4em; }
 /* con line-clamp el recorte ya es exacto y pinta los puntos suspensivos;
    el max-height solo hace de red para WebViews que no lo soporten */
 @supports (-webkit-line-clamp: 2){
   .mopi-card-ev,
+  .mopi-card-ev:first-child,
   .mopi-card-lista[data-n="1"] .mopi-card-ev,
   .mopi-card-lista[data-n="2"] .mopi-card-ev,
-  .mopi-card-lista[data-n="3"] .mopi-card-ev{ max-height: none; }
+  .mopi-card-lista[data-n="3"] .mopi-card-ev,
+  .mopi-card-lista[data-n="1"] .mopi-card-ev:first-child,
+  .mopi-card-lista[data-n="2"] .mopi-card-ev:first-child,
+  .mopi-card-lista[data-n="3"] .mopi-card-ev:first-child{ max-height: none; }
 }
 .mopi-card-ev[data-estado="cancelado"]{ text-decoration: line-through; opacity:.6; }
 .mopi-card-ev b{ font-weight:700; }
