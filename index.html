@@ -136,8 +136,8 @@ a{ color: inherit; }
   --mopi-fs-h1: 71px;
   --mopi-lh-h1: 87px;
   --mopi-fs-cabecera: 20px;
-  --mopi-fs-dia: 32px;
-  --mopi-fs-evento: 16px;
+  --mopi-fs-dia: 30px;
+  --mopi-fs-evento: 14px;
   --mopi-lh-evento: 1.2;
   --mopi-fs-pie: 45px;
   --mopi-lh-pie: 39.7px;
@@ -302,19 +302,19 @@ a{ color: inherit; }
 }
 .mopi-card-ev{
   border-top: 1px solid var(--mopi-c-linea-ev);
-  padding-top: 6px; margin-top: 6px;
+  padding-top: 5px; margin-top: 5px;
   font-size: var(--mopi-fs-evento); font-weight:500;
   line-height: var(--mopi-lh-evento);
   color: var(--mopi-c-tinta-card);
   overflow-wrap: break-word; word-wrap: break-word;
   overflow:hidden;
   display:-webkit-box; -webkit-box-orient: vertical;
-  -webkit-line-clamp:2; max-height: 2.4em; max-height: calc(2.4em + 7px);
+  -webkit-line-clamp:2; max-height: 2.4em; max-height: calc(2.4em + 6px);
 }
 /* cuantos menos eventos, mas lineas de titulo caben sin desbordar la card */
-.mopi-card-lista[data-n="1"] .mopi-card-ev{ -webkit-line-clamp:4; max-height: calc(4.8em + 7px); }
-.mopi-card-lista[data-n="2"] .mopi-card-ev{ -webkit-line-clamp:3; max-height: calc(3.6em + 7px); }
-.mopi-card-lista[data-n="3"] .mopi-card-ev{ -webkit-line-clamp:2; max-height: calc(2.4em + 7px); }
+.mopi-card-lista[data-n="1"] .mopi-card-ev{ -webkit-line-clamp:5; max-height: calc(6.0em + 6px); }
+.mopi-card-lista[data-n="2"] .mopi-card-ev{ -webkit-line-clamp:4; max-height: calc(4.8em + 6px); }
+.mopi-card-lista[data-n="3"] .mopi-card-ev{ -webkit-line-clamp:2; max-height: calc(2.4em + 6px); }
 /* con line-clamp el recorte ya es exacto y pinta los puntos suspensivos;
    el max-height solo hace de red para WebViews que no lo soporten */
 @supports (-webkit-line-clamp: 2){
@@ -328,9 +328,11 @@ a{ color: inherit; }
 .mopi-card-mas{
   display:block;
   border-top: 1px solid var(--mopi-c-linea-ev);
-  padding-top: 6px; margin-top: 6px;
+  padding-top: 5px; margin-top: 5px;
   font-size: var(--mopi-fs-evento); font-weight:700;
+  line-height: var(--mopi-lh-evento);
   color: var(--mopi-c-num-con);
+  white-space:nowrap;
 }
 
 /* ---------- pie ---------- */
@@ -416,7 +418,8 @@ a{ color: inherit; }
 .mopi-modal-cuerpo{
   flex:1 1 auto; min-height:0;
   padding: var(--mopi-modal-pad);
-  overflow:hidden;
+  /* solo entra en juego con dias de mas de diez eventos */
+  overflow-x:hidden; overflow-y:auto; -webkit-overflow-scrolling:touch;
 }
 
 /* ---------- capa de atraccion a pantalla completa ---------- */
@@ -456,7 +459,7 @@ a{ color: inherit; }
 .mopi-modal .mopi-det-meta{ font-size: var(--mopi-modal-fs-meta); margin-bottom:28px; }
 .mopi-modal .mopi-det-desc{ font-size: var(--mopi-modal-fs-cuerpo); max-height:340px; }
 .mopi-modal .mopi-det-fila{ gap: var(--mopi-modal-pad); }
-.mopi-modal .mopi-lista-item{ min-height:112px; padding:20px 28px; }
+.mopi-modal .mopi-lista-item{ min-height:96px; padding:18px 28px; }
 .mopi-modal .mopi-lista-hora,
 .mopi-modal .mopi-lista-tit{ font-size: var(--mopi-modal-fs-cuerpo); }
 .mopi-modal .mopi-qr-pie{ font-size: var(--mopi-modal-fs-min); }
@@ -1521,7 +1524,7 @@ var CAL = (function () {
         var c = filas[i][j];
         if (!c.dentro) { h += '<div class="mopi-card" data-vacia="1"></div>'; continue; }
         var n = c.eventos.length;
-        var vis = n > MOPI_MAX_EVENTOS ? MOPI_MAX_EVENTOS - 1 : n;
+        var vis = n > MOPI_MAX_EVENTOS ? MOPI_MAX_EVENTOS : n;
         var lista = '';
         for (k = 0; k < vis; k++) {
           var e = c.eventos[k];
@@ -1530,7 +1533,7 @@ var CAL = (function () {
                      (e.estado === 'completo' ? ' <b>(completo)</b>' : '') +
                    '</span>';
         }
-        if (n > MOPI_MAX_EVENTOS) { lista += '<span class="mopi-card-mas">+' + (n - vis) + ' más</span>'; }
+        if (n > MOPI_MAX_EVENTOS) { lista += '<span class="mopi-card-mas">Ver todos (' + n + ')</span>'; }
         h += '<button type="button" class="mopi-card" data-fecha="' + c.iso + '"' +
              ' data-eventos="' + (n ? '1' : '0') + '"' +
              ' data-hoy="' + (c.iso === hoy ? '1' : '0') + '">' +

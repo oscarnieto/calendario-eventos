@@ -110,11 +110,13 @@ Todo el color, la tipografía y la geometría viven en variables CSS bajo
   no hay scroll en ningún estado.
 - **Card amarilla** (`#ffdf00`) los días con eventos, número en rojo `#c90c0f`.
   **Card azul** (`#2d2e45`) los días sin eventos, número en amarillo.
-- Hasta 3 eventos por card; a partir de ahí, los dos primeros más `+N más`. Los
-  títulos que no caben se recortan con puntos suspensivos: cuantos menos eventos
-  tenga el día, más líneas de título caben.
-- Tipografía de la rejilla ligeramente por encima del Figma (evento 16 px,
-  cabecera 20 px, número 32 px) porque el MOPI se usa de cerca y con el dedo.
+- Hasta 3 eventos por card. A partir del cuarto, los tres primeros más un
+  **Ver todos (N)** en rojo, que abre el popup del día con la lista completa.
+- Los títulos que no caben se recortan con puntos suspensivos: cuantos menos
+  eventos tenga el día, más líneas de título caben (1 evento son 5 líneas, 2 son
+  4, y a partir de 3 son 2).
+- Tipografía de la rejilla como en el Figma (evento 14 px, número 30 px); la
+  cabecera de día sube a 20 px.
 - Tipografía **Montserrat** (Light/Medium/Bold) embebida en base64 dentro del
   HTML, con WOFF2 y WOFF de reserva. Los modos escritorio y móvil siguen con la
   pila del sistema.
