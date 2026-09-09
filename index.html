@@ -166,7 +166,6 @@ a{ color: inherit; }
   --mopi-pop-mask-top: 509.394px;
   --mopi-pop-mask-alto: 1230.549px;
   --mopi-pop-ancho: 985px;          /* centrada: (1080-985)/2 = 47,5 como el frame */
-  --mopi-pop-alto-min: 774.37px;
   --mopi-pop-alto-max: 1180px;      /* deja 25 px de aire dentro de la mascara */
   --mopi-pop-radio: 19px;
   --mopi-pop-pad-izq: 33.55px;
@@ -417,7 +416,8 @@ a{ color: inherit; }
 .mopi-modal{
   position:relative;
   width: var(--mopi-pop-ancho);
-  min-height: var(--mopi-pop-alto-min);
+  /* la tarjeta se ajusta al contenido: con un solo evento corto es baja,
+     y el aire interno lo pone el padding, no un alto minimo */
   max-height: var(--mopi-pop-alto-max);
   background: var(--mopi-c-card-con);
   border-radius: var(--mopi-pop-radio);

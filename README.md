@@ -161,9 +161,10 @@ siguen a la vista— y abre una tarjeta amarilla de 985×774 con radio 19.
 - Filete separador entre eventos, ninguno antes del primero.
 - Cada fila desaparece si su casilla del Excel está vacía, y sin `Link QR` el
   hueco del QR no se reserva.
-- La tarjeta crece con el contenido hasta el borde inferior de la máscara. Cuatro
-  eventos caben enteros; a partir del quinto la lista se desliza y un degradado
-  inferior lo indica.
+- La tarjeta se ajusta al contenido: con un evento corto es baja y con varios
+  crece, siempre centrada en la máscara y con el mismo aire interior. Tres
+  eventos largos caben enteros; a partir del cuarto o quinto la lista se desliza
+  y un degradado inferior lo indica.
 
 Los iconos están dibujados a mano con la geometría de akar-icons porque el
 entorno no tiene salida a `figma.com` para exportar los del archivo.
