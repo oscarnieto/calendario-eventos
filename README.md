@@ -165,8 +165,11 @@ el resultado sigue siendo legible.
   hueco del QR no se reserva.
 - La tarjeta se ajusta al contenido: con un evento corto es baja y con varios
   crece, siempre centrada en la máscara y con el mismo aire interior. Tres
-  eventos largos caben enteros; a partir del cuarto o quinto la lista se desliza
-  y un degradado inferior lo indica.
+  eventos largos caben enteros; a partir del cuarto o quinto la lista se desliza,
+  con un degradado y un doble galón que se mueve para indicarlo. Ambos
+  desaparecen al llegar al final de la lista.
+- Abre y cierra con un fundido de 280 ms y un ligero desplazamiento hacia arriba.
+  Con `prefers-reduced-motion` las transiciones se desactivan.
 
 Los iconos están dibujados a mano con la geometría de akar-icons porque el
 entorno no tiene salida a `figma.com` para exportar los del archivo.

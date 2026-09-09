@@ -165,6 +165,7 @@ a{ color: inherit; }
   /* --- popup del dia: Figma 12:248 "Muppie_1080x1920_POPUP" --- */
   --mopi-pop-mask-top: 509.394px;
   --mopi-pop-mask-alto: 1230.549px;
+  --mopi-pop-anim: 280ms;
   --mopi-pop-mask-desenfoque: 18px;
   --mopi-pop-mask-velo: rgba(37,39,58,.82);
   --mopi-pop-mask-velo-solido: rgba(37,39,58,.94);
@@ -414,6 +415,9 @@ a{ color: inherit; }
   position:absolute; left:0; top: var(--mopi-pop-mask-top);
   width: var(--mopi-ancho); height: var(--mopi-pop-mask-alto);
   background: var(--mopi-pop-mask-velo-solido);
+  opacity: 0;
+  -webkit-transition: opacity var(--mopi-pop-anim) ease;
+  transition: opacity var(--mopi-pop-anim) ease;
   /* la tarjeta se centra en la banda: asi crece hacia arriba y hacia abajo
      y caben tres eventos largos sin deslizar */
   display:flex; align-items:center; justify-content:center;
@@ -425,8 +429,16 @@ a{ color: inherit; }
     backdrop-filter: blur(var(--mopi-pop-mask-desenfoque));
   }
 }
+.mopi-modal-fondo[data-abierto="1"]{ opacity: 1; }
 .mopi-modal{
   position:relative;
+  opacity: 0;
+  -webkit-transform: translateY(26px) scale(.985);
+  transform: translateY(26px) scale(.985);
+  -webkit-transition: opacity var(--mopi-pop-anim) ease,
+                      -webkit-transform var(--mopi-pop-anim) cubic-bezier(.2,.75,.3,1);
+  transition: opacity var(--mopi-pop-anim) ease,
+              transform var(--mopi-pop-anim) cubic-bezier(.2,.75,.3,1);
   width: var(--mopi-pop-ancho);
   /* la tarjeta se ajusta al contenido: con un solo evento corto es baja,
      y el aire interno lo pone el padding, no un alto minimo */
@@ -437,6 +449,11 @@ a{ color: inherit; }
   display:flex; flex-direction:column;
   font-family: var(--mopi-fuente);
   color: var(--mopi-c-tinta-card);
+}
+.mopi-modal-fondo[data-abierto="1"] .mopi-modal{
+  opacity: 1;
+  -webkit-transform: none;
+  transform: none;
 }
 .mopi-cerrar{
   position:absolute;
@@ -525,14 +542,51 @@ a{ color: inherit; }
 }
 .mopi-qr-caja canvas{ width:100%; height:100%; display:block; }
 
-/* con muchos eventos la lista se desliza: el degradado lo hace evidente */
+/* con muchos eventos la lista se desliza: degradado mas indicador tactil */
+.mopi-pop-mas{
+  position:absolute; left:0; right:0; z-index:2;
+  bottom: calc(var(--mopi-pop-pad-bot) - 22px);
+  display:none; text-align:center; pointer-events:none;
+}
+.mopi-modal[data-scroll="1"] .mopi-pop-mas{ display:block; }
+.mopi-modal[data-fin="1"] .mopi-pop-mas{ display:none; }
+.mopi-pop-mas i{
+  display:inline-flex; align-items:center; justify-content:center;
+  width:62px; height:62px; border-radius:50%;
+  background: rgba(37,39,58,.10);
+  color: var(--mopi-c-num-con);
+  -webkit-animation: mopiBota 1.9s ease-in-out infinite;
+  animation: mopiBota 1.9s ease-in-out infinite;
+}
+.mopi-pop-mas svg{
+  width:30px; height:30px; display:block; fill:none;
+  stroke: currentColor; stroke-width:2.4;
+  stroke-linecap:round; stroke-linejoin:round;
+}
+@-webkit-keyframes mopiBota{
+  0%,100%{ -webkit-transform: translateY(-4px); }
+  50%    { -webkit-transform: translateY(5px); }
+}
+@keyframes mopiBota{
+  0%,100%{ transform: translateY(-4px); }
+  50%    { transform: translateY(5px); }
+}
+@media (prefers-reduced-motion: reduce){
+  .mopi-pop-mas i{ -webkit-animation: none; animation: none; }
+  .mopi-modal-fondo, .mopi-modal, .mopi-capa{
+    -webkit-transition: none; transition: none;
+  }
+}
 .mopi-modal[data-scroll="1"]::after{
-  content:''; position:absolute; pointer-events:none;
+  content:''; position:absolute; pointer-events:none; z-index:1;
   left: var(--mopi-pop-pad-izq); right: var(--mopi-pop-pad-der);
-  bottom: var(--mopi-pop-pad-bot); height: 96px;
+  bottom: var(--mopi-pop-pad-bot); height: 118px;
   background: -webkit-linear-gradient(top, rgba(255,223,0,0), #ffdf00 80%);
   background: linear-gradient(to bottom, rgba(255,223,0,0), #ffdf00 80%);
+  -webkit-transition: opacity 220ms ease;
+  transition: opacity 220ms ease;
 }
+.mopi-modal[data-scroll="1"][data-fin="1"]::after{ opacity: 0; }
 .mopi-pop-vacio{
   font-size: var(--mopi-pop-fs-dato);
   line-height: var(--mopi-pop-lh-dato);
@@ -543,10 +597,14 @@ a{ color: inherit; }
   position:absolute; left:0; top:0;
   width: var(--mopi-ancho); height: var(--mopi-alto);
   background: var(--mopi-c-fondo);
+  opacity: 0;
+  -webkit-transition: opacity var(--mopi-pop-anim) ease;
+  transition: opacity var(--mopi-pop-anim) ease;
   padding: var(--mopi-capa-pad);
   display:flex; flex-direction:column;
   font-family: var(--mopi-fuente);
 }
+.mopi-capa[data-abierto="1"]{ opacity: 1; }
 .mopi-capa-cab{
   display:flex; align-items:flex-start; justify-content:space-between;
   gap:32px; flex:0 0 auto; padding-bottom: 40px;
@@ -958,6 +1016,11 @@ a{ color: inherit; }
           </button>
           <div class="mopi-pop-fecha" id="mopiModalFecha">&nbsp;</div>
           <div class="mopi-pop-eventos" id="mopiModalCuerpo"></div>
+          <div class="mopi-pop-mas" aria-hidden="true">
+            <i><svg viewBox="0 0 24 24" focusable="false">
+              <path d="M6 7 12 12.5 18 7"/><path d="M6 13.5 12 19 18 13.5"/>
+            </svg></i>
+          </div>
         </div>
       </div>
 
@@ -1069,6 +1132,7 @@ var CAL = (function () {
   var MS_ROTACION    = 12 * 1000;        // MOPI: cambio de destacado
 
   var MOPI_ANCHO = 1080, MOPI_ALTO = 1920;
+  var MS_ANIM = 280;                     // igual que --mopi-pop-anim
   var MOPI_MAX_EVENTOS = 3;              // eventos visibles por card antes del "+N"
   var COLOR_DEFECTO = '#9aa1ae';
 
@@ -1152,6 +1216,26 @@ var CAL = (function () {
     else if (nodo.className.indexOf('oculto') === -1) { nodo.className += ' oculto'; }
   }
   function escuchar(nodo, evt, fn) { if (nodo) { nodo.addEventListener(evt, fn, false); } }
+
+  /* Muestra u oculta con transicion: al cerrar espera a que acabe el fundido
+     antes de quitar el display, si no la animacion no se llega a ver. */
+  var tCierre = {};
+  function mostrarAnimado(nodo, si) {
+    if (!nodo) return;
+    var id = nodo.id;
+    if (tCierre[id]) { clearTimeout(tCierre[id]); tCierre[id] = null; }
+    if (si) {
+      mostrar(nodo, true);
+      if (nodo.offsetHeight >= 0) { nodo.setAttribute('data-abierto', '1'); }
+      return;
+    }
+    if (nodo.className.indexOf('oculto') !== -1) { return; }
+    nodo.setAttribute('data-abierto', '0');
+    tCierre[id] = setTimeout(function () {
+      tCierre[id] = null;
+      if (nodo.getAttribute('data-abierto') !== '1') { mostrar(nodo, false); }
+    }, MS_ANIM);
+  }
 
   /* ---------------- Utilidades de texto ---------------- */
   function clave(v) {
@@ -1866,13 +1950,13 @@ var CAL = (function () {
      el popup es para tocarlo de cerca, la capa es el estado ambiente. */
   function pintarPanelMopi() {
     if (est.diaSel) {
-      mostrar(el('mopiCapa'), false);
+      mostrarAnimado(el('mopiCapa'), false);
       pintarModalMopi();
       return;
     }
-    mostrar(el('mopiModal'), false);
+    mostrarAnimado(el('mopiModal'), false);
     if (est.enAtraccion) { pintarAtraccionMopi(); }
-    else { mostrar(el('mopiCapa'), false); }
+    else { mostrarAnimado(el('mopiCapa'), false); }
   }
 
   /* Horario tal y como lo escribe el diseno: "19:00h" / "19:00h - 21:00h" */
@@ -1914,7 +1998,7 @@ var CAL = (function () {
     var modal = el('mopiModal'), cuerpo = el('mopiModalCuerpo');
     var lista = eventosDe(est.diaSel), i, h = '';
 
-    if (!lista.length) { est.diaSel = ''; mostrar(modal, false); return; }
+    if (!lista.length) { est.diaSel = ''; mostrarAnimado(modal, false); return; }
 
     var f = deIso(est.diaSel);
     el('mopiModalFecha').innerHTML = '<b>' + pad2(f.getDate()) + '</b> ' + capitalizar(MESES[f.getMonth()]);
@@ -1926,17 +2010,18 @@ var CAL = (function () {
     var cajas = cuerpo.getElementsByClassName('mopi-qr-caja');
     for (i = 0; i < cajas.length; i++) { pintarQr(cajas[i], cajas[i].getAttribute('data-qr')); }
 
-    mostrar(modal, true);
+    mostrarAnimado(modal, true);
     var tarjeta = modal.getElementsByClassName('mopi-modal')[0];
     if (tarjeta) {
       tarjeta.setAttribute('data-scroll', cuerpo.scrollHeight > cuerpo.clientHeight + 2 ? '1' : '0');
+      tarjeta.setAttribute('data-fin', '0');
     }
   }
 
   function pintarAtraccionMopi() {
     var capa = el('mopiCapa'), ev, i, h = '';
     calcularDestacados();
-    if (!est.destacados.length) { mostrar(capa, false); return; }
+    if (!est.destacados.length) { mostrarAnimado(capa, false); return; }
     ev = est.destacados[est.idxDestacado];
     el('mopiCapaMarca').textContent = 'Destacados del mes';
     el('mopiCapaFecha').textContent = capitalizar(fechaLarga(ev.fecha));
@@ -1948,7 +2033,7 @@ var CAL = (function () {
       }
     }
     el('mopiCapaPuntos').innerHTML = h;
-    mostrar(capa, true);
+    mostrarAnimado(capa, true);
     if (ev.url && ev.estado !== 'cancelado') { pintarQr(el('mopiQrCaja'), urlConUtm(ev.url, 'mopi')); }
   }
 
@@ -2356,6 +2441,14 @@ var CAL = (function () {
     });
 
     escuchar(el('mopiCerrar'), 'click', function () { cerrarCapaMopi(); });
+
+    escuchar(el('mopiModalCuerpo'), 'scroll', function () {
+      var c = el('mopiModalCuerpo');
+      var tarjeta = c.parentNode;
+      if (!tarjeta) return;
+      var fin = (c.scrollTop + c.clientHeight >= c.scrollHeight - 8);
+      tarjeta.setAttribute('data-fin', fin ? '1' : '0');
+    });
 
     /* tocar fuera de la tarjeta cierra el popup */
     escuchar(el('mopiModal'), 'click', function (e) {
