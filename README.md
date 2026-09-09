@@ -150,9 +150,11 @@ archivo con el mismo nombre; no hay que tocar código.
 
 ### Popup del día
 
-Implementa el frame `12:248 Muppie_1080x1920_POPUP`. Tocar una card tapa la banda
-de la rejilla con el fondo `#25273a` —la cabecera con la foto y el pie de contacto
-siguen a la vista— y abre una tarjeta amarilla de 985×774 con radio 19.
+Implementa el frame `12:248 Muppie_1080x1920_POPUP`. Tocar una card desenfoca la
+banda de la rejilla y la tiñe de azul —la cabecera con la foto y el pie de
+contacto siguen nítidos— y abre una tarjeta amarilla de 985 de ancho con radio 19.
+Donde no haya `backdrop-filter` (WebViews viejos) el velo sube a casi sólido y
+el resultado sigue siendo legible.
 
 - Cabecera: día en rojo bold y mes en light, a 71 px, con la X roja arriba a la
   derecha (área táctil de 88 px alrededor del icono de 38).

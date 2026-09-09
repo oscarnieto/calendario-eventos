@@ -165,6 +165,9 @@ a{ color: inherit; }
   /* --- popup del dia: Figma 12:248 "Muppie_1080x1920_POPUP" --- */
   --mopi-pop-mask-top: 509.394px;
   --mopi-pop-mask-alto: 1230.549px;
+  --mopi-pop-mask-desenfoque: 18px;
+  --mopi-pop-mask-velo: rgba(37,39,58,.82);
+  --mopi-pop-mask-velo-solido: rgba(37,39,58,.94);
   --mopi-pop-ancho: 985px;          /* centrada: (1080-985)/2 = 47,5 como el frame */
   --mopi-pop-alto-max: 1180px;      /* deja 25 px de aire dentro de la mascara */
   --mopi-pop-radio: 19px;
@@ -405,13 +408,22 @@ a{ color: inherit; }
 /* ---------- popup del dia (Figma 12:248 "Muppie_1080x1920_POPUP") ----------
    La mascara tapa solo la banda de la rejilla: la cabecera con la foto y el
    pie de contacto siguen a la vista. */
+/* La rejilla se ve detras, desenfocada y teñida de azul. Sin soporte de
+   backdrop-filter el velo sube casi a solido y el resultado sigue siendo legible. */
 .mopi-modal-fondo{
   position:absolute; left:0; top: var(--mopi-pop-mask-top);
   width: var(--mopi-ancho); height: var(--mopi-pop-mask-alto);
-  background: var(--mopi-c-fondo);
+  background: var(--mopi-pop-mask-velo-solido);
   /* la tarjeta se centra en la banda: asi crece hacia arriba y hacia abajo
      y caben tres eventos largos sin deslizar */
   display:flex; align-items:center; justify-content:center;
+}
+@supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))){
+  .mopi-modal-fondo{
+    background: var(--mopi-pop-mask-velo);
+    -webkit-backdrop-filter: blur(var(--mopi-pop-mask-desenfoque));
+    backdrop-filter: blur(var(--mopi-pop-mask-desenfoque));
+  }
 }
 .mopi-modal{
   position:relative;
