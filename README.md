@@ -76,7 +76,6 @@ Si en algún momento quieres más, basta con añadir la columna:
 |---|---|
 | `Descripción` | Texto largo bajo los datos del evento, en el popup |
 | `Estado` | `cancelado` (título tachado, sin QR) o `completo` (registro desactivado) |
-| `Destacado` | `SÍ` para entrar en la rotación automática del modo atracción |
 | `Imagen` | Nombre de un archivo de `assets/img/` |
 | `id` | Identificador propio; si no está, se genera solo |
 
@@ -107,9 +106,8 @@ cuenta.
   de errores M y zona de silencio, y llevan UTM según el modo
   (`mopi/cartel`, `email/escritorio`, `email/movil`). En móvil no hay QR: hay
   botón directo.
-- **MOPI.** A los 45 s sin tocar vuelve a la vista de mes; a los 2 min entra en
-  modo atracción y rota los eventos destacados cada 12 s. Cualquier toque lo
-  interrumpe.
+- **MOPI.** El cartel está siempre en pantalla. A los 45 s sin tocar se cierra el
+  popup abierto y vuelve la vista del mes.
 
 ## Diseño del MOPI
 
@@ -134,8 +132,7 @@ Todo el color, la tipografía y la geometría viven en variables CSS bajo
   HTML, con WOFF2 y WOFF de reserva. Los modos escritorio y móvil siguen con la
   pila del sistema.
 - Los eventos en **sábado o domingo** no caben en una rejilla de lunes a viernes:
-  no salen en la rejilla pero sí en la rotación de destacados, y quedan
-  registrados con `console.warn`.
+  no se muestran, y quedan registrados con `console.warn` para poder detectarlos.
 
 ### Imágenes de marca
 
@@ -174,11 +171,15 @@ el resultado sigue siendo legible.
 Los iconos están dibujados a mano con la geometría de akar-icons porque el
 entorno no tiene salida a `figma.com` para exportar los del archivo.
 
-### Modo atracción
+### En reposo
 
-A los 2 minutos sin tocar, el cartel deja paso a una capa a pantalla completa que
-rota los eventos destacados cada 12 segundos, con el QR a 420 px porque se lee
-desde más lejos. Cualquier toque la corta. Ese frame no está en Figma todavía.
+El calendario **nunca deja la pantalla**: no hay salvapantallas ni rotación de
+destacados. Lo único que hace la inactividad es cerrar el popup y devolver la
+vista del mes a los 45 segundos.
+
+Tampoco hay flechas de mes: el MOPI muestra siempre el mes en curso y salta solo
+al siguiente cuando cambia la fecha. En escritorio y móvil la navegación entre
+meses sigue estando.
 
 ### Comprobar en local
 

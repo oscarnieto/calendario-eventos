@@ -196,15 +196,7 @@ a{ color: inherit; }
   --mopi-pop-sep-arriba: 49.66px;
   --mopi-pop-sep-abajo: 35.09px;
 
-  /* --- capa de atraccion a pantalla completa (se lee desde mas lejos) --- */
-  --mopi-capa-pad: 72px;
-  --mopi-capa-fs-titulo: 64px;
-  --mopi-capa-fs-sub: 40px;
-  --mopi-capa-fs-cuerpo: 32px;
-  --mopi-capa-fs-meta: 30px;
-  --mopi-capa-fs-min: 26px;
-  --mopi-qr-lado: 420px;
-  --mopi-qr-pad: 28px;
+  --mopi-fs-aviso: 26px;
   --mopi-tactil-min: 96px;
 }
 
@@ -380,32 +372,6 @@ a{ color: inherit; }
 }
 .mopi-pie b{ display:block; font-weight:700; color: var(--mopi-c-acento); }
 
-/* ---------- navegacion tactil discreta ---------- */
-/* Barra unica y solida arriba a la derecha: es el unico hueco libre del
-   cartel y sobre la foto necesita fondo propio para leerse. */
-.mopi-nav{
-  position:absolute; right: var(--mopi-margen); top: 26px;
-  display:flex; align-items:center;
-  background: var(--mopi-c-fondo);
-  border: 1px solid var(--mopi-c-suave);
-  border-radius: 2px;
-  overflow:hidden;
-}
-.mopi-btn{
-  width: var(--mopi-tactil-min); height: var(--mopi-tactil-min);
-  min-width: var(--mopi-tactil-min); min-height: var(--mopi-tactil-min);
-  background: transparent;
-  border: 0; border-left: 1px solid var(--mopi-c-suave);
-  border-radius: 0;
-  color: var(--mopi-c-acento);
-  font-family: var(--mopi-fuente);
-  font-size: 40px; font-weight:300; line-height:1;
-  display:flex; align-items:center; justify-content:center;
-}
-.mopi-nav .mopi-btn:first-child{ border-left:0; }
-.mopi-btn:active{ background: var(--mopi-c-acento); color: var(--mopi-c-fondo); }
-.mopi-btn-hoy{ width:auto; padding:0 26px; font-size: 26px; font-weight:700; }
-
 /* ---------- popup del dia (Figma 12:248 "Muppie_1080x1920_POPUP") ----------
    La mascara tapa solo la banda de la rejilla: la cabecera con la foto y el
    pie de contacto siguen a la vista. */
@@ -573,7 +539,7 @@ a{ color: inherit; }
 }
 @media (prefers-reduced-motion: reduce){
   .mopi-pop-mas i{ -webkit-animation: none; animation: none; }
-  .mopi-modal-fondo, .mopi-modal, .mopi-capa{
+  .mopi-modal-fondo, .mopi-modal{
     -webkit-transition: none; transition: none;
   }
 }
@@ -587,120 +553,12 @@ a{ color: inherit; }
   transition: opacity 220ms ease;
 }
 .mopi-modal[data-scroll="1"][data-fin="1"]::after{ opacity: 0; }
-.mopi-pop-vacio{
-  font-size: var(--mopi-pop-fs-dato);
-  line-height: var(--mopi-pop-lh-dato);
-}
-
-/* ---------- capa de atraccion a pantalla completa ---------- */
-.mopi-capa{
-  position:absolute; left:0; top:0;
-  width: var(--mopi-ancho); height: var(--mopi-alto);
-  background: var(--mopi-c-fondo);
-  opacity: 0;
-  -webkit-transition: opacity var(--mopi-pop-anim) ease;
-  transition: opacity var(--mopi-pop-anim) ease;
-  padding: var(--mopi-capa-pad);
-  display:flex; flex-direction:column;
-  font-family: var(--mopi-fuente);
-}
-.mopi-capa[data-abierto="1"]{ opacity: 1; }
-.mopi-capa-cab{
-  display:flex; align-items:flex-start; justify-content:space-between;
-  gap:32px; flex:0 0 auto; padding-bottom: 40px;
-  border-bottom: 1px solid var(--mopi-c-suave);
-}
-.mopi-capa-marca{
-  font-size: var(--mopi-capa-fs-min); font-weight:700;
-  letter-spacing:4px; text-transform:uppercase; color: var(--mopi-c-acento);
-}
-.mopi-capa-fecha{
-  font-size: var(--mopi-capa-fs-sub); font-weight:300; color: var(--mopi-c-blanco);
-}
-.mopi-capa-cuerpo{
-  flex:1 1 auto; min-height:0; padding: 48px 0; overflow:hidden;
-  display:flex; flex-direction:column; justify-content:center;
-}
-.mopi-capa-pie{
-  flex:0 0 auto; padding-top: 32px;
-  font-size: var(--mopi-capa-fs-min); color: var(--mopi-c-suave);
-  display:flex; align-items:center; justify-content:space-between; gap:24px;
-}
-
-.mopi-det{ display:flex; flex-direction:column; }
-.mopi-det-tags{ margin-bottom: 28px; display:flex; flex-wrap:wrap; gap:14px; }
-.mopi-det h3{
-  font-size: var(--mopi-capa-fs-titulo); line-height:1.08; font-weight:700;
-  color: var(--mopi-c-blanco); margin-bottom: 32px;
-  overflow-wrap: break-word; word-wrap: break-word;
-}
-.mopi-det[data-estado="cancelado"] h3{ text-decoration: line-through; color: var(--mopi-c-suave); }
-.mopi-det-fila{ display:flex; gap:56px; align-items:flex-start; }
-.mopi-det-txt{ flex:1 1 auto; min-width:0; }
-/* una linea por dato: al envolverse, un separador quedaria huerfano */
-.mopi-det-meta{
-  font-size: var(--mopi-capa-fs-meta); line-height:1.5;
-  color: var(--mopi-c-suave); margin-bottom: 34px;
-}
-.mopi-det-meta > div + div{ margin-top: 4px; }
-.mopi-det-meta strong{ color: var(--mopi-c-acento); font-weight:700; }
-.mopi-det-desc{
-  font-size: var(--mopi-capa-fs-cuerpo); line-height:1.5;
-  color: var(--mopi-c-blanco); overflow:hidden; max-height: 520px;
-}
-.mopi-det-qr{ flex:0 0 auto; width: var(--mopi-qr-lado); }
-/* el QR de la capa de atraccion se ve de lejos: mucho mayor que el del popup */
-.mopi-capa .mopi-qr-caja{
-  width: var(--mopi-qr-lado); height: var(--mopi-qr-lado);
-  border-radius:2px;
-  padding: var(--mopi-qr-pad);
-}
-.mopi-qr-pie{
-  margin-top:18px; text-align:center;
-  font-size: var(--mopi-capa-fs-min); font-weight:700; color: var(--mopi-c-acento);
-}
-
-.mopi-lista{ display:flex; flex-direction:column; gap:20px; }
-.mopi-lista-item{
-  display:flex; align-items:center; gap:28px;
-  width:100%; text-align:left;
-  min-height: 128px;
-  background: var(--mopi-c-card-sin);
-  border:1px solid var(--mopi-c-suave); border-radius:2px;
-  padding: 24px 32px;
-  font-family: var(--mopi-fuente);
-}
-.mopi-lista-item:active{ border-color: var(--mopi-c-acento); }
-.mopi-lista-punto{ width:14px; height:14px; flex:0 0 auto; background: var(--mopi-c-acento); }
-.mopi-lista-hora{
-  font-size: var(--mopi-capa-fs-meta); font-weight:700;
-  color: var(--mopi-c-acento); width:170px; flex:0 0 auto;
-}
-.mopi-lista-tit{
-  font-size: var(--mopi-capa-fs-meta); font-weight:500;
-  color: var(--mopi-c-blanco); flex:1 1 auto; min-width:0;
-}
-.mopi-lista-item[data-estado="cancelado"] .mopi-lista-tit{
-  text-decoration: line-through; color: var(--mopi-c-suave);
-}
-
-.mopi-puntos{ display:flex; gap:12px; }
-.mopi-puntos i{ width:14px; height:14px; background: var(--mopi-c-suave); }
-.mopi-puntos i[data-on="1"]{ background: var(--mopi-c-acento); }
-
-.mopi-vacio{
-  display:flex; flex-direction:column; align-items:center; justify-content:center;
-  height:100%; text-align:center; color: var(--mopi-c-suave);
-  font-size: var(--mopi-capa-fs-sub); font-weight:300;
-}
-.mopi-vacio small{ display:block; margin-top:20px; font-size: var(--mopi-capa-fs-min); }
-
 .mopi-aviso{
   position:absolute; left:0; right:0; bottom:0;
   padding: 16px var(--mopi-margen);
   background: var(--mopi-c-alerta); color: var(--mopi-c-blanco);
   font-family: var(--mopi-fuente);
-  font-size: var(--mopi-capa-fs-min); font-weight:700; text-align:center;
+  font-size: var(--mopi-fs-aviso); font-weight:700; text-align:center;
 }
 
 /* etiquetas de estado (compartidas de forma explicita por modo) */
@@ -712,7 +570,7 @@ a{ color: inherit; }
 .etiqueta[data-tipo="cancelado"]{ background: var(--c-alerta-suave); color: var(--c-alerta); }
 .etiqueta[data-tipo="completo"]{ background: var(--c-aviso-suave); color: var(--c-aviso); }
 .etiqueta[data-tipo="categoria"]{ background: var(--c-fondo-hueco); color: var(--c-tinta-media); }
-:root[data-modo="mopi"] .etiqueta{ font-family: var(--mopi-fuente); font-size: var(--mopi-capa-fs-min); padding: 10px 24px; border-radius:2px; }
+:root[data-modo="mopi"] .etiqueta{ font-family: var(--mopi-fuente); font-size: var(--mopi-pop-fs-etiqueta); padding: 8px 20px; border-radius:2px; }
 :root[data-modo="mopi"] .etiqueta[data-tipo="cancelado"]{ background: var(--mopi-c-alerta); color:#fff; }
 :root[data-modo="mopi"] .etiqueta[data-tipo="completo"]{ background: var(--mopi-c-acento); color: var(--mopi-c-fondo); }
 /* sobre el amarillo del popup el aforo completo necesita invertirse */
@@ -995,12 +853,6 @@ a{ color: inherit; }
 
       <h1 class="mopi-h1"><b>Eventos</b> <span id="mopiMes">&nbsp;</span> <span id="mopiAnio"></span></h1>
 
-      <nav class="mopi-nav">
-        <button type="button" class="mopi-btn" id="mopiAnterior" aria-label="Mes anterior">&#8249;</button>
-        <button type="button" class="mopi-btn mopi-btn-hoy" id="mopiHoy">Hoy</button>
-        <button type="button" class="mopi-btn" id="mopiSiguiente" aria-label="Mes siguiente">&#8250;</button>
-      </nav>
-
       <div class="mopi-semana" id="mopiSemana"></div>
       <div class="mopi-rejilla" id="mopiRejilla"></div>
 
@@ -1021,18 +873,6 @@ a{ color: inherit; }
               <path d="M6 7 12 12.5 18 7"/><path d="M6 13.5 12 19 18 13.5"/>
             </svg></i>
           </div>
-        </div>
-      </div>
-
-      <div class="mopi-capa oculto" id="mopiCapa">
-        <div class="mopi-capa-cab">
-          <div class="mopi-capa-marca" id="mopiCapaMarca">&nbsp;</div>
-          <div class="mopi-capa-fecha" id="mopiCapaFecha">&nbsp;</div>
-        </div>
-        <div class="mopi-capa-cuerpo" id="mopiCapaCuerpo"></div>
-        <div class="mopi-capa-pie">
-          <span id="mopiCapaPista">&nbsp;</span>
-          <span class="mopi-puntos" id="mopiCapaPuntos"></span>
         </div>
       </div>
 
@@ -1127,9 +967,7 @@ var CAL = (function () {
   var CLAVE_CACHE    = 'calendario-eventos-v1';
   var MS_RECARGA     = 30 * 60 * 1000;   // recarga de datos
   var MS_RELOJ       = 60 * 1000;        // comprobacion de cambio de mes
-  var MS_INACTIVIDAD = 45 * 1000;        // MOPI: vuelta a vista mes
-  var MS_ATRACCION   = 120 * 1000;       // MOPI: entrada en modo atraccion
-  var MS_ROTACION    = 12 * 1000;        // MOPI: cambio de destacado
+  var MS_INACTIVIDAD = 45 * 1000;        // MOPI: cierra el popup y vuelve al mes
 
   var MOPI_ANCHO = 1080, MOPI_ALTO = 1920;
   var MS_ANIM = 280;                     // igual que --mopi-pop-anim
@@ -1195,13 +1033,10 @@ var CAL = (function () {
     mesReal: '',             // 'AAAA-MM' del mes en curso, para detectar el salto
     diaSel: '',              // ISO del dia seleccionado
     eventoSel: null,
-    destacados: [],
-    idxDestacado: 0,
-    enAtraccion: false,
     iniciado: false
   };
 
-  var tIdle = null, tAtraccion = null, tRotacion = null, tResize = null, tResalte = null;
+  var tIdle = null, tResize = null, tResalte = null;
 
   /* ---------------- Utilidades DOM ---------------- */
   function el(id) { return document.getElementById(id); }
@@ -1750,19 +1585,6 @@ var CAL = (function () {
     }
     return celdas;
   }
-  function calcularDestacados() {
-    var mes = eventosDelMes(est.mesVista), i, r = [];
-    for (i = 0; i < mes.length; i++) {
-      if (mes[i].destacado && mes[i].estado !== 'cancelado') { r.push(mes[i]); }
-    }
-    if (!r.length) {
-      for (i = 0; i < mes.length; i++) {
-        if (mes[i].estado !== 'cancelado') { r.push(mes[i]); }
-      }
-    }
-    est.destacados = r;
-    if (est.idxDestacado >= r.length) { est.idxDestacado = 0; }
-  }
   function etiquetasEstado(ev) {
     var h = '';
     if (ev.estado === 'cancelado') { h += '<span class="etiqueta" data-tipo="cancelado">Cancelado</span>'; }
@@ -1888,75 +1710,16 @@ var CAL = (function () {
     }
     if (fuera.length) {
       console.warn('[calendario] la rejilla del MOPI es de lunes a viernes: ' + fuera.length +
-        ' evento(s) en fin de semana no salen en la rejilla (si en la rotacion de destacados) -> ' +
+        ' evento(s) en fin de semana no salen en la rejilla -> ' +
         fuera.join(' | '));
     }
   }
 
-  /* Si el Excel no trae hoja de colores, en el MOPI manda el amarillo de
-     marca en vez del gris neutro de la maqueta base. */
-  function colorCategoriaMopi(cat) {
-    var propio = est.categorias[clave(cat)];
-    return propio ? propio : '#ffdf00';
-  }
-
-  function tagsMopi(ev) {
-    var h = '';
-    if (ev.categoria) {
-      var col = colorCategoriaMopi(ev.categoria);
-      h += '<span class="etiqueta" data-tipo="categoria" style="background:' + col +
-           ';color:' + contraste(col) + '">' + esc(ev.categoria) + '</span>';
-    }
-    return h + etiquetasEstado(ev);
-  }
-
-  function detalleMopi(ev, totalDia) {
-    var meta = '';
-    if (franja(ev)) { meta += '<div><strong>' + esc(franja(ev)) + '</strong></div>'; }
-    if (ev.ubicacion) { meta += '<div>' + esc(ev.ubicacion) + '</div>'; }
-    if (ev.ponentes.length) { meta += '<div>Participa: ' + esc(ev.ponentes.join(', ')) + '</div>'; }
-
-    var qr = '';
-    if (ev.url && ev.estado !== 'cancelado') {
-      qr = '<div class="mopi-det-qr">' +
-             '<div class="mopi-qr-caja" id="mopiQrCaja"></div>' +
-             '<div class="mopi-qr-pie">' +
-               (ev.estado === 'completo' ? 'Aforo completo' : 'Escanea para inscribirte') +
-             '</div>' +
-           '</div>';
-    }
-
-    var volver = '';
-    if (totalDia > 1) {
-      volver = '<div style="margin-top:44px">' +
-               '<button type="button" class="mopi-btn mopi-btn-hoy" data-accion="volver-lista">' +
-               '&#8249; Ver los ' + totalDia + ' eventos del día</button></div>';
-    }
-
-    return '<div class="mopi-det" data-estado="' + ev.estado + '">' +
-             '<div class="mopi-det-tags">' + tagsMopi(ev) + '</div>' +
-             '<h3>' + esc(ev.titulo) + '</h3>' +
-             '<div class="mopi-det-meta">' + meta + '</div>' +
-             '<div class="mopi-det-fila">' +
-               '<div class="mopi-det-txt">' +
-                 '<div class="mopi-det-desc">' + esc(ev.descripcion) + '</div>' +
-                 volver +
-               '</div>' + qr +
-             '</div>' +
-           '</div>';
-  }
-
-  /* El popup del dia y la capa de atraccion son dos piezas distintas:
-     el popup es para tocarlo de cerca, la capa es el estado ambiente. */
+  /* El calendario nunca deja la pantalla: lo unico que se superpone es el
+     popup del dia, y solo mientras haya un dia seleccionado. */
   function pintarPanelMopi() {
-    if (est.diaSel) {
-      mostrarAnimado(el('mopiCapa'), false);
-      pintarModalMopi();
-      return;
-    }
-    mostrarAnimado(el('mopiModal'), false);
-    if (est.enAtraccion) { pintarAtraccionMopi(); }
-    else { mostrarAnimado(el('mopiCapa'), false); }
+    if (est.diaSel) { pintarModalMopi(); }
+    else { mostrarAnimado(el('mopiModal'), false); }
   }
 
   /* Horario tal y como lo escribe el diseno: "19:00h" / "19:00h - 21:00h" */
@@ -2018,29 +1781,9 @@ var CAL = (function () {
     }
   }
 
-  function pintarAtraccionMopi() {
-    var capa = el('mopiCapa'), ev, i, h = '';
-    calcularDestacados();
-    if (!est.destacados.length) { mostrarAnimado(capa, false); return; }
-    ev = est.destacados[est.idxDestacado];
-    el('mopiCapaMarca').textContent = 'Destacados del mes';
-    el('mopiCapaFecha').textContent = capitalizar(fechaLarga(ev.fecha));
-    el('mopiCapaCuerpo').innerHTML = detalleMopi(ev, 1);
-    el('mopiCapaPista').textContent = 'Toca la pantalla para explorar el calendario';
-    if (est.destacados.length > 1) {
-      for (i = 0; i < est.destacados.length; i++) {
-        h += '<i' + (i === est.idxDestacado ? ' data-on="1"' : '') + '></i>';
-      }
-    }
-    el('mopiCapaPuntos').innerHTML = h;
-    mostrarAnimado(capa, true);
-    if (ev.url && ev.estado !== 'cancelado') { pintarQr(el('mopiQrCaja'), urlConUtm(ev.url, 'mopi')); }
-  }
-
-  function cerrarCapaMopi() {
+  function cerrarPopupMopi() {
     est.diaSel = '';
     est.eventoSel = null;
-    est.enAtraccion = false;
     pintarMopi();
   }
 
@@ -2341,7 +2084,6 @@ var CAL = (function () {
     est.mesVista = new Date(f.getFullYear(), f.getMonth() + delta, 1);
     est.diaSel = '';
     est.eventoSel = null;
-    est.idxDestacado = 0;
     mostrar(el('escCapa'), false);
     mostrar(el('movDetalle'), false);
     pintar();
@@ -2350,7 +2092,6 @@ var CAL = (function () {
     est.mesVista = primerDiaMes(new Date());
     est.diaSel = '';
     est.eventoSel = null;
-    est.idxDestacado = 0;
     mostrar(el('escCapa'), false);
     mostrar(el('movDetalle'), false);
     pintar();
@@ -2361,47 +2102,16 @@ var CAL = (function () {
      ======================================================================= */
   function pararTemporizadoresMopi() {
     if (tIdle) { clearTimeout(tIdle); tIdle = null; }
-    if (tAtraccion) { clearTimeout(tAtraccion); tAtraccion = null; }
-    if (tRotacion) { clearInterval(tRotacion); tRotacion = null; }
-    est.enAtraccion = false;
   }
 
+  /* Lo unico que hace la inactividad es cerrar el popup y devolver la vista
+     del mes: el calendario esta siempre en pantalla. */
   function reiniciarInactividad() {
     if (est.modo !== 'mopi') return;
     if (tIdle) { clearTimeout(tIdle); }
-    if (tAtraccion) { clearTimeout(tAtraccion); }
-    if (tRotacion) { clearInterval(tRotacion); tRotacion = null; }
-    var estaba = est.enAtraccion;
-    est.enAtraccion = false;
-
     tIdle = setTimeout(function () {
-      est.diaSel = '';
-      est.eventoSel = null;
-      pintarMopi();
+      if (est.diaSel) { cerrarPopupMopi(); }
     }, MS_INACTIVIDAD);
-
-    tAtraccion = setTimeout(entrarEnAtraccion, MS_ATRACCION);
-
-    /* el repintado se aplaza: si el toque venia de una celda, rehacer el DOM
-       aqui mismo la desprenderia y el click nunca llegaria a dispararse. */
-    if (estaba) {
-      setTimeout(function () { if (est.modo === 'mopi') { pintarMopi(); } }, 0);
-    }
-  }
-
-  function entrarEnAtraccion() {
-    if (est.modo !== 'mopi') return;
-    est.enAtraccion = true;
-    est.diaSel = '';
-    est.eventoSel = null;
-    est.idxDestacado = 0;
-    pintarMopi();
-    if (tRotacion) { clearInterval(tRotacion); }
-    tRotacion = setInterval(function () {
-      if (!est.destacados.length) return;
-      est.idxDestacado = (est.idxDestacado + 1) % est.destacados.length;
-      pintarPanelMopi();
-    }, MS_ROTACION);
   }
 
   function toqueMopi() {
@@ -2426,21 +2136,16 @@ var CAL = (function () {
   }
 
   function conectarEventos() {
-    /* --- MOPI --- */
-    escuchar(el('mopiAnterior'), 'click', function () { irAMes(-1); });
-    escuchar(el('mopiSiguiente'), 'click', function () { irAMes(1); });
-    escuchar(el('mopiHoy'), 'click', function () { irAHoy(); });
-
+    /* --- MOPI (sin navegacion: el cartel muestra siempre el mes en curso) --- */
     escuchar(el('mopiRejilla'), 'click', function (e) {
       var celda = celdaPulsada(e, 'mopi-card');
       if (!celda || celda.getAttribute('data-eventos') !== '1') return;
-      est.enAtraccion = false;
       est.diaSel = celda.getAttribute('data-fecha');
       est.eventoSel = null;
       pintarPanelMopi();
     });
 
-    escuchar(el('mopiCerrar'), 'click', function () { cerrarCapaMopi(); });
+    escuchar(el('mopiCerrar'), 'click', function () { cerrarPopupMopi(); });
 
     escuchar(el('mopiModalCuerpo'), 'scroll', function () {
       var c = el('mopiModalCuerpo');
@@ -2452,11 +2157,8 @@ var CAL = (function () {
 
     /* tocar fuera de la tarjeta cierra el popup */
     escuchar(el('mopiModal'), 'click', function (e) {
-      if (e.target === el('mopiModal')) { cerrarCapaMopi(); }
+      if (e.target === el('mopiModal')) { cerrarPopupMopi(); }
     });
-
-    /* la capa de atraccion se cierra con cualquier toque */
-    escuchar(el('mopiCapa'), 'click', function () { cerrarCapaMopi(); });
 
     /* --- ESCRITORIO --- */
     escuchar(el('escAnterior'), 'click', function () { irAMes(-1); });
