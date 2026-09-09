@@ -165,11 +165,9 @@ a{ color: inherit; }
   /* --- popup del dia: Figma 12:248 "Muppie_1080x1920_POPUP" --- */
   --mopi-pop-mask-top: 509.394px;
   --mopi-pop-mask-alto: 1230.549px;
-  --mopi-pop-x: 47.5px;
-  --mopi-pop-y: 202.173px;          /* 711.567 del frame - 509.394 de la mascara */
-  --mopi-pop-ancho: 985px;
+  --mopi-pop-ancho: 985px;          /* centrada: (1080-985)/2 = 47,5 como el frame */
   --mopi-pop-alto-min: 774.37px;
-  --mopi-pop-alto-max: 1028.4px;    /* hasta el borde inferior de la mascara */
+  --mopi-pop-alto-max: 1180px;      /* deja 25 px de aire dentro de la mascara */
   --mopi-pop-radio: 19px;
   --mopi-pop-pad-izq: 33.55px;
   --mopi-pop-pad-der: 36.48px;
@@ -412,10 +410,12 @@ a{ color: inherit; }
   position:absolute; left:0; top: var(--mopi-pop-mask-top);
   width: var(--mopi-ancho); height: var(--mopi-pop-mask-alto);
   background: var(--mopi-c-fondo);
+  /* la tarjeta se centra en la banda: asi crece hacia arriba y hacia abajo
+     y caben tres eventos largos sin deslizar */
+  display:flex; align-items:center; justify-content:center;
 }
 .mopi-modal{
-  position:absolute;
-  left: var(--mopi-pop-x); top: var(--mopi-pop-y);
+  position:relative;
   width: var(--mopi-pop-ancho);
   min-height: var(--mopi-pop-alto-min);
   max-height: var(--mopi-pop-alto-max);
@@ -1878,7 +1878,8 @@ var CAL = (function () {
     if (franjaH(ev)) { datos += filaDato(ICONOS.reloj, franjaH(ev)); }
     if (ev.ubicacion) { datos += filaDato(ICONOS.lugar, ev.ubicacion); }
     if (ev.ponentes.length) { datos += filaDato(ICONOS.persona, 'Participa: ' + ev.ponentes.join(', ')); }
-    if (ev.categoria) { datos += filaDato(ICONOS.tipo, ev.categoria); }
+    /* El Figma no muestra el tipo de evento en el popup. Para sacarlo, basta
+       con anadir aqui: filaDato(ICONOS.tipo, ev.categoria) */
 
     var qr = '';
     if (ev.url && ev.estado !== 'cancelado') {

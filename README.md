@@ -27,6 +27,12 @@ No hay que tocar ningún otro archivo. El calendario lee el Excel cada vez que s
 abre y, además, lo vuelve a comprobar solo cada 30 minutos, que es lo que importa
 en el MOPI porque está encendido todo el día.
 
+> **Los datos de septiembre de 2026 son de ejemplo.** El archivo trae 18 eventos
+> inventados para ver el calendario lleno, con enlaces a `example.com`. Bórralos
+> y escribe los reales encima. Las dos filas que venían de fábrica —*Living
+> Trends* y *Property & Facility Management Summit*— siguen ahí; a la primera se
+> le corrigió el año, que ponía 2016.
+
 ## Estructura del Excel
 
 Una sola hoja con las cabeceras en la primera fila. **El nombre de la hoja da
