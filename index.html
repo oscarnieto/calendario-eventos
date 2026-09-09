@@ -162,15 +162,38 @@ a{ color: inherit; }
   --mopi-pie-linea-top: 1759.25px;
   --mopi-pie-top: 1775.09px;
 
-  /* --- popup del dia (no viene del Figma). El MOPI se usa de cerca:
-         los tamanos son de lectura a un brazo de distancia. --- */
-  --mopi-modal-ancho: 980px;
-  --mopi-modal-pad: 44px;
-  --mopi-modal-fs-fecha: 40px;
-  --mopi-modal-fs-titulo: 46px;
-  --mopi-modal-fs-cuerpo: 28px;
-  --mopi-modal-fs-meta: 28px;
-  --mopi-modal-fs-min: 22px;
+  /* --- popup del dia: Figma 12:248 "Muppie_1080x1920_POPUP" --- */
+  --mopi-pop-mask-top: 509.394px;
+  --mopi-pop-mask-alto: 1230.549px;
+  --mopi-pop-x: 47.5px;
+  --mopi-pop-y: 202.173px;          /* 711.567 del frame - 509.394 de la mascara */
+  --mopi-pop-ancho: 985px;
+  --mopi-pop-alto-min: 774.37px;
+  --mopi-pop-alto-max: 1028.4px;    /* hasta el borde inferior de la mascara */
+  --mopi-pop-radio: 19px;
+  --mopi-pop-pad-izq: 33.55px;
+  --mopi-pop-pad-der: 36.48px;
+  --mopi-pop-pad-top: 55.44px;
+  --mopi-pop-pad-bot: 74.2px;
+  --mopi-pop-hueco-cab: 83.72px;
+  --mopi-pop-fs-fecha: 71px;
+  --mopi-pop-lh-fecha: 87px;
+  --mopi-pop-fs-titulo: 45px;
+  --mopi-pop-lh-titulo: 1.05;
+  --mopi-pop-hueco-tit: 10px;
+  --mopi-pop-fs-dato: 32px;
+  --mopi-pop-lh-dato: 1.071;
+  --mopi-pop-fs-etiqueta: 22px;
+  --mopi-pop-icono: 24px;
+  --mopi-pop-icono-hueco: 6px;
+  --mopi-pop-icono-cerrar: 37.95px;
+  --mopi-pop-cerrar-lado: 88px;
+  --mopi-pop-cerrar-top: 7px;
+  --mopi-pop-cerrar-der: 2.5px;
+  --mopi-pop-qr: 146.573px;
+  --mopi-pop-hueco-qr: 32px;
+  --mopi-pop-sep-arriba: 49.66px;
+  --mopi-pop-sep-abajo: 35.09px;
 
   /* --- capa de atraccion a pantalla completa (se lee desde mas lejos) --- */
   --mopi-capa-pad: 72px;
@@ -382,53 +405,125 @@ a{ color: inherit; }
 .mopi-btn:active{ background: var(--mopi-c-acento); color: var(--mopi-c-fondo); }
 .mopi-btn-hoy{ width:auto; padding:0 26px; font-size: 26px; font-weight:700; }
 
-/* ---------- popup del dia (uso de cerca, tactil) ---------- */
+/* ---------- popup del dia (Figma 12:248 "Muppie_1080x1920_POPUP") ----------
+   La mascara tapa solo la banda de la rejilla: la cabecera con la foto y el
+   pie de contacto siguen a la vista. */
 .mopi-modal-fondo{
-  position:absolute; left:0; top:0;
-  width: var(--mopi-ancho); height: var(--mopi-alto);
-  background: rgba(21,22,33,.84);
-  display:flex; align-items:center; justify-content:center;
-  padding: 60px;
+  position:absolute; left:0; top: var(--mopi-pop-mask-top);
+  width: var(--mopi-ancho); height: var(--mopi-pop-mask-alto);
+  background: var(--mopi-c-fondo);
 }
 .mopi-modal{
-  width: var(--mopi-modal-ancho);
-  max-height: 1560px;
-  background: var(--mopi-c-card-sin);
-  border: 1px solid var(--mopi-c-suave);
-  border-radius: 2px;
-  box-shadow: 0 40px 120px rgba(0,0,0,.55);
-  display:flex; flex-direction:column;
-  overflow:hidden;
-  font-family: var(--mopi-fuente);
-}
-.mopi-modal-cab{
-  flex:0 0 auto;
+  position:absolute;
+  left: var(--mopi-pop-x); top: var(--mopi-pop-y);
+  width: var(--mopi-pop-ancho);
+  min-height: var(--mopi-pop-alto-min);
+  max-height: var(--mopi-pop-alto-max);
   background: var(--mopi-c-card-con);
-  padding: 24px var(--mopi-modal-pad);
-  display:flex; align-items:center; justify-content:space-between; gap:24px;
-}
-.mopi-modal-fecha{
-  font-size: var(--mopi-modal-fs-fecha); font-weight:700; line-height:1.15;
-  color: var(--mopi-c-num-con);
-}
-.mopi-modal-sub{
-  font-size: var(--mopi-modal-fs-min); font-weight:500; margin-top:4px;
+  border-radius: var(--mopi-pop-radio);
+  padding: var(--mopi-pop-pad-top) var(--mopi-pop-pad-der) var(--mopi-pop-pad-bot) var(--mopi-pop-pad-izq);
+  display:flex; flex-direction:column;
+  font-family: var(--mopi-fuente);
   color: var(--mopi-c-tinta-card);
 }
 .mopi-cerrar{
+  position:absolute;
+  top: var(--mopi-pop-cerrar-top); right: var(--mopi-pop-cerrar-der);
+  width: var(--mopi-pop-cerrar-lado); height: var(--mopi-pop-cerrar-lado);
+  background: transparent; color: var(--mopi-c-num-con);
+  display:flex; align-items:center; justify-content:center;
+  border-radius: 2px;
+}
+.mopi-cerrar svg{ width: var(--mopi-pop-icono-cerrar); height: var(--mopi-pop-icono-cerrar); display:block; }
+.mopi-cerrar:active{ background: var(--mopi-c-num-con); color: var(--mopi-c-card-con); }
+
+.mopi-pop-fecha{
   flex:0 0 auto;
-  width: var(--mopi-tactil-min); height: var(--mopi-tactil-min);
-  background: var(--mopi-c-fondo); color: var(--mopi-c-acento);
-  border-radius:2px; font-size:36px; font-weight:300; line-height:1;
-  font-family: var(--mopi-fuente);
+  font-size: var(--mopi-pop-fs-fecha);
+  line-height: var(--mopi-pop-lh-fecha);
+  font-weight:300;
+  margin-bottom: var(--mopi-pop-hueco-cab);
+  white-space:nowrap;
+}
+.mopi-pop-fecha b{ font-weight:700; color: var(--mopi-c-num-con); }
+
+.mopi-pop-eventos{
+  /* flex-grow 0: la tarjeta crece con el contenido hasta su alto maximo,
+     y solo entonces la lista se encoge y admite scroll interno */
+  flex:0 1 auto; min-height:0;
+  /* solo entra en juego con dias de muchos eventos */
+  overflow-x:hidden; overflow-y:auto; -webkit-overflow-scrolling:touch;
+}
+
+.mopi-ev{ display:flex; align-items:flex-end; gap: var(--mopi-pop-hueco-qr); }
+.mopi-ev + .mopi-ev{
+  margin-top: var(--mopi-pop-sep-arriba);
+  padding-top: var(--mopi-pop-sep-abajo);
+  border-top: 1px solid var(--mopi-c-linea-ev);
+}
+.mopi-ev-txt{ flex:1 1 auto; min-width:0; }
+.mopi-ev-tit{
+  font-size: var(--mopi-pop-fs-titulo);
+  line-height: var(--mopi-pop-lh-titulo);
+  font-weight:700;
+  margin-bottom: var(--mopi-pop-hueco-tit);
+  overflow-wrap: break-word; word-wrap: break-word;
+}
+.mopi-ev-tit-txt{ display:block; }
+.mopi-ev[data-estado="cancelado"] .mopi-ev-tit-txt{ text-decoration: line-through; }
+.mopi-ev-tit .etiqueta{
+  display:inline-block; margin: 10px 0 0;
+  font-size: var(--mopi-pop-fs-etiqueta);
+  padding: 6px 18px;
+}
+
+.mopi-ev-dato{
+  display:flex; align-items:flex-start;
+  gap: var(--mopi-pop-icono-hueco);
+  font-size: var(--mopi-pop-fs-dato);
+  line-height: var(--mopi-pop-lh-dato);
+  font-weight:400;
+}
+.mopi-ev-dato i{
+  flex:0 0 auto;
+  width: var(--mopi-pop-icono);
+  height: calc(var(--mopi-pop-fs-dato) * var(--mopi-pop-lh-dato));
   display:flex; align-items:center; justify-content:center;
 }
-.mopi-cerrar:active{ background: var(--mopi-c-num-con); color:#fff; }
-.mopi-modal-cuerpo{
-  flex:1 1 auto; min-height:0;
-  padding: var(--mopi-modal-pad);
-  /* solo entra en juego con dias de mas de diez eventos */
-  overflow-x:hidden; overflow-y:auto; -webkit-overflow-scrolling:touch;
+.mopi-ev-dato svg{
+  width: var(--mopi-pop-icono); height: var(--mopi-pop-icono);
+  display:block; fill:none;
+  stroke: currentColor; stroke-width:2;
+  stroke-linecap:round; stroke-linejoin:round;
+}
+.mopi-ev-dato span{ min-width:0; }
+.mopi-ev-desc{
+  margin-top: var(--mopi-pop-hueco-tit);
+  font-size: var(--mopi-pop-fs-dato);
+  line-height: 1.35;
+  max-height: calc(var(--mopi-pop-fs-dato) * 1.35 * 4);
+  overflow:hidden;
+}
+
+.mopi-ev-qr{ flex:0 0 auto; }
+.mopi-qr-caja{
+  width: var(--mopi-pop-qr); height: var(--mopi-pop-qr);
+  background:#ffffff;
+  display:flex; align-items:center; justify-content:center;
+}
+.mopi-qr-caja canvas{ width:100%; height:100%; display:block; }
+
+/* con muchos eventos la lista se desliza: el degradado lo hace evidente */
+.mopi-modal[data-scroll="1"]::after{
+  content:''; position:absolute; pointer-events:none;
+  left: var(--mopi-pop-pad-izq); right: var(--mopi-pop-pad-der);
+  bottom: var(--mopi-pop-pad-bot); height: 96px;
+  background: -webkit-linear-gradient(top, rgba(255,223,0,0), #ffdf00 80%);
+  background: linear-gradient(to bottom, rgba(255,223,0,0), #ffdf00 80%);
+}
+.mopi-pop-vacio{
+  font-size: var(--mopi-pop-fs-dato);
+  line-height: var(--mopi-pop-lh-dato);
 }
 
 /* ---------- capa de atraccion a pantalla completa ---------- */
@@ -464,15 +559,6 @@ a{ color: inherit; }
 
 .mopi-det{ display:flex; flex-direction:column; }
 .mopi-det-tags{ margin-bottom: 28px; display:flex; flex-wrap:wrap; gap:14px; }
-.mopi-modal .mopi-det h3{ font-size: var(--mopi-modal-fs-titulo); }
-.mopi-modal .mopi-det-meta{ font-size: var(--mopi-modal-fs-meta); margin-bottom:28px; }
-.mopi-modal .mopi-det-desc{ font-size: var(--mopi-modal-fs-cuerpo); max-height:340px; }
-.mopi-modal .mopi-det-fila{ gap: var(--mopi-modal-pad); }
-.mopi-modal .mopi-lista-item{ min-height:96px; padding:18px 28px; }
-.mopi-modal .mopi-lista-hora,
-.mopi-modal .mopi-lista-tit{ font-size: var(--mopi-modal-fs-cuerpo); }
-.mopi-modal .mopi-qr-pie{ font-size: var(--mopi-modal-fs-min); }
-.mopi-modal .etiqueta{ font-size: var(--mopi-modal-fs-min); padding:8px 20px; }
 .mopi-det h3{
   font-size: var(--mopi-capa-fs-titulo); line-height:1.08; font-weight:700;
   color: var(--mopi-c-blanco); margin-bottom: 32px;
@@ -493,13 +579,12 @@ a{ color: inherit; }
   color: var(--mopi-c-blanco); overflow:hidden; max-height: 520px;
 }
 .mopi-det-qr{ flex:0 0 auto; width: var(--mopi-qr-lado); }
-.mopi-qr-caja{
+/* el QR de la capa de atraccion se ve de lejos: mucho mayor que el del popup */
+.mopi-capa .mopi-qr-caja{
   width: var(--mopi-qr-lado); height: var(--mopi-qr-lado);
-  background:#ffffff; border-radius:2px;
+  border-radius:2px;
   padding: var(--mopi-qr-pad);
-  display:flex; align-items:center; justify-content:center;
 }
-.mopi-qr-caja canvas{ width:100%; height:100%; display:block; }
 .mopi-qr-pie{
   margin-top:18px; text-align:center;
   font-size: var(--mopi-capa-fs-min); font-weight:700; color: var(--mopi-c-acento);
@@ -560,6 +645,8 @@ a{ color: inherit; }
 :root[data-modo="mopi"] .etiqueta{ font-family: var(--mopi-fuente); font-size: var(--mopi-capa-fs-min); padding: 10px 24px; border-radius:2px; }
 :root[data-modo="mopi"] .etiqueta[data-tipo="cancelado"]{ background: var(--mopi-c-alerta); color:#fff; }
 :root[data-modo="mopi"] .etiqueta[data-tipo="completo"]{ background: var(--mopi-c-acento); color: var(--mopi-c-fondo); }
+/* sobre el amarillo del popup el aforo completo necesita invertirse */
+:root[data-modo="mopi"] .mopi-modal .etiqueta[data-tipo="completo"]{ background: var(--mopi-c-fondo); color: var(--mopi-c-acento); }
 :root[data-modo="escritorio"] .etiqueta{ font-size: 11px; padding: 4px 10px; }
 :root[data-modo="movil"] .etiqueta{ font-size: 11px; padding: 4px 10px; }
 
@@ -852,14 +939,13 @@ a{ color: inherit; }
 
       <div class="mopi-modal-fondo oculto" id="mopiModal">
         <div class="mopi-modal" role="dialog" aria-modal="true" aria-labelledby="mopiModalFecha">
-          <div class="mopi-modal-cab">
-            <div>
-              <div class="mopi-modal-fecha" id="mopiModalFecha">&nbsp;</div>
-              <div class="mopi-modal-sub" id="mopiModalSub">&nbsp;</div>
-            </div>
-            <button type="button" class="mopi-cerrar" id="mopiCerrar" aria-label="Cerrar">&#10005;</button>
-          </div>
-          <div class="mopi-modal-cuerpo" id="mopiModalCuerpo"></div>
+          <button type="button" class="mopi-cerrar" id="mopiCerrar" aria-label="Cerrar">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M5 5 19 19M19 5 5 19" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+            </svg>
+          </button>
+          <div class="mopi-pop-fecha" id="mopiModalFecha">&nbsp;</div>
+          <div class="mopi-pop-eventos" id="mopiModalCuerpo"></div>
         </div>
       </div>
 
@@ -986,6 +1072,21 @@ var CAL = (function () {
   var DIAS_CORTOS = ['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
   var DIAS_MINI   = ['L','M','X','J','V','S','D'];
   var MOPI_DIAS   = ['Lunes','Martes','Miércoles','Jueves','Viernes'];
+
+  /* Iconos del popup, dibujados a mano con la geometria de akar-icons: el
+     entorno no tiene salida a figma.com para exportar los del archivo. */
+  var ICONOS = {
+    reloj:   '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">' +
+             '<circle cx="12" cy="12" r="9"/><path d="M12 6.8V12.3l3.4 2.1"/></svg>',
+    lugar:   '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">' +
+             '<path d="M12 21.5c4.2-4.4 6.3-7.8 6.3-10.4A6.3 6.3 0 0 0 5.7 11.1c0 2.6 2.1 6 6.3 10.4z"/>' +
+             '<circle cx="12" cy="10.8" r="2.4"/></svg>',
+    persona: '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">' +
+             '<circle cx="12" cy="7.8" r="3.8"/><path d="M4.6 20.6c0-3.8 3.4-5.9 7.4-5.9s7.4 2.1 7.4 5.9"/></svg>',
+    tipo:    '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">' +
+             '<path d="M3.6 10.7V4.9a1.3 1.3 0 0 1 1.3-1.3h5.8L20.4 13 13 20.4z"/>' +
+             '<circle cx="8" cy="8" r="1.4"/></svg>'
+  };
 
   /* Cada campo acepta varias cabeceras: el equipo escribe el Excel en
      castellano y con sus propias palabras, no hay que renombrar nada. */
@@ -1762,43 +1863,61 @@ var CAL = (function () {
     else { mostrar(el('mopiCapa'), false); }
   }
 
-  function listaEventosMopi(lista) {
-    var h = '<div class="mopi-lista">', i;
-    for (i = 0; i < lista.length; i++) {
-      h += '<button type="button" class="mopi-lista-item" data-evento="' + esc(lista[i].id) +
-             '" data-estado="' + lista[i].estado + '">' +
-             '<i class="mopi-lista-punto" style="background:' + colorCategoriaMopi(lista[i].categoria) + '"></i>' +
-             '<span class="mopi-lista-hora">' + esc(lista[i].horaInicio || '--:--') + '</span>' +
-             '<span class="mopi-lista-tit">' + esc(lista[i].titulo) + '</span>' +
-             (lista[i].estado === 'activo' ? '' : etiquetasEstado(lista[i])) +
-           '</button>';
+  /* Horario tal y como lo escribe el diseno: "19:00h" / "19:00h - 21:00h" */
+  function franjaH(ev) {
+    if (!ev.horaInicio) return '';
+    return ev.horaFin ? ev.horaInicio + 'h - ' + ev.horaFin + 'h' : ev.horaInicio + 'h';
+  }
+
+  function filaDato(icono, txt) {
+    return '<div class="mopi-ev-dato"><i>' + icono + '</i><span>' + esc(txt) + '</span></div>';
+  }
+
+  function eventoPopupMopi(ev) {
+    var datos = '';
+    if (franjaH(ev)) { datos += filaDato(ICONOS.reloj, franjaH(ev)); }
+    if (ev.ubicacion) { datos += filaDato(ICONOS.lugar, ev.ubicacion); }
+    if (ev.ponentes.length) { datos += filaDato(ICONOS.persona, 'Participa: ' + ev.ponentes.join(', ')); }
+    if (ev.categoria) { datos += filaDato(ICONOS.tipo, ev.categoria); }
+
+    var qr = '';
+    if (ev.url && ev.estado !== 'cancelado') {
+      qr = '<div class="mopi-ev-qr"><div class="mopi-qr-caja" data-qr="' +
+           esc(urlConUtm(ev.url, 'mopi')) + '"></div></div>';
     }
-    return h + '</div>';
+
+    return '<article class="mopi-ev" data-estado="' + ev.estado + '">' +
+             '<div class="mopi-ev-txt">' +
+               '<h3 class="mopi-ev-tit"><span class="mopi-ev-tit-txt">' + esc(ev.titulo) + '</span>' +
+                 etiquetasEstado(ev) +
+               '</h3>' +
+               datos +
+               (ev.descripcion ? '<p class="mopi-ev-desc">' + esc(ev.descripcion) + '</p>' : '') +
+             '</div>' + qr +
+           '</article>';
   }
 
   function pintarModalMopi() {
     var modal = el('mopiModal'), cuerpo = el('mopiModalCuerpo');
-    var lista = eventosDe(est.diaSel), ev;
+    var lista = eventosDe(est.diaSel), i, h = '';
 
     if (!lista.length) { est.diaSel = ''; mostrar(modal, false); return; }
-    el('mopiModalFecha').textContent = capitalizar(fechaLarga(est.diaSel));
 
-    ev = est.eventoSel;
-    if (!ev && lista.length === 1) { ev = lista[0]; }
+    var f = deIso(est.diaSel);
+    el('mopiModalFecha').innerHTML = '<b>' + pad2(f.getDate()) + '</b> ' + capitalizar(MESES[f.getMonth()]);
 
-    if (ev) {
-      el('mopiModalSub').textContent = lista.length > 1
-        ? 'Evento ' + (indiceEn(lista, ev) + 1) + ' de ' + lista.length
-        : '1 evento';
-      cuerpo.innerHTML = detalleMopi(ev, lista.length);
-      mostrar(modal, true);
-      if (ev.url && ev.estado !== 'cancelado') { pintarQr(el('mopiQrCaja'), urlConUtm(ev.url, 'mopi')); }
-      return;
-    }
+    for (i = 0; i < lista.length; i++) { h += eventoPopupMopi(lista[i]); }
+    cuerpo.innerHTML = h;
+    cuerpo.scrollTop = 0;
 
-    el('mopiModalSub').textContent = lista.length + ' eventos · toca uno para ver su QR';
-    cuerpo.innerHTML = listaEventosMopi(lista);
+    var cajas = cuerpo.getElementsByClassName('mopi-qr-caja');
+    for (i = 0; i < cajas.length; i++) { pintarQr(cajas[i], cajas[i].getAttribute('data-qr')); }
+
     mostrar(modal, true);
+    var tarjeta = modal.getElementsByClassName('mopi-modal')[0];
+    if (tarjeta) {
+      tarjeta.setAttribute('data-scroll', cuerpo.scrollHeight > cuerpo.clientHeight + 2 ? '1' : '0');
+    }
   }
 
   function pintarAtraccionMopi() {
@@ -1825,11 +1944,6 @@ var CAL = (function () {
     est.eventoSel = null;
     est.enAtraccion = false;
     pintarMopi();
-  }
-
-  function indiceEn(lista, ev) {
-    for (var i = 0; i < lista.length; i++) { if (lista[i].id === ev.id) return i; }
-    return 0;
   }
 
   /* =======================================================================
@@ -2222,33 +2336,16 @@ var CAL = (function () {
     escuchar(el('mopiRejilla'), 'click', function (e) {
       var celda = celdaPulsada(e, 'mopi-card');
       if (!celda || celda.getAttribute('data-eventos') !== '1') return;
-      var f = celda.getAttribute('data-fecha');
-      var lista = eventosDe(f);
       est.enAtraccion = false;
-      est.diaSel = f;
-      est.eventoSel = lista.length === 1 ? lista[0] : null;
+      est.diaSel = celda.getAttribute('data-fecha');
+      est.eventoSel = null;
       pintarPanelMopi();
     });
 
     escuchar(el('mopiCerrar'), 'click', function () { cerrarCapaMopi(); });
 
+    /* tocar fuera de la tarjeta cierra el popup */
     escuchar(el('mopiModal'), 'click', function (e) {
-      var item = celdaPulsada(e, 'mopi-lista-item');
-      if (item) {
-        est.eventoSel = porId(item.getAttribute('data-evento'));
-        pintarPanelMopi();
-        return;
-      }
-      var n = e.target;
-      while (n && n !== document.body) {
-        if (n.getAttribute && n.getAttribute('data-accion') === 'volver-lista') {
-          est.eventoSel = null;
-          pintarPanelMopi();
-          return;
-        }
-        n = n.parentNode;
-      }
-      /* solo cierra si el toque cae fuera del cuadro */
       if (e.target === el('mopiModal')) { cerrarCapaMopi(); }
     });
 

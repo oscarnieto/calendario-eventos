@@ -142,22 +142,31 @@ Las dos son **provisionales**: se generaron aquí porque el entorno no tiene
 acceso de red a `figma.com` para exportarlas. Sustituirlas es arrastrar el
 archivo con el mismo nombre; no hay que tocar código.
 
-### Popup del día y modo atracción
+### Popup del día
 
-El Figma cubre el estado en reposo (el cartel). La interacción táctil no está
-dibujada y se resuelve con dos piezas en la misma paleta:
+Implementa el frame `12:248 Muppie_1080x1920_POPUP`. Tocar una card tapa la banda
+de la rejilla con el fondo `#25273a` —la cabecera con la foto y el pie de contacto
+siguen a la vista— y abre una tarjeta amarilla de 985×774 con radio 19.
 
-- **Popup del día.** Tocar una card abre un cuadro centrado sobre el cartel, con
-  cabecera amarilla y la fecha en rojo (el mismo par de la card). Si el día tiene
-  un evento, sale el detalle completo con su QR; si tiene varios, sale la lista y
-  al tocar uno se abre su detalle. Se cierra con la X o tocando fuera. Nunca hay
-  scroll: la lista evita que el contenido crezca.
-- **Modo atracción.** A los 2 minutos sin tocar, el cartel deja paso a una capa a
-  pantalla completa que rota los eventos destacados cada 12 segundos. Cualquier
-  toque la corta.
+- Cabecera: día en rojo bold y mes en light, a 71 px, con la X roja arriba a la
+  derecha (área táctil de 88 px alrededor del icono de 38).
+- Cada evento: título 45 px bold y filas de 32 px con icono de reloj, ubicación,
+  participantes y tipo de evento. El QR va a la derecha, blanco, de 146,6 px.
+- Filete separador entre eventos, ninguno antes del primero.
+- Cada fila desaparece si su casilla del Excel está vacía, y sin `Link QR` el
+  hueco del QR no se reserva.
+- La tarjeta crece con el contenido hasta el borde inferior de la máscara. Cuatro
+  eventos caben enteros; a partir del quinto la lista se desliza y un degradado
+  inferior lo indica.
 
-Los tamaños del popup son de lectura a un brazo de distancia, que es como se usa
-el MOPI. Cuando tengas ese frame en Figma, sustituye solo ese bloque.
+Los iconos están dibujados a mano con la geometría de akar-icons porque el
+entorno no tiene salida a `figma.com` para exportar los del archivo.
+
+### Modo atracción
+
+A los 2 minutos sin tocar, el cartel deja paso a una capa a pantalla completa que
+rota los eventos destacados cada 12 segundos, con el QR a 420 px porque se lee
+desde más lejos. Cualquier toque la corta. Ese frame no está en Figma todavía.
 
 ### Comprobar en local
 
