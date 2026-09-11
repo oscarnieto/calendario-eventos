@@ -161,6 +161,10 @@ modo que un navegador que no entienda `clamp()` se queda con el valor plano.
   cabecera y el pie, y las cinco filas se reparten a partes iguales. Los tamaños
   se miden contra el **menor** de ancho y alto (`min(Xvw, Yvh)`), para que una
   ventana baja y ancha no reviente las cards.
+  Las cards no pasan de una proporción de **1,45 de ancho por 1 de alto**: en
+  pantallas muy apaisadas la rejilla se estrecha y se centra —cabecera de días
+  incluida— en vez de estirarse de lado a lado, para que el día se siga leyendo
+  como una casilla y no como una banda.
   Cuando una card no da de sí, el ajuste va por pasos antes que perder
   información: primero baja el título a dos líneas, luego a una, y solo si aun
   así no cabe esconde los últimos eventos y remata con **Ver todos (N)**, que

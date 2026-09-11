@@ -730,6 +730,7 @@ body{
   flex:1 1 auto; min-height:0;
   grid-auto-rows: minmax(0, 1fr);
 }
+
 :root[data-modo="escritorio"] .cal-card{ min-height:0; height:auto; }
 /* ventana demasiado baja para repartir cinco filas: se devuelve el scroll
    antes que dejar las cards ilegibles */
@@ -831,8 +832,8 @@ body{
   --cal-margen: clamp(14px, min(2.6vw, 3.4vh), 44px);
   --cal-tactil: 42px;
   --cal-tactil: clamp(34px, min(3.1vw, 5vh), 50px);
-  --cal-hero-alto: 220px;
-  --cal-hero-alto: clamp(96px, 22vh, 300px);
+  --cal-hero-alto: 190px;
+  --cal-hero-alto: clamp(90px, 18.5vh, 260px);
   --cal-logo-lado: 84px;
   --cal-logo-lado: clamp(44px, min(7vw, 11.5vh), 112px);
   --cal-hueco-cab: 16px;
@@ -1796,7 +1797,7 @@ var CAL = (function () {
       }
     }
     el('calRejilla').innerHTML = h;
-    if (conTitulos) { ajustarRejilla(); }
+    ajustarRejilla();
 
     pintarAgenda(f);
     avisarFinDeSemana(f);
@@ -1864,6 +1865,48 @@ var CAL = (function () {
   /* En escritorio la altura de la card la impone la ventana, no el contenido.
      Si la lista no cabe se ocultan los ultimos eventos y se remata con el
      "Ver todos (N)", que abre el popup del dia con todo. */
+  /* Proporcion maxima ancho/alto de una card de escritorio. Por encima de
+     esto la casilla se lee como una banda, asi que se estrecha la rejilla
+     y se centra en vez de estirarla de lado a lado. */
+  var CARD_PROPORCION_MAX = 1.45;
+
+  function encuadrarRejilla() {
+    var rej = el('calRejilla'), sem = el('calSemana'), i;
+    var cajas = [rej, sem];
+    /* se parte siempre del ancho natural: si no, se mide el encuadre anterior */
+    for (i = 0; i < cajas.length; i++) {
+      cajas[i].style.width = '';
+      cajas[i].style.marginLeft = '';
+      cajas[i].style.marginRight = '';
+    }
+    if (est.modo !== 'escritorio') { return; }
+
+    var cols = diasVisibles().length;
+    var celdas = rej.getElementsByClassName('cal-card').length;
+    if (!cols || !celdas) { return; }
+    var filas = Math.ceil(celdas / cols);
+
+    var cs = window.getComputedStyle(rej);
+    var gx = parseFloat(cs.columnGap) || 0;
+    var gy = parseFloat(cs.rowGap) || 0;
+    var margen = parseFloat(cs.marginLeft) || 0;
+    var disponible = rej.clientWidth;
+    var altoCard = (rej.clientHeight - gy * (filas - 1)) / filas;
+    if (!(altoCard > 0) || !(disponible > 0)) { return; }
+
+    var ancho = Math.floor(altoCard * CARD_PROPORCION_MAX * cols + gx * (cols - 1));
+    if (ancho >= disponible) { return; }
+
+    /* el hueco que sobra se reparte a los dos lados: la rejilla y la
+       cabecera de dias quedan centradas y alineadas entre si */
+    var lado = Math.round(margen + (disponible - ancho) / 2);
+    for (i = 0; i < cajas.length; i++) {
+      cajas[i].style.width = ancho + 'px';
+      cajas[i].style.marginLeft = lado + 'px';
+      cajas[i].style.marginRight = lado + 'px';
+    }
+  }
+
   var NIVELES_FIT = ['2', '1'];
   function ajustarCards() {
     var cards = el('calRejilla').getElementsByClassName('cal-card');
@@ -1904,6 +1947,10 @@ var CAL = (function () {
   }
 
   function ajustarRejilla() {
+    /* encuadrar va siempre: tambien para deshacer el encuadre de escritorio
+       al pasar a movil o al MOPI */
+    encuadrarRejilla();
+    if (est.modo === 'movil') { return; }
     recortarTitulos();
     ajustarCards();
   }
