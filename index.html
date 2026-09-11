@@ -494,7 +494,36 @@ body{
 }
 .cal-modal[data-scroll="1"][data-fin="1"]::after{ opacity: 0; }
 
-/* ---------- agenda (solo en movil) ---------- */
+/* ---------- agenda desplegable (solo en movil) ---------- */
+.cal-ver-todos{ display:none; }
+:root[data-modo="movil"] .cal-ver-todos{
+  display:flex; align-items:center; justify-content:center;
+  gap: 10px;
+  width: calc(100% - 2 * var(--cal-margen));
+  margin: 22px var(--cal-margen) 0;
+  min-height: var(--cal-tactil);
+  padding: 12px 18px;
+  background: transparent;
+  border: 1px solid var(--cal-c-acento);
+  border-radius: 2px;
+  color: var(--cal-c-acento);
+  font-family: var(--cal-fuente);
+  font-size: var(--cal-fs-cabecera);
+  font-weight:700; letter-spacing:1px; text-transform:uppercase;
+  line-height:1.2;
+}
+.cal-ver-todos:active{ background: var(--cal-c-acento); color: var(--cal-c-fondo); }
+.cal-ver-todos svg{
+  width: 18px; height: 18px; flex:0 0 auto;
+  -webkit-transition: -webkit-transform 220ms ease;
+  transition: transform 220ms ease;
+}
+.cal-ver-todos[aria-expanded="true"] svg{
+  -webkit-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+.cal-ver-todos[data-vacio="1"]{ opacity:.45; }
+
 .cal-agenda{ display:none; }
 .cal-agenda-fecha{
   font-size: var(--cal-fs-dia); font-weight:300;
@@ -791,6 +820,19 @@ body{
 /* en movil la card es un cuadrado con el numero; en escritorio la altura
    la reparte la rejilla para que el mes entre de una sola pantalla */
 :root[data-modo="movil"] .cal-card{ aspect-ratio: var(--cal-card-ratio); }
+/* con la agenda plegada el mes ocupa poco: el pie se va al fondo de la
+   ventana en vez de quedarse colgando a media pagina */
+:root[data-modo="movil"] .cal-lienzo{
+  min-height: 100vh;
+  min-height: 100dvh;
+  display:flex; flex-direction:column;
+}
+:root[data-modo="movil"] .cal-rejilla{
+  flex:1 0 auto;
+  /* el hueco que sobre se reparte entre las semanas: las cards siguen
+     siendo cuadradas y el mes no deja un agujero antes del boton */
+  align-content: space-between;
+}
 :root[data-modo="escritorio"] .cal-card{ height:100%; }
 /* el QR y el texto del evento se equilibran centrados fuera del MOPI */
 :root[data-modo="escritorio"] .cal-ev{ align-items:center; }
@@ -955,9 +997,19 @@ body{
 }
 :root[data-modo="movil"] .cal-card-num{ line-height:1; }
 :root[data-modo="movil"] .cal-card-lista{ display:none; }
-:root[data-modo="movil"] .cal-agenda{
+:root[data-modo="movil"] .cal-agenda[data-abierta="1"]{
   display:block;
   margin: 6px var(--cal-margen) 0;
+  -webkit-animation: calDesplegar 240ms ease both;
+  animation: calDesplegar 240ms ease both;
+}
+@-webkit-keyframes calDesplegar{ from{ opacity:0; -webkit-transform: translateY(-8px); } }
+@keyframes calDesplegar{ from{ opacity:0; transform: translateY(-8px); } }
+@media (prefers-reduced-motion: reduce){
+  :root[data-modo="movil"] .cal-agenda[data-abierta="1"]{
+    -webkit-animation: none; animation: none;
+  }
+  .cal-ver-todos svg{ -webkit-transition: none; transition: none; }
 }
 :root[data-modo="movil"] .cal-semana span{ text-align:center; }
 
@@ -994,6 +1046,15 @@ body{
 
       <div class="cal-semana" id="calSemana"></div>
       <div class="cal-rejilla" id="calRejilla"></div>
+
+      <button type="button" class="cal-ver-todos" id="calVerTodos"
+              aria-expanded="false" aria-controls="calAgenda">
+        <span id="calVerTodosTxt">Ver todos los eventos</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M6 9l6 6 6-6" fill="none" stroke="currentColor"
+                stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
 
       <div class="cal-agenda" id="calAgenda"></div>
 
@@ -1113,6 +1174,7 @@ var CAL = (function () {
     mesReal: '',             // 'AAAA-MM' del mes en curso, para detectar el salto
     diaSel: '',              // ISO del dia seleccionado
     eventoSel: null,
+    agendaAbierta: false,    // movil: la lista del mes empieza plegada
     iniciado: false
   };
 
@@ -1808,12 +1870,18 @@ var CAL = (function () {
     mostrar(el('calAviso'), !!aviso);
   }
 
-  /* En movil las cards solo llevan el numero: el contenido va en la agenda. */
+  /* En movil las cards solo llevan el numero: el contenido va en la agenda,
+     que cuelga plegada de un boton para no alargar la pagina de salida. */
   function pintarAgenda(f) {
     var cont = el('calAgenda');
-    if (est.modo !== 'movil') { cont.innerHTML = ''; return; }
+    if (est.modo !== 'movil') {
+      cont.innerHTML = '';
+      cont.setAttribute('data-abierta', '0');
+      return;
+    }
 
     var mes = eventosDelMes(f), i, h = '', ultima = '';
+    pintarBotonAgenda(mes.length);
     if (!mes.length) {
       cont.innerHTML = '<p class="cal-agenda-vacia">No hay eventos este mes.</p>';
       return;
@@ -1836,6 +1904,26 @@ var CAL = (function () {
            '</button>';
     }
     cont.innerHTML = h;
+    cont.setAttribute('data-abierta', est.agendaAbierta ? '1' : '0');
+  }
+
+  function pintarBotonAgenda(cuantos) {
+    var boton = el('calVerTodos'), txt = el('calVerTodosTxt');
+    var abierta = est.agendaAbierta && cuantos > 0;
+    boton.setAttribute('aria-expanded', abierta ? 'true' : 'false');
+    boton.setAttribute('data-vacio', cuantos ? '0' : '1');
+    if (!cuantos) { txt.textContent = 'No hay eventos este mes'; return; }
+    txt.textContent = abierta
+      ? 'Ocultar los eventos'
+      : 'Ver todos los eventos (' + cuantos + ')';
+  }
+
+  function alternarAgenda() {
+    var cont = el('calAgenda');
+    if (el('calVerTodos').getAttribute('data-vacio') === '1') { return; }
+    est.agendaAbierta = !est.agendaAbierta;
+    cont.setAttribute('data-abierta', est.agendaAbierta ? '1' : '0');
+    pintarBotonAgenda(eventosDelMes(est.mesVista).length);
   }
 
   /* El recorte de CSS corta limpio pero no siempre pinta los puntos
@@ -1946,6 +2034,7 @@ var CAL = (function () {
     }
   }
 
+  var tAjuste = null;
   function ajustarRejilla() {
     /* encuadrar va siempre: tambien para deshacer el encuadre de escritorio
        al pasar a movil o al MOPI */
@@ -1953,6 +2042,15 @@ var CAL = (function () {
     if (est.modo === 'movil') { return; }
     recortarTitulos();
     ajustarCards();
+    /* segunda pasada en diferido: las metricas finales de la tipografia
+       pueden llegar despues del primer pintado y desajustar por un pelo */
+    if (tAjuste) { clearTimeout(tAjuste); }
+    tAjuste = setTimeout(function () {
+      tAjuste = null;
+      if (est.modo === 'movil') { return; }
+      recortarTitulos();
+      ajustarCards();
+    }, 90);
   }
 
   /* La rejilla del Figma es de lunes a viernes. Un mes nunca ocupa mas de
@@ -2181,6 +2279,9 @@ var CAL = (function () {
       est.eventoSel = null;
       pintarPanelMopi();
     });
+
+    /* --- movil: el boton despliega la lista del mes --- */
+    escuchar(el('calVerTodos'), 'click', function () { alternarAgenda(); });
 
     /* --- agenda de movil: cada evento abre el popup de su dia --- */
     escuchar(el('calAgenda'), 'click', function (e) {
