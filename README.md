@@ -16,10 +16,10 @@ calendario detecta el dispositivo.
 
 ## Actualizar los eventos (equipo no técnico)
 
-1. Abre `datos/info_mupi.xlsx` y edítalo (Excel o Google Sheets; si usas Sheets,
+1. Abre `datos/calendario.xlsx` y edítalo (Excel o Google Sheets; si usas Sheets,
    exporta de nuevo a `.xlsx`).
 2. En GitHub, entra en la carpeta `datos/` y arrastra el archivo encima para
-   sustituirlo. **El nombre tiene que seguir siendo `info_mupi.xlsx`.**
+   sustituirlo. **El nombre tiene que seguir siendo `calendario.xlsx`.**
 3. Confirma el cambio ("Commit changes").
 4. Espera entre 30 segundos y 2 minutos y recarga la página.
 
@@ -27,26 +27,35 @@ No hay que tocar ningún otro archivo. El calendario lee el Excel cada vez que s
 abre y, además, lo vuelve a comprobar solo cada 30 minutos, que es lo que importa
 en el MOPI porque está encendido todo el día.
 
-> **Los datos de septiembre de 2026 son de ejemplo.** El archivo trae 18 eventos
-> inventados para ver el calendario lleno, con enlaces a `example.com`. Bórralos
-> y escribe los reales encima. Las dos filas que venían de fábrica —*Living
-> Trends* y *Property & Facility Management Summit*— siguen ahí; a la primera se
-> le corrigió el año, que ponía 2016.
-
 ## Estructura del Excel
 
-Una sola hoja con las cabeceras en la primera fila. **El nombre de la hoja da
-igual**: si no hay ninguna llamada `Eventos`, se usa la primera del libro.
+Una sola hoja con las cabeceras. **El nombre de la hoja da igual** (si no hay
+ninguna llamada `Eventos` se usa la primera del libro) y **la fila de cabeceras
+tampoco tiene que ser la primera**: se busca en las doce primeras, así que las
+filas en blanco o un título encima no molestan.
 
 | Columna | Obligatoria | Qué hace |
 |---|---|---|
 | `Nombre evento` | **Sí** | Título del evento |
 | `Fecha` | **Sí** | Formato fecha de Excel, o `DD/MM/AAAA` escrito a mano |
-| `Horario` | No | `19:00`, o un rango en la misma casilla: `19:00 - 21:00` |
+| `Horario` | No | `19:00`, o un rango en la misma casilla: `19:00 - 21:00`, `09:30 a 13:00` |
 | `Lugar` | No | Sale bajo el título en el popup |
 | `Tipo de evento` | No | Se muestra como etiqueta |
 | `¿Quién participa?` | No | Varios nombres separados por punto y coma `;` |
 | `Link QR` | No | De aquí sale el QR. Sin link, no se reserva el hueco |
+
+### Un evento de varios días
+
+Se puede escribir en una sola fila y sale en todos los días que le toquen:
+
+| Lo que escribes | Lo que sale |
+|---|---|
+| `08, 09 y 19 /09/2026` | 8, 9 y 19 de septiembre |
+| `22, 23 y 24/09/2026` | 22, 23 y 24 de septiembre |
+| `29, 30 ,1 y 2 /09 y 10/2026` | 29 y 30 de septiembre, 1 y 2 de octubre |
+
+Con dos meses, los días se reparten en orden: cuando el número de día baja
+respecto al anterior se pasa al mes siguiente.
 
 Una fila sin fecha o sin nombre **se ignora en silencio** y el resto del
 calendario se pinta igual. Los avisos quedan en la consola del navegador
@@ -85,10 +94,10 @@ etiquetas van en el amarillo de marca.
 
 ### Si el archivo se llama de otra forma
 
-El calendario busca `datos/info_mupi.xlsx` y, si no lo encuentra,
-`datos/eventos.xlsx`. Cualquiera de los dos nombres vale, pero **conviene tener
-solo uno** en el repositorio para no acabar mirando datos viejos sin darte
-cuenta.
+El calendario busca `datos/calendario.xlsx` y, si no lo encuentra, prueba con
+`datos/info_mupi.xlsx` y `datos/eventos.xlsx`. Cualquiera de los tres nombres
+vale, pero **conviene tener solo uno** en el repositorio para no acabar mirando
+datos viejos sin darte cuenta.
 
 ## Notas técnicas
 

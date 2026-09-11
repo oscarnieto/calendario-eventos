@@ -963,7 +963,7 @@ var CAL = (function () {
   /* ---------------- Configuracion ---------------- */
   /* Se prueban en orden: vale el nombre con el que el equipo sube el archivo
      y, si no esta, el nombre historico. */
-  var RUTAS_XLSX     = ['datos/info_mupi.xlsx', 'datos/eventos.xlsx'];
+  var RUTAS_XLSX     = ['datos/calendario.xlsx', 'datos/info_mupi.xlsx', 'datos/eventos.xlsx'];
   var CLAVE_CACHE    = 'calendario-eventos-v1';
   var MS_RECARGA     = 30 * 60 * 1000;   // recarga de datos
   var MS_RELOJ       = 60 * 1000;        // comprobacion de cambio de mes
@@ -1122,6 +1122,47 @@ var CAL = (function () {
     return '';
   }
 
+  /* Una casilla de fecha puede traer varias jornadas escritas a mano:
+       "08, 09 y 19 /09/2026"        -> 8, 9 y 19 de septiembre
+       "22, 23 y 24/09/2026"         -> 22, 23 y 24 de septiembre
+       "29, 30 ,1 y 2 /09 y 10/2026" -> 29 y 30 de septiembre, 1 y 2 de octubre
+     Los dias se reparten entre los meses en orden: cada vez que el dia baja
+     respecto al anterior se pasa al mes siguiente de la lista. */
+  function aFechasIso(v) {
+    var una = aFechaIso(v);
+    if (una) return [una];
+    if (typeof v !== 'string') return [];
+
+    var partes = v.split('/');
+    if (partes.length !== 3) return [];
+
+    var dias = numerosDe(partes[0]);
+    var meses = numerosDe(partes[1]);
+    var anios = numerosDe(partes[2]);
+    if (!dias.length || !meses.length || !anios.length) return [];
+
+    var anio = anios[0];
+    if (anio < 100) { anio += 2000; }
+
+    var salida = [], idx = 0, previo = 0, i, mes, aa, iso;
+    for (i = 0; i < dias.length; i++) {
+      if (dias[i] < previo && idx < meses.length - 1) { idx++; }
+      previo = dias[i];
+      mes = meses[idx];
+      aa = mes < meses[0] ? anio + 1 : anio;
+      iso = validarFecha(aa, mes, dias[i]);
+      if (iso) { salida.push(iso); }
+    }
+    return salida;
+  }
+
+  function numerosDe(s) {
+    var m = String(s == null ? '' : s).match(/\d+/g), r = [], i;
+    if (!m) return r;
+    for (i = 0; i < m.length; i++) { r.push(parseInt(m[i], 10)); }
+    return r;
+  }
+
   function aHora(v) {
     if (v === null || v === undefined || v === '') return '';
     if (typeof v === 'number' && isFinite(v)) {
@@ -1261,6 +1302,22 @@ var CAL = (function () {
     return k.replace(/[ \-\/]/g, '_');
   }
 
+  /* Las plantillas del equipo a veces empiezan con filas en blanco o un
+     titulo: se busca la primera fila que sirva de cabecera. */
+  function localizarCabecera(filas, obligatorias) {
+    var max = Math.min(filas.length, 12), i, mapa, j, vale;
+    for (i = 0; i < max; i++) {
+      if (!filas[i] || !filas[i].length) continue;
+      mapa = mapaColumnas(filas[i]);
+      vale = true;
+      for (j = 0; j < obligatorias.length; j++) {
+        if (mapa[obligatorias[j]] === undefined) { vale = false; break; }
+      }
+      if (vale) return { fila: i, mapa: mapa };
+    }
+    return null;
+  }
+
   function mapaColumnas(cabeceras) {
     var crudo = {}, mapa = {}, i, k, campo, j, a;
     for (i = 0; i < cabeceras.length; i++) {
@@ -1316,15 +1373,15 @@ var CAL = (function () {
     var filas = XLSX.utils.sheet_to_json(hoja, { header: 1, raw: true, defval: '' });
     if (filas.length < 2) return lista;
 
-    var mapa = mapaColumnas(filas[0]);
-    var faltan = [], c;
-    for (c = 0; c < COLUMNAS_MINIMAS.length; c++) {
-      if (mapa[COLUMNAS_MINIMAS[c]] === undefined) { faltan.push(COLUMNAS_MINIMAS[c]); }
-    }
-    if (faltan.length) {
-      console.warn('[calendario] faltan columnas imprescindibles (' + faltan.join(', ') +
-        '). Cabeceras encontradas: ' + filas[0].join(' | '));
+    var cab = localizarCabecera(filas, COLUMNAS_MINIMAS);
+    if (!cab) {
+      console.warn('[calendario] no se encuentra una cabecera con ' + COLUMNAS_MINIMAS.join(' y ') +
+        '. Primera fila: ' + (filas[0] || []).join(' | '));
       return lista;
+    }
+    var mapa = cab.mapa, c;
+    if (cab.fila > 0) {
+      console.warn('[calendario] la cabecera esta en la fila ' + (cab.fila + 1) + '.');
     }
     var opcionales = [];
     for (c in ALIAS) {
@@ -1339,15 +1396,15 @@ var CAL = (function () {
     }
 
     var vistos = {}, catsAvisadas = {};
-    for (var f = 1; f < filas.length; f++) {
+    for (var f = cab.fila + 1; f < filas.length; f++) {
       var fila = filas[f];
       if (!fila || !fila.length) continue;
       var numFila = f + 1;
 
-      var fechaIso = aFechaIso(celda(fila, 'fecha'));
+      var fechas = aFechasIso(celda(fila, 'fecha'));
       var titulo = texto(celda(fila, 'titulo'));
 
-      if (!fechaIso) {
+      if (!fechas.length) {
         if (titulo || texto(celda(fila, 'id'))) {
           console.warn('[calendario] fila ' + numFila + ' ignorada: fecha no valida (' + celda(fila, 'fecha') + ')');
         }
@@ -1412,21 +1469,24 @@ var CAL = (function () {
 
       var horas = aHoras(celda(fila, 'hora_inicio'), celda(fila, 'hora_fin'));
 
-      lista.push({
-        id: id,
-        fecha: fechaIso,
-        horaInicio: horas.inicio,
-        horaFin: horas.fin,
-        titulo: titulo,
-        descripcion: texto(celda(fila, 'descripcion')),
-        categoria: categoria,
-        ubicacion: texto(celda(fila, 'ubicacion')),
-        ponentes: ponentes,
-        url: url,
-        imagen: texto(celda(fila, 'imagen')),
-        destacado: destacado,
-        estado: estado
-      });
+      /* una fila con varias jornadas se convierte en un evento por dia */
+      for (var d = 0; d < fechas.length; d++) {
+        lista.push({
+          id: fechas.length > 1 ? id + '-' + (d + 1) : id,
+          fecha: fechas[d],
+          horaInicio: horas.inicio,
+          horaFin: horas.fin,
+          titulo: titulo,
+          descripcion: texto(celda(fila, 'descripcion')),
+          categoria: categoria,
+          ubicacion: texto(celda(fila, 'ubicacion')),
+          ponentes: ponentes,
+          url: url,
+          imagen: texto(celda(fila, 'imagen')),
+          destacado: destacado,
+          estado: estado
+        });
+      }
     }
 
     lista.sort(function (a, b) {
