@@ -264,6 +264,16 @@ body{
 .cal-card-lista[data-n="1"] .cal-card-ev:first-child{ max-height: 6.0em; }
 .cal-card-lista[data-n="2"] .cal-card-ev:first-child{ max-height: 4.8em; }
 .cal-card-lista[data-n="3"] .cal-card-ev:first-child{ max-height: 2.4em; }
+/* cuando la card no da de si, el JS baja el numero de lineas antes de
+   ponerse a esconder eventos: mas vale un titulo corto que ningun titulo */
+.cal-card-lista[data-fit="2"] .cal-card-ev,
+.cal-card-lista[data-fit="2"] .cal-card-ev:first-child{
+  -webkit-line-clamp:2; max-height: calc(2.4em + 6px);
+}
+.cal-card-lista[data-fit="1"] .cal-card-ev,
+.cal-card-lista[data-fit="1"] .cal-card-ev:first-child{
+  -webkit-line-clamp:1; max-height: calc(1.2em + 6px);
+}
 /* con line-clamp el recorte ya es exacto; el max-height solo hace de red */
 @supports (-webkit-line-clamp: 2){
   .cal-card-ev,
@@ -273,8 +283,13 @@ body{
   .cal-card-lista[data-n="3"] .cal-card-ev,
   .cal-card-lista[data-n="1"] .cal-card-ev:first-child,
   .cal-card-lista[data-n="2"] .cal-card-ev:first-child,
-  .cal-card-lista[data-n="3"] .cal-card-ev:first-child{ max-height: none; }
+  .cal-card-lista[data-n="3"] .cal-card-ev:first-child,
+  .cal-card-lista[data-fit="2"] .cal-card-ev,
+  .cal-card-lista[data-fit="2"] .cal-card-ev:first-child,
+  .cal-card-lista[data-fit="1"] .cal-card-ev,
+  .cal-card-lista[data-fit="1"] .cal-card-ev:first-child{ max-height: none; }
 }
+.cal-card-mas[data-ver="0"]{ display:none; }
 .cal-card-ev[data-estado="cancelado"]{ text-decoration: line-through; opacity:.6; }
 .cal-card-ev b{ font-weight:700; }
 .cal-card-mas{
@@ -687,6 +702,45 @@ body{
   padding-bottom: var(--cal-margen);
   transform:none;
 }
+
+/* En escritorio el calendario ocupa exactamente la ventana: ni un pixel de
+   scroll. La rejilla se queda con el alto que sobra entre cabecera y pie,
+   y los tamanos se miden contra el menor de ancho y alto para que una
+   ventana baja y ancha no reviente las cards. */
+:root[data-modo="escritorio"], :root[data-modo="escritorio"] body{
+  height:100%; overflow:hidden;
+}
+:root[data-modo="escritorio"] .cal-marco{
+  height: 100vh;
+  height: 100dvh;
+  overflow:hidden;
+}
+:root[data-modo="escritorio"] .cal-lienzo{
+  height:100%; max-width:none;
+  padding-bottom:0;
+  display:flex; flex-direction:column;
+  overflow:hidden;
+}
+:root[data-modo="escritorio"] .cal-hero,
+:root[data-modo="escritorio"] .cal-h1,
+:root[data-modo="escritorio"] .cal-semana,
+:root[data-modo="escritorio"] .cal-pie-linea,
+:root[data-modo="escritorio"] .cal-pie{ flex:0 0 auto; }
+:root[data-modo="escritorio"] .cal-rejilla{
+  flex:1 1 auto; min-height:0;
+  grid-auto-rows: minmax(0, 1fr);
+}
+:root[data-modo="escritorio"] .cal-card{ min-height:0; height:auto; }
+/* ventana demasiado baja para repartir cinco filas: se devuelve el scroll
+   antes que dejar las cards ilegibles */
+@media (max-height: 480px){
+  :root[data-modo="escritorio"], :root[data-modo="escritorio"] body{
+    height:auto; overflow:visible;
+  }
+  :root[data-modo="escritorio"] .cal-marco{ height:auto; overflow:visible; }
+  :root[data-modo="escritorio"] .cal-lienzo{ height:auto; display:block; }
+  :root[data-modo="escritorio"] .cal-card{ min-height: 72px; }
+}
 :root[data-modo="escritorio"] .cal-hero,
 :root[data-modo="movil"] .cal-hero{
   position:relative;
@@ -727,8 +781,8 @@ body{
 :root[data-modo="escritorio"] .cal-rejilla,
 :root[data-modo="movil"] .cal-rejilla{
   margin: 0 var(--cal-margen);
-  grid-auto-rows: auto;
 }
+:root[data-modo="movil"] .cal-rejilla{ grid-auto-rows: auto; }
 :root[data-modo="escritorio"] .cal-card,
 :root[data-modo="movil"] .cal-card{
   min-height: var(--cal-card-min);
@@ -737,15 +791,6 @@ body{
    la reparte la rejilla para que el mes entre de una sola pantalla */
 :root[data-modo="movil"] .cal-card{ aspect-ratio: var(--cal-card-ratio); }
 :root[data-modo="escritorio"] .cal-card{ height:100%; }
-:root[data-modo="escritorio"] .cal-lienzo{
-  min-height: 100vh;
-  display:flex; flex-direction:column;
-}
-:root[data-modo="escritorio"] .cal-hero{ flex:0 0 auto; }
-:root[data-modo="escritorio"] .cal-rejilla{
-  flex:1 1 auto;
-  grid-auto-rows: minmax(var(--cal-card-min), 1fr);
-}
 /* el QR y el texto del evento se equilibran centrados fuera del MOPI */
 :root[data-modo="escritorio"] .cal-ev{ align-items:center; }
 
@@ -756,6 +801,15 @@ body{
 :root[data-modo="escritorio"] .cal-pie,
 :root[data-modo="movil"] .cal-pie{
   margin: 18px var(--cal-margen) 0;
+}
+:root[data-modo="escritorio"] .cal-pie-linea{
+  margin-top: 24px;
+  margin-top: clamp(12px, 2.6vh, 38px);
+}
+:root[data-modo="escritorio"] .cal-pie{
+  margin-top: 14px;
+  margin-top: clamp(8px, 1.7vh, 22px);
+  padding-bottom: var(--cal-margen);
 }
 :root[data-modo="escritorio"] .cal-aviso,
 :root[data-modo="movil"] .cal-aviso{
@@ -771,44 +825,48 @@ body{
 
 /* ---------------------------- escritorio ---------------------------- */
 :root[data-modo="escritorio"]{
-  --cal-max: 1440px;
-  --cal-margen: 40px;
-  --cal-margen: clamp(20px, 3.2vw, 47px);
-  --cal-tactil: 44px;
-  --cal-hero-alto: 260px;
-  --cal-hero-alto: clamp(170px, 21vw, 340px);
-  --cal-logo-lado: 96px;
-  --cal-logo-lado: clamp(64px, 8vw, 121px);
-  --cal-hueco-cab: 26px;
+  /* sin ancho maximo: el calendario ocupa el 100% de la ventana */
+  --cal-max: none;
+  --cal-margen: 32px;
+  --cal-margen: clamp(14px, min(2.6vw, 3.4vh), 44px);
+  --cal-tactil: 42px;
+  --cal-tactil: clamp(34px, min(3.1vw, 5vh), 50px);
+  --cal-hero-alto: 220px;
+  --cal-hero-alto: clamp(96px, 22vh, 300px);
+  --cal-logo-lado: 84px;
+  --cal-logo-lado: clamp(44px, min(7vw, 11.5vh), 112px);
+  --cal-hueco-cab: 16px;
+  --cal-hueco-cab: clamp(8px, 1.9vh, 26px);
 
-  --cal-fs-h1: 48px;
-  --cal-fs-h1: clamp(30px, 4.6vw, 66px);
+  --cal-fs-h1: 44px;
+  --cal-fs-h1: clamp(22px, min(4.3vw, 6.2vh), 60px);
   --cal-lh-h1: 1.18em;
-  --cal-fs-cabecera: 14px;
-  --cal-fs-cabecera: clamp(11px, 1.25vw, 18px);
-  --cal-fs-dia: 24px;
-  --cal-fs-dia: clamp(16px, 2.05vw, 30px);
-  --cal-fs-evento: 13px;
-  --cal-fs-evento: clamp(10px, 1.05vw, 15px);
-  --cal-lh-evento: 1.22;
-  --cal-fs-pie: 30px;
-  --cal-fs-pie: clamp(18px, 2.5vw, 38px);
+  --cal-fs-cabecera: 13px;
+  --cal-fs-cabecera: clamp(10px, min(1.15vw, 1.7vh), 17px);
+  --cal-fs-dia: 22px;
+  --cal-fs-dia: clamp(13px, min(1.9vw, 2.9vh), 30px);
+  --cal-fs-evento: 12px;
+  --cal-fs-evento: clamp(9px, min(1vw, 1.5vh), 15px);
+  --cal-lh-evento: 1.2;
+  --cal-fs-pie: 26px;
+  --cal-fs-pie: clamp(14px, min(2.2vw, 3.3vh), 34px);
   --cal-lh-pie: 1.18em;
   --cal-fs-aviso: 13px;
 
-  --cal-card-ratio: 181 / 214.842;
-  --cal-card-min: 96px;
-  --cal-card-hueco-x: 12px;
-  --cal-card-hueco-x: clamp(6px, .95vw, 16px);
-  --cal-card-hueco-y: 12px;
-  --cal-card-hueco-y: clamp(6px, .95vw, 16px);
-  --cal-card-pad-x: 8px;
-  --cal-card-pad-x: clamp(5px, .7vw, 10px);
-  --cal-card-pad-top: 4px;
-  --cal-card-pad-bot: 7px;
+  --cal-card-min: 0px;
+  --cal-card-hueco-x: 10px;
+  --cal-card-hueco-x: clamp(4px, min(.9vw, 1.3vh), 15px);
+  --cal-card-hueco-y: 10px;
+  --cal-card-hueco-y: clamp(4px, min(.9vw, 1.3vh), 15px);
+  --cal-card-pad-x: 7px;
+  --cal-card-pad-x: clamp(4px, .65vw, 10px);
+  --cal-card-pad-top: 3px;
+  --cal-card-pad-top: clamp(2px, .5vh, 7px);
+  --cal-card-pad-bot: 6px;
+  --cal-card-pad-bot: clamp(3px, .8vh, 10px);
 
   --cal-pop-ancho: 920px;
-  --cal-pop-ancho: min(920px, 92vw);
+  --cal-pop-ancho: min(920px, 88vw);
   --cal-pop-alto-max: 86vh;
   --cal-pop-pad-izq: 30px;
   --cal-pop-pad-der: 30px;
@@ -1724,7 +1782,10 @@ var CAL = (function () {
                      (e.estado === 'completo' ? ' <b>(completo)</b>' : '') +
                    '</span>';
         }
-        if (conTitulos && n > MOPI_MAX_EVENTOS) { lista += '<span class="cal-card-mas">Ver todos (' + n + ')</span>'; }
+        if (conTitulos && n > 0) {
+          lista += '<span class="cal-card-mas" data-ver="' +
+                   (n > MOPI_MAX_EVENTOS ? '1' : '0') + '">Ver todos (' + n + ')</span>';
+        }
         h += '<button type="button" class="cal-card" data-fecha="' + c.iso + '"' +
              ' data-eventos="' + (n ? '1' : '0') + '"' +
              ' data-n="' + n + '"' +
@@ -1735,7 +1796,7 @@ var CAL = (function () {
       }
     }
     el('calRejilla').innerHTML = h;
-    if (conTitulos) { recortarTitulos(); }
+    if (conTitulos) { ajustarRejilla(); }
 
     pintarAgenda(f);
     avisarFinDeSemana(f);
@@ -1799,6 +1860,53 @@ var CAL = (function () {
     }
   }
   function limpiarCola(s) { return s.replace(/[\s,.;:·\-]+$/, ''); }
+
+  /* En escritorio la altura de la card la impone la ventana, no el contenido.
+     Si la lista no cabe se ocultan los ultimos eventos y se remata con el
+     "Ver todos (N)", que abre el popup del dia con todo. */
+  var NIVELES_FIT = ['2', '1'];
+  function ajustarCards() {
+    var cards = el('calRejilla').getElementsByClassName('cal-card');
+    var i, j, card, lista, evs, mas, visibles, guarda;
+    for (i = 0; i < cards.length; i++) {
+      card = cards[i];
+      lista = card.getElementsByClassName('cal-card-lista')[0];
+      if (!lista) { continue; }
+      evs = lista.getElementsByClassName('cal-card-ev');
+      mas = lista.getElementsByClassName('cal-card-mas')[0];
+      if (!evs.length) { continue; }
+
+      /* se parte siempre del estado pintado, no del ajuste anterior */
+      for (j = 0; j < evs.length; j++) { evs[j].style.display = ''; }
+      lista.removeAttribute('data-fit');
+      var totales = parseInt(card.getAttribute('data-n'), 10) || evs.length;
+      if (mas) { mas.setAttribute('data-ver', totales > evs.length ? '1' : '0'); }
+
+      /* primero se aprieta el numero de lineas por titulo */
+      for (j = 0; j < NIVELES_FIT.length; j++) {
+        if (lista.scrollHeight <= lista.clientHeight + 1) { break; }
+        lista.setAttribute('data-fit', NIVELES_FIT[j]);
+      }
+
+      visibles = evs.length;
+      guarda = 0;
+      while (visibles > 0 && lista.scrollHeight > lista.clientHeight + 1 && guarda < 12) {
+        guarda++;
+        visibles--;
+        evs[visibles].style.display = 'none';
+        if (mas) { mas.setAttribute('data-ver', '1'); }
+      }
+      /* ni el "Ver todos" cabe: la card se queda solo con el numero */
+      if (mas && visibles === 0 && lista.scrollHeight > lista.clientHeight + 1) {
+        mas.setAttribute('data-ver', '0');
+      }
+    }
+  }
+
+  function ajustarRejilla() {
+    recortarTitulos();
+    ajustarCards();
+  }
 
   /* La rejilla del Figma es de lunes a viernes. Un mes nunca ocupa mas de
      cinco filas laborables, asi que el lienzo de 1920 px siempre cuadra. */
@@ -1865,7 +1973,7 @@ var CAL = (function () {
     if (ev.url && ev.estado !== 'cancelado') {
       if (est.modo === 'movil') {
         boton = '<a class="cal-ev-boton" href="' + esc(urlConUtm(ev.url, 'movil')) +
-                '" target="_blank" rel="noopener">Más información</a>';
+                '" target="_blank" rel="noopener">Apúntate aquí</a>';
       } else {
         qr = '<div class="cal-ev-qr"><div class="cal-qr-caja" data-qr="' +
              esc(urlConUtm(ev.url, est.modo)) + '"></div></div>';
@@ -1959,7 +2067,7 @@ var CAL = (function () {
     else if (nuevo === 'mopi') { escalarMopi(); }
     /* en escritorio las cards son fluidas: al cambiar de ancho hay que
        volver a medir donde cortar los titulos */
-    else if (nuevo === 'escritorio') { recortarTitulos(); }
+    else if (nuevo === 'escritorio') { ajustarRejilla(); }
   }
 
   /* =======================================================================
@@ -2146,7 +2254,7 @@ var CAL = (function () {
     pintar();
     if (document.fonts && document.fonts.ready && document.fonts.ready.then) {
       document.fonts.ready.then(function () {
-        if (est.modo !== 'movil') { recortarTitulos(); }
+        if (est.modo !== 'movil') { ajustarRejilla(); }
       });
     }
     cargarDatos(true);

@@ -156,15 +156,21 @@ modo que un navegador que no entienda `clamp()` se queda con el valor plano.
 
 - **Rejilla de lunes a domingo**, 7 columnas. A diferencia del MOPI, aquí sí se
   ven los eventos de sábado y domingo.
-- **Escritorio.** El lienzo ocupa al menos el alto de la ventana y la rejilla se
-  reparte el espacio sobrante, así que en pantallas normales el mes entra casi
-  entero sin scroll. Los títulos se recortan con puntos suspensivos y se vuelven
-  a medir al cambiar el ancho de la ventana. El popup es el mismo del MOPI, con
-  QR a la derecha.
+- **Escritorio: sin scroll.** El calendario ocupa el 100 % del ancho y del alto
+  de la ventana. La rejilla se queda con todo el alto que sobra entre la
+  cabecera y el pie, y las cinco filas se reparten a partes iguales. Los tamaños
+  se miden contra el **menor** de ancho y alto (`min(Xvw, Yvh)`), para que una
+  ventana baja y ancha no reviente las cards.
+  Cuando una card no da de sí, el ajuste va por pasos antes que perder
+  información: primero baja el título a dos líneas, luego a una, y solo si aun
+  así no cabe esconde los últimos eventos y remata con **Ver todos (N)**, que
+  abre el popup del día con la lista completa. Todo se vuelve a medir al
+  redimensionar la ventana. Por debajo de 480 px de alto se devuelve el scroll:
+  antes eso que dejar las cards ilegibles.
 - **Móvil.** La rejilla se reduce a cuadrados con el número del día (cabeceras
   `L M X J V S D`) y debajo va una **agenda** con los eventos del mes agrupados
   por fecha. En el popup no hay QR —no tiene sentido escanear desde el propio
-  móvil—: hay un botón **Más información**.
+  móvil—: hay un botón **Apúntate aquí**.
 - **Navegación de mes** en las dos: flechas `‹ Hoy ›` arriba a la derecha,
   teclas ← → en escritorio y deslizar sobre la rejilla en móvil.
 
