@@ -75,7 +75,7 @@ signos (`¿?`) y espacios sobrantes, y cada campo acepta varios nombres:
 | Lugar | `Lugar`, `Ubicación`, `Sala`, `Dónde` |
 | Tipo | `Tipo de evento`, `Tipo`, `Categoría` |
 | Participantes | `¿Quién participa?`, `Ponentes`, `Participantes` |
-| Enlace | `Link QR`, `QR`, `Link`, `URL`, `Enlace`, `Inscripción` |
+| Enlace | `Link`, `Link QR`, `QR`, `URL`, `Enlace`, `Inscripción` |
 
 ### Columnas opcionales que añaden cosas
 
