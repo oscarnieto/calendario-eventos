@@ -5,12 +5,17 @@ autocontenido que se adapta a tres contextos con el **mismo enlace**:
 
 | Modo | Dónde | Cómo se activa |
 |---|---|---|
-| **MOPI** | Cartelería táctil vertical de oficina (1080×1920) | `?modo=mopi` en el player |
-| **Escritorio** | Ordenador, desde el correo | Automático (pantalla horizontal) |
-| **Móvil** | Teléfono, desde el correo | Automático (pantalla vertical estrecha) |
+| **MOPI** | Cartelería táctil vertical de oficina (1080×1920) | Vertical, ≥1000 px de ancho y proporción ≤ 0,66 (o `?modo=mopi`) |
+| **Escritorio** | Ordenador y tablet, desde el correo | Todo lo demás a partir de 760 px |
+| **Móvil** | Teléfono, desde el correo | Menos de 760 px de ancho |
 
 El enlace que se envía por correo es la URL sin parámetros: el propio
-calendario detecta el dispositivo.
+calendario detecta el dispositivo. Una tablet en vertical (proporción 3:4) **no**
+es un MOPI y se lleva el diseño de escritorio; el MOPI es un tótem 9:16.
+
+Los tres modos comparten el mismo marcado y el mismo lenguaje visual: lo que
+cambia es el CSS que cuelga de `:root[data-modo="…"]`. Por eso `?modo=…` sigue
+mandando siempre por encima de la detección automática.
 
 ---
 
@@ -138,10 +143,30 @@ Todo el color, la tipografía y la geometría viven en variables CSS bajo
 - Tipografía de la rejilla como en el Figma (evento 14 px, número 30 px); la
   cabecera de día sube a 20 px.
 - Tipografía **Montserrat** (Light/Medium/Bold) embebida en base64 dentro del
-  HTML, con WOFF2 y WOFF de reserva. Los modos escritorio y móvil siguen con la
-  pila del sistema.
+  HTML, con WOFF2 y WOFF de reserva. La usan los tres modos.
 - Los eventos en **sábado o domingo** no caben en una rejilla de lunes a viernes:
   no se muestran, y quedan registrados con `console.warn` para poder detectarlos.
+
+## Diseño de escritorio y móvil
+
+Mismo lenguaje visual que el MOPI —foto de cabecera con degradado, logo, titular
+`Eventos` + mes, cards amarillas y azules, pie de contacto— pero con medidas
+fluidas: cada tamaño se declara primero en píxeles y después con `clamp()`, de
+modo que un navegador que no entienda `clamp()` se queda con el valor plano.
+
+- **Rejilla de lunes a domingo**, 7 columnas. A diferencia del MOPI, aquí sí se
+  ven los eventos de sábado y domingo.
+- **Escritorio.** El lienzo ocupa al menos el alto de la ventana y la rejilla se
+  reparte el espacio sobrante, así que en pantallas normales el mes entra casi
+  entero sin scroll. Los títulos se recortan con puntos suspensivos y se vuelven
+  a medir al cambiar el ancho de la ventana. El popup es el mismo del MOPI, con
+  QR a la derecha.
+- **Móvil.** La rejilla se reduce a cuadrados con el número del día (cabeceras
+  `L M X J V S D`) y debajo va una **agenda** con los eventos del mes agrupados
+  por fecha. En el popup no hay QR —no tiene sentido escanear desde el propio
+  móvil—: hay un botón **Más información**.
+- **Navegación de mes** en las dos: flechas `‹ Hoy ›` arriba a la derecha,
+  teclas ← → en escritorio y deslizar sobre la rejilla en móvil.
 
 ### Imágenes de marca
 

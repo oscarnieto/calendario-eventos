@@ -97,116 +97,503 @@ a{ color: inherit; }
       url(data:font/woff;base64,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) format('woff');
 }
 
-/* ---------- 3. CONMUTACION DE VISTAS ---------- */
-.vista{ display:none; }
-:root[data-modo="mopi"]       .vista-mopi{ display:block; }
-:root[data-modo="escritorio"] .vista-escritorio{ display:block; }
-:root[data-modo="movil"]      .vista-movil{ display:block; }
+/* ---------- 3. VISTA UNICA ----------
+   Los tres modos comparten marcado: lo que cambia es el CSS que cuelga de
+   :root[data-modo="..."], para que el override por URL siga mandando. */
+.vista{ display:block; }
 
 /* =========================================================================
-   4. MODO MOPI - 1080 x 1920, tactil, sin scroll
-   Diseno aplicado: Figma "Calendario", frame 1:2 "Muppie_1080x1920".
-   Toda la geometria y el color salen de ese frame y viven en variables,
-   para que un reajuste del Figma sea un cambio localizado.
+   4. CALENDARIO - lenguaje visual comun a los tres modos
+   Sale del Figma "Calendario": frames 1:2 (cartel) y 12:248 (popup).
+   El color y la tipografia son unicos; solo cambian los tamanos y como se
+   coloca cada pieza, que cada modo define mas abajo.
    ========================================================================= */
-:root[data-modo="mopi"]{
-  /* --- lienzo --- */
-  --mopi-ancho: 1080px;
-  --mopi-alto: 1920px;
-  --mopi-margen: 47px;
-  --mopi-util: 985px;
+:root{
+  --cal-fuente: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
 
-  /* --- color --- */
-  --mopi-c-fondo:      #25273a;
-  --mopi-c-card-sin:   #2d2e45;
-  --mopi-c-card-con:   #ffdf00;
-  --mopi-c-num-sin:    #ffdf00;
-  --mopi-c-num-con:    #c90c0f;
-  --mopi-c-tinta-card: #25273a;
-  --mopi-c-linea:      rgba(120,121,152,.40);
-  --mopi-c-linea-ev:   rgba(37,39,58,.35);
-  --mopi-c-cabecera:   rgba(120,121,152,.53);
-  --mopi-c-acento:     #ffdf00;
-  --mopi-c-alerta:     #c90c0f;
-  --mopi-c-suave:      #787998;
-  --mopi-c-blanco:     #ffffff;
+  --cal-c-fondo:      #25273a;
+  --cal-c-card-sin:   #2d2e45;
+  --cal-c-card-con:   #ffdf00;
+  --cal-c-num-sin:    #ffdf00;
+  --cal-c-num-con:    #c90c0f;
+  --cal-c-tinta-card: #25273a;
+  --cal-c-linea:      rgba(120,121,152,.40);
+  --cal-c-linea-ev:   rgba(37,39,58,.35);
+  --cal-c-cabecera:   rgba(120,121,152,.53);
+  --cal-c-acento:     #ffdf00;
+  --cal-c-alerta:     #c90c0f;
+  --cal-c-suave:      #787998;
+  --cal-c-blanco:     #ffffff;
 
-  /* --- tipografia --- */
-  --mopi-fuente: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --mopi-fs-h1: 71px;
-  --mopi-lh-h1: 87px;
-  --mopi-fs-cabecera: 20px;
-  --mopi-fs-dia: 30px;
-  --mopi-fs-evento: 14px;
-  --mopi-lh-evento: 1.2;
-  --mopi-fs-pie: 45px;
-  --mopi-lh-pie: 39.7px;
-
-  /* --- geometria de la rejilla --- */
-  --mopi-hero-alto: 541.273px;
-  --mopi-grad-top: 297.28px;
-  --mopi-grad-alto: 243.993px;
-  --mopi-logo-lado: 121.178px;
-  --mopi-h1-top: 422.394px;
-  --mopi-semana-top: 524.959px;
-  --mopi-rejilla-top: 559.347px;
-  --mopi-card-ancho: 181px;
-  --mopi-card-alto: 214.842px;
-  --mopi-card-hueco-x: 20px;
-  --mopi-card-hueco-y: 20.767px;
-  --mopi-card-pad-x: 8.86px;
-  --mopi-card-pad-top: 4.42px;
-  --mopi-card-pad-bot: 8.46px;
-  --mopi-card-radio: 1px;
-  --mopi-card-max-eventos: 3;
-  --mopi-pie-linea-top: 1759.25px;
-  --mopi-pie-top: 1775.09px;
-
-  /* --- popup del dia: Figma 12:248 "Muppie_1080x1920_POPUP" --- */
-  --mopi-pop-mask-top: 509.394px;
-  --mopi-pop-mask-alto: 1230.549px;
-  --mopi-pop-anim: 280ms;
-  --mopi-pop-mask-desenfoque: 18px;
-  --mopi-pop-mask-velo: rgba(37,39,58,.82);
-  --mopi-pop-mask-velo-solido: rgba(37,39,58,.94);
-  --mopi-pop-ancho: 985px;          /* centrada: (1080-985)/2 = 47,5 como el frame */
-  --mopi-pop-alto-max: 1180px;      /* deja 25 px de aire dentro de la mascara */
-  --mopi-pop-radio: 19px;
-  --mopi-pop-pad-izq: 33.55px;
-  --mopi-pop-pad-der: 36.48px;
-  --mopi-pop-pad-top: 55.44px;
-  --mopi-pop-pad-bot: 74.2px;
-  --mopi-pop-hueco-cab: 83.72px;
-  --mopi-pop-fs-fecha: 71px;
-  --mopi-pop-lh-fecha: 87px;
-  --mopi-pop-fs-titulo: 45px;
-  --mopi-pop-lh-titulo: 1.05;
-  --mopi-pop-hueco-tit: 10px;
-  --mopi-pop-fs-dato: 32px;
-  --mopi-pop-lh-dato: 1.071;
-  --mopi-pop-fs-etiqueta: 22px;
-  --mopi-pop-icono: 24px;
-  --mopi-pop-icono-hueco: 6px;
-  --mopi-pop-icono-cerrar: 37.95px;
-  --mopi-pop-cerrar-lado: 88px;
-  --mopi-pop-cerrar-top: 7px;
-  --mopi-pop-cerrar-der: 2.5px;
-  --mopi-pop-qr: 146.573px;
-  --mopi-pop-hueco-qr: 32px;
-  --mopi-pop-sep-arriba: 49.66px;
-  --mopi-pop-sep-abajo: 35.09px;
-
-  --mopi-fs-aviso: 26px;
-  --mopi-tactil-min: 96px;
+  --cal-pop-anim: 280ms;
+  --cal-pop-mask-desenfoque: 18px;
+  --cal-pop-mask-velo: rgba(37,39,58,.82);
+  --cal-pop-mask-velo-solido: rgba(37,39,58,.94);
+  --cal-pop-radio: 19px;
+  --cal-card-radio: 1px;
+  --cal-card-max-eventos: 3;
 }
 
+body{
+  font-family: var(--cal-fuente);
+  background: var(--cal-c-fondo);
+  color: var(--cal-c-blanco);
+}
+.vista-cal{ display:block; }
+
+/* ---------- cabecera: foto, degradado, logo, titular ---------- */
+.cal-hero{
+  background-color: var(--cal-c-card-sin);
+  background-image: linear-gradient(135deg, #3a3c5c 0%, #25273a 100%);
+  background-position: center top;
+  background-size: cover;
+  background-repeat: no-repeat;
+  overflow:hidden;
+}
+.cal-hero img{
+  width:100%; height:100%;
+  object-fit: cover; object-position: center 45%;
+  display:block;
+}
+.cal-degradado{
+  background: -webkit-linear-gradient(top, rgba(37,39,58,0) 0%, #25273a 80%);
+  background: linear-gradient(to bottom, rgba(37,39,58,0) 0%, #25273a 80%);
+  pointer-events:none;
+}
+.cal-logo{
+  background: var(--cal-c-acento);
+  display:flex; align-items:center; justify-content:center;
+  overflow:hidden; z-index:3;
+}
+.cal-logo span{
+  font-size: .25em; font-weight:700; letter-spacing:-.03em;
+  color: var(--cal-c-alerta);
+}
+.cal-logo img{
+  position:absolute; left:0; top:0; width:100%; height:100%;
+  object-fit: contain; display:block;
+}
+.cal-h1{
+  font-size: var(--cal-fs-h1); line-height: var(--cal-lh-h1);
+  font-weight:300; color: var(--cal-c-blanco);
+  white-space:nowrap; z-index:2;
+}
+.cal-h1 b{ font-weight:700; color: var(--cal-c-acento); }
+
+/* ---------- navegacion de mes ---------- */
+.cal-nav{
+  display:flex; align-items:center; z-index:4;
+  background: var(--cal-c-fondo);
+  border: 1px solid var(--cal-c-suave);
+  border-radius: 2px;
+  overflow:hidden;
+}
+.cal-btn{
+  width: var(--cal-tactil); height: var(--cal-tactil);
+  min-width: var(--cal-tactil);
+  background: transparent;
+  border: 0; border-left: 1px solid var(--cal-c-suave);
+  color: var(--cal-c-acento);
+  font-family: var(--cal-fuente);
+  font-size: calc(var(--cal-tactil) * .28); font-weight:700; line-height:1;
+  display:flex; align-items:center; justify-content:center;
+}
+.cal-nav .cal-btn:first-child{ border-left:0; }
+.cal-btn:active{ background: var(--cal-c-acento); color: var(--cal-c-fondo); }
+.cal-btn-hoy{ width:auto; min-width:0; padding: 0 calc(var(--cal-tactil) * .3); }
+.cal-btn svg{
+  width: 45%; height: 45%; display:block; fill:none;
+  stroke: currentColor; stroke-width:2.4;
+  stroke-linecap:round; stroke-linejoin:round;
+}
+
+/* ---------- cabecera de dias y rejilla ---------- */
+.cal-semana{
+  display:grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: var(--cal-card-hueco-x);
+}
+.cal-semana span{
+  font-size: var(--cal-fs-cabecera); font-weight:700;
+  color: var(--cal-c-cabecera);
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+}
+.cal-rejilla{
+  display:grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  column-gap: var(--cal-card-hueco-x);
+  row-gap: var(--cal-card-hueco-y);
+}
+.cal-card{
+  position:relative;
+  background: var(--cal-c-card-sin);
+  border: 1px solid var(--cal-c-linea);
+  border-radius: var(--cal-card-radio);
+  padding: var(--cal-card-pad-top) var(--cal-card-pad-x) var(--cal-card-pad-bot);
+  display:flex; flex-direction:column; justify-content:space-between;
+  text-align:right; overflow:hidden;
+  font-family: var(--cal-fuente);
+}
+.cal-card[data-vacia="1"]{ background:transparent; border-color:transparent; }
+.cal-card[data-eventos="1"]{ background: var(--cal-c-card-con); }
+.cal-card[data-hoy="1"]{ box-shadow: inset 0 0 0 3px var(--cal-c-acento); }
+.cal-card[data-eventos="1"][data-hoy="1"]{ box-shadow: inset 0 0 0 3px var(--cal-c-num-con); }
+.cal-card-num{
+  font-size: var(--cal-fs-dia); font-weight:700; line-height:1.12;
+  color: var(--cal-c-num-sin);
+}
+.cal-card[data-eventos="1"] .cal-card-num{ color: var(--cal-c-num-con); }
+.cal-card-lista{ display:block; min-height:0; overflow:hidden; }
+.cal-card-ev{
+  border-top: 1px solid var(--cal-c-linea-ev);
+  padding-top: 5px; margin-top: 5px;
+  font-size: var(--cal-fs-evento); font-weight:500;
+  line-height: var(--cal-lh-evento);
+  color: var(--cal-c-tinta-card);
+  overflow-wrap: break-word; word-wrap: break-word;
+  overflow:hidden;
+  display:-webkit-box; -webkit-box-orient: vertical;
+  -webkit-line-clamp:2; max-height: 2.4em; max-height: calc(2.4em + 6px);
+}
+/* cuantos menos eventos, mas lineas de titulo caben sin desbordar la card */
+.cal-card-lista[data-n="1"] .cal-card-ev{ -webkit-line-clamp:5; max-height: calc(6.0em + 6px); }
+.cal-card-lista[data-n="2"] .cal-card-ev{ -webkit-line-clamp:4; max-height: calc(4.8em + 6px); }
+.cal-card-lista[data-n="3"] .cal-card-ev{ -webkit-line-clamp:2; max-height: calc(2.4em + 6px); }
+/* el filete es un separador entre eventos: el primero de la card no lo lleva */
+.cal-card-ev:first-child{ border-top:0; padding-top:0; margin-top:0; max-height: 2.4em; }
+.cal-card-lista[data-n="1"] .cal-card-ev:first-child{ max-height: 6.0em; }
+.cal-card-lista[data-n="2"] .cal-card-ev:first-child{ max-height: 4.8em; }
+.cal-card-lista[data-n="3"] .cal-card-ev:first-child{ max-height: 2.4em; }
+/* con line-clamp el recorte ya es exacto; el max-height solo hace de red */
+@supports (-webkit-line-clamp: 2){
+  .cal-card-ev,
+  .cal-card-ev:first-child,
+  .cal-card-lista[data-n="1"] .cal-card-ev,
+  .cal-card-lista[data-n="2"] .cal-card-ev,
+  .cal-card-lista[data-n="3"] .cal-card-ev,
+  .cal-card-lista[data-n="1"] .cal-card-ev:first-child,
+  .cal-card-lista[data-n="2"] .cal-card-ev:first-child,
+  .cal-card-lista[data-n="3"] .cal-card-ev:first-child{ max-height: none; }
+}
+.cal-card-ev[data-estado="cancelado"]{ text-decoration: line-through; opacity:.6; }
+.cal-card-ev b{ font-weight:700; }
+.cal-card-mas{
+  display:block;
+  border-top: 1px solid var(--cal-c-linea-ev);
+  padding-top: 5px; margin-top: 5px;
+  font-size: var(--cal-fs-evento); font-weight:700;
+  line-height: var(--cal-lh-evento);
+  color: var(--cal-c-num-con);
+  white-space:nowrap;
+}
+
+/* ---------- pie ---------- */
+.cal-pie-linea{ height:1px; background: var(--cal-c-suave); }
+.cal-pie{
+  font-size: var(--cal-fs-pie); line-height: var(--cal-lh-pie);
+  font-weight:300; color: var(--cal-c-blanco);
+}
+.cal-pie b{ display:block; font-weight:700; color: var(--cal-c-acento); }
+
+.cal-aviso{
+  background: var(--cal-c-alerta); color: var(--cal-c-blanco);
+  font-family: var(--cal-fuente);
+  font-size: var(--cal-fs-aviso); font-weight:700; text-align:center;
+}
+
+/* ---------- popup del dia (Figma 12:248) ---------- */
+.cal-modal-fondo{
+  background: var(--cal-pop-mask-velo-solido);
+  display:flex; align-items:center; justify-content:center;
+  opacity: 0;
+  -webkit-transition: opacity var(--cal-pop-anim) ease;
+  transition: opacity var(--cal-pop-anim) ease;
+}
+@supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))){
+  .cal-modal-fondo{
+    background: var(--cal-pop-mask-velo);
+    -webkit-backdrop-filter: blur(var(--cal-pop-mask-desenfoque));
+    backdrop-filter: blur(var(--cal-pop-mask-desenfoque));
+  }
+}
+.cal-modal-fondo[data-abierto="1"]{ opacity: 1; }
+.cal-modal{
+  position:relative;
+  opacity: 0;
+  -webkit-transform: translateY(26px) scale(.985);
+  transform: translateY(26px) scale(.985);
+  -webkit-transition: opacity var(--cal-pop-anim) ease,
+                      -webkit-transform var(--cal-pop-anim) cubic-bezier(.2,.75,.3,1);
+  transition: opacity var(--cal-pop-anim) ease,
+              transform var(--cal-pop-anim) cubic-bezier(.2,.75,.3,1);
+  width: var(--cal-pop-ancho);
+  max-height: var(--cal-pop-alto-max);
+  background: var(--cal-c-card-con);
+  border-radius: var(--cal-pop-radio);
+  padding: var(--cal-pop-pad-top) var(--cal-pop-pad-der) var(--cal-pop-pad-bot) var(--cal-pop-pad-izq);
+  display:flex; flex-direction:column;
+  font-family: var(--cal-fuente);
+  color: var(--cal-c-tinta-card);
+}
+.cal-modal-fondo[data-abierto="1"] .cal-modal{
+  opacity: 1;
+  -webkit-transform: none;
+  transform: none;
+}
+.cal-cerrar{
+  position:absolute;
+  top: var(--cal-pop-cerrar-top); right: var(--cal-pop-cerrar-der);
+  width: var(--cal-pop-cerrar-lado); height: var(--cal-pop-cerrar-lado);
+  background: transparent; color: var(--cal-c-num-con);
+  display:flex; align-items:center; justify-content:center;
+  border-radius: 2px;
+}
+.cal-cerrar svg{ width: var(--cal-pop-icono-cerrar); height: var(--cal-pop-icono-cerrar); display:block; }
+.cal-cerrar:active{ background: var(--cal-c-num-con); color: var(--cal-c-card-con); }
+
+.cal-pop-fecha{
+  flex:0 0 auto;
+  font-size: var(--cal-pop-fs-fecha);
+  line-height: var(--cal-pop-lh-fecha);
+  font-weight:300;
+  margin-bottom: var(--cal-pop-hueco-cab);
+  white-space:nowrap;
+}
+.cal-pop-fecha b{ font-weight:700; color: var(--cal-c-num-con); }
+
+.cal-pop-eventos{
+  /* flex-grow 0: la tarjeta crece con el contenido hasta su alto maximo,
+     y solo entonces la lista se encoge y admite scroll interno */
+  flex:0 1 auto; min-height:0;
+  overflow-x:hidden; overflow-y:auto; -webkit-overflow-scrolling:touch;
+}
+
+.cal-ev{ display:flex; align-items:flex-end; gap: var(--cal-pop-hueco-qr); }
+.cal-ev + .cal-ev{
+  margin-top: var(--cal-pop-sep-arriba);
+  padding-top: var(--cal-pop-sep-abajo);
+  border-top: 1px solid var(--cal-c-linea-ev);
+}
+.cal-ev-txt{ flex:1 1 auto; min-width:0; }
+.cal-ev-tit{
+  font-size: var(--cal-pop-fs-titulo);
+  line-height: var(--cal-pop-lh-titulo);
+  font-weight:700;
+  margin-bottom: var(--cal-pop-hueco-tit);
+  overflow-wrap: break-word; word-wrap: break-word;
+}
+.cal-ev-tit-txt{ display:block; }
+.cal-ev[data-estado="cancelado"] .cal-ev-tit-txt{ text-decoration: line-through; }
+.cal-ev-tit .etiqueta{
+  display:inline-block; margin: 10px 0 0;
+  font-size: var(--cal-pop-fs-etiqueta);
+  padding: 6px 18px;
+}
+
+.cal-ev-dato{
+  display:flex; align-items:flex-start;
+  gap: var(--cal-pop-icono-hueco);
+  font-size: var(--cal-pop-fs-dato);
+  line-height: var(--cal-pop-lh-dato);
+  font-weight:400;
+}
+.cal-ev-dato i{
+  flex:0 0 auto;
+  width: var(--cal-pop-icono);
+  height: calc(var(--cal-pop-fs-dato) * var(--cal-pop-lh-dato));
+  display:flex; align-items:center; justify-content:center;
+}
+.cal-ev-dato svg{
+  width: var(--cal-pop-icono); height: var(--cal-pop-icono);
+  display:block; fill:none;
+  stroke: currentColor; stroke-width:2;
+  stroke-linecap:round; stroke-linejoin:round;
+}
+.cal-ev-dato span{ min-width:0; }
+.cal-ev-desc{
+  margin-top: var(--cal-pop-hueco-tit);
+  font-size: var(--cal-pop-fs-dato);
+  line-height: 1.35;
+  max-height: calc(var(--cal-pop-fs-dato) * 1.35 * 4);
+  overflow:hidden;
+}
+/* en movil, en vez de QR, un boton directo */
+.cal-ev-boton{
+  display:block; margin-top: 18px;
+  padding: 14px 20px; border-radius: 2px;
+  background: var(--cal-c-fondo); color: var(--cal-c-acento);
+  font-size: var(--cal-pop-fs-dato); font-weight:700;
+  text-align:center; text-decoration:none;
+}
+.cal-ev-boton:active{ background: var(--cal-c-num-con); color: var(--cal-c-blanco); }
+
+.cal-ev-qr{ flex:0 0 auto; }
+.cal-qr-caja{
+  width: var(--cal-pop-qr); height: var(--cal-pop-qr);
+  background:#ffffff;
+  display:flex; align-items:center; justify-content:center;
+}
+.cal-qr-caja canvas{ width:100%; height:100%; display:block; }
+
+/* con muchos eventos la lista se desliza: degradado mas indicador tactil */
+.cal-pop-mas{
+  position:absolute; left:0; right:0; z-index:2;
+  bottom: calc(var(--cal-pop-pad-bot) - 22px);
+  display:none; text-align:center; pointer-events:none;
+}
+.cal-modal[data-scroll="1"] .cal-pop-mas{ display:block; }
+.cal-modal[data-fin="1"] .cal-pop-mas{ display:none; }
+.cal-pop-mas i{
+  display:inline-flex; align-items:center; justify-content:center;
+  width:62px; height:62px; border-radius:50%;
+  background: rgba(37,39,58,.10);
+  color: var(--cal-c-num-con);
+  -webkit-animation: calBota 1.9s ease-in-out infinite;
+  animation: calBota 1.9s ease-in-out infinite;
+}
+.cal-pop-mas svg{
+  width:30px; height:30px; display:block; fill:none;
+  stroke: currentColor; stroke-width:2.4;
+  stroke-linecap:round; stroke-linejoin:round;
+}
+@-webkit-keyframes calBota{
+  0%,100%{ -webkit-transform: translateY(-4px); }
+  50%    { -webkit-transform: translateY(5px); }
+}
+@keyframes calBota{
+  0%,100%{ transform: translateY(-4px); }
+  50%    { transform: translateY(5px); }
+}
+@media (prefers-reduced-motion: reduce){
+  .cal-pop-mas i{ -webkit-animation: none; animation: none; }
+  .cal-modal-fondo, .cal-modal{ -webkit-transition: none; transition: none; }
+}
+.cal-modal[data-scroll="1"]::after{
+  content:''; position:absolute; pointer-events:none; z-index:1;
+  left: var(--cal-pop-pad-izq); right: var(--cal-pop-pad-der);
+  bottom: var(--cal-pop-pad-bot); height: 118px;
+  background: -webkit-linear-gradient(top, rgba(255,223,0,0), #ffdf00 80%);
+  background: linear-gradient(to bottom, rgba(255,223,0,0), #ffdf00 80%);
+  -webkit-transition: opacity 220ms ease;
+  transition: opacity 220ms ease;
+}
+.cal-modal[data-scroll="1"][data-fin="1"]::after{ opacity: 0; }
+
+/* ---------- agenda (solo en movil) ---------- */
+.cal-agenda{ display:none; }
+.cal-agenda-fecha{
+  font-size: var(--cal-fs-dia); font-weight:300;
+  color: var(--cal-c-suave);
+  margin: 26px 0 10px;
+}
+/* sobre el fondo oscuro el numero va en amarillo: el rojo de las cards no contrasta */
+.cal-agenda-fecha b{ font-weight:700; color: var(--cal-c-acento); margin-right: 6px; }
+.cal-agenda-item{
+  display:block; width:100%; text-align:left;
+  background: var(--cal-c-card-con);
+  color: var(--cal-c-tinta-card);
+  border-radius: 2px;
+  padding: 16px 18px;
+  margin-bottom: 10px;
+  font-family: var(--cal-fuente);
+}
+.cal-agenda-item:active{ background: #f5d600; }
+.cal-agenda-tit{
+  display:block;
+  font-size: var(--cal-pop-fs-titulo);
+  line-height: var(--cal-pop-lh-titulo);
+  font-weight:700;
+  margin-bottom: 8px;
+}
+.cal-agenda-item[data-estado="cancelado"] .cal-ev-tit-txt{ text-decoration: line-through; }
+.cal-agenda-vacia{
+  font-size: var(--cal-pop-fs-dato); color: var(--cal-c-suave);
+  text-align:center; padding: 32px 0;
+}
+
+/* ---------- etiquetas de estado ---------- */
+.etiqueta{
+  display:inline-block; border-radius: 2px;
+  font-family: var(--cal-fuente);
+  font-weight:700; letter-spacing:1px; text-transform:uppercase;
+  white-space:nowrap;
+  font-size: var(--cal-pop-fs-etiqueta); padding: 6px 16px;
+}
+.etiqueta[data-tipo="cancelado"]{ background: var(--cal-c-alerta); color:#fff; }
+.etiqueta[data-tipo="completo"]{ background: var(--cal-c-fondo); color: var(--cal-c-acento); }
+.etiqueta[data-tipo="categoria"]{ background: var(--cal-c-fondo); color: var(--cal-c-acento); }
+
+/* =========================================================================
+   5. MODO MOPI - lienzo fijo de 1080 x 1920 escalado a la pantalla
+   ========================================================================= */
+:root[data-modo="mopi"]{
+  --cal-ancho: 1080px;
+  --cal-alto: 1920px;
+  --cal-margen: 47px;
+  --cal-util: 985px;
+  --cal-tactil: 96px;
+
+  --cal-fs-h1: 71px;
+  --cal-lh-h1: 87px;
+  --cal-fs-cabecera: 20px;
+  --cal-fs-dia: 30px;
+  --cal-fs-evento: 14px;
+  --cal-lh-evento: 1.2;
+  --cal-fs-pie: 45px;
+  --cal-lh-pie: 39.7px;
+  --cal-fs-aviso: 26px;
+
+  --cal-hero-alto: 541.273px;
+  --cal-grad-top: 297.28px;
+  --cal-grad-alto: 243.993px;
+  --cal-logo-lado: 121.178px;
+  --cal-h1-top: 422.394px;
+  --cal-semana-top: 524.959px;
+  --cal-rejilla-top: 559.347px;
+  --cal-card-ancho: 181px;
+  --cal-card-alto: 214.842px;
+  --cal-card-hueco-x: 20px;
+  --cal-card-hueco-y: 20.767px;
+  --cal-card-pad-x: 8.86px;
+  --cal-card-pad-top: 4.42px;
+  --cal-card-pad-bot: 8.46px;
+  --cal-pie-linea-top: 1759.25px;
+  --cal-pie-top: 1775.09px;
+
+  --cal-pop-mask-top: 509.394px;
+  --cal-pop-mask-alto: 1230.549px;
+  --cal-pop-ancho: 985px;
+  --cal-pop-alto-max: 1180px;
+  --cal-pop-pad-izq: 33.55px;
+  --cal-pop-pad-der: 36.48px;
+  --cal-pop-pad-top: 55.44px;
+  --cal-pop-pad-bot: 74.2px;
+  --cal-pop-hueco-cab: 83.72px;
+  --cal-pop-fs-fecha: 71px;
+  --cal-pop-lh-fecha: 87px;
+  --cal-pop-fs-titulo: 45px;
+  --cal-pop-lh-titulo: 1.05;
+  --cal-pop-hueco-tit: 10px;
+  --cal-pop-fs-dato: 32px;
+  --cal-pop-lh-dato: 1.071;
+  --cal-pop-fs-etiqueta: 22px;
+  --cal-pop-icono: 24px;
+  --cal-pop-icono-hueco: 6px;
+  --cal-pop-icono-cerrar: 37.95px;
+  --cal-pop-cerrar-lado: 88px;
+  --cal-pop-cerrar-top: 7px;
+  --cal-pop-cerrar-der: 2.5px;
+  --cal-pop-qr: 146.573px;
+  --cal-pop-hueco-qr: 32px;
+  --cal-pop-sep-arriba: 49.66px;
+  --cal-pop-sep-abajo: 35.09px;
+}
 :root[data-modo="mopi"], :root[data-modo="mopi"] body{
   width:100%; height:100%; overflow:hidden;
   overscroll-behavior: none;
   background:#000;
 }
 :root[data-modo="mopi"] body{
-  font-family: var(--mopi-fuente);
   touch-action: manipulation;
   -webkit-user-select:none; -moz-user-select:none; -ms-user-select:none; user-select:none;
   -webkit-touch-callout:none;
@@ -214,661 +601,356 @@ a{ color: inherit; }
 }
 :root[data-modo="mopi"] ::-webkit-scrollbar{ width:0; height:0; display:none; }
 
-.mopi-marco{
+:root[data-modo="mopi"] .cal-marco{
   position:fixed; top:0; left:0; right:0; bottom:0;
   overflow:hidden; background:#000;
 }
-.mopi-lienzo{
+:root[data-modo="mopi"] .cal-lienzo{
   position:absolute; top:0; left:0;
-  width: var(--mopi-ancho);
-  height: var(--mopi-alto);
-  background: var(--mopi-c-fondo);
-  color: var(--mopi-c-blanco);
+  width: var(--cal-ancho); height: var(--cal-alto);
+  background: var(--cal-c-fondo);
   transform-origin: 0 0;
   overflow:hidden;
 }
-
-/* ---------- cabecera: foto, degradado, logo, titular ---------- */
-.mopi-hero{
+:root[data-modo="mopi"] .cal-hero{
   position:absolute; left:0; top:0;
-  width: var(--mopi-ancho); height: var(--mopi-hero-alto);
-  background-color: var(--mopi-c-card-sin);
-  background-image: linear-gradient(135deg, #3a3c5c 0%, #25273a 100%);
-  background-position: center top;
-  background-size: cover;
-  background-repeat: no-repeat;
-  overflow:hidden;
+  width: var(--cal-ancho); height: var(--cal-hero-alto);
 }
-.mopi-hero img{
-  width:100%; height:100%;
-  object-fit: cover; object-position: center 45%;
-  display:block;
+:root[data-modo="mopi"] .cal-degradado{
+  position:absolute; left:0; top: var(--cal-grad-top);
+  width: var(--cal-ancho); height: var(--cal-grad-alto);
 }
-.mopi-degradado{
-  position:absolute; left:0; top: var(--mopi-grad-top);
-  width: var(--mopi-ancho); height: var(--mopi-grad-alto);
-  background: -webkit-linear-gradient(top, rgba(37,39,58,0) 0%, #25273a 80%);
-  background: linear-gradient(to bottom, rgba(37,39,58,0) 0%, #25273a 80%);
+:root[data-modo="mopi"] .cal-logo{
+  position:absolute; left: var(--cal-margen); top:0;
+  width: var(--cal-logo-lado); height: var(--cal-logo-lado);
+  font-size: var(--cal-logo-lado);
 }
-.mopi-logo{
-  position:absolute; left: var(--mopi-margen); top:0;
-  width: var(--mopi-logo-lado); height: var(--mopi-logo-lado);
-  background: var(--mopi-c-acento);
-  display:flex; align-items:center; justify-content:center;
-  overflow:hidden;
+:root[data-modo="mopi"] .cal-h1{
+  position:absolute; left: var(--cal-margen); top: var(--cal-h1-top);
 }
-.mopi-logo span{
-  font-size: 30px; font-weight:700; letter-spacing:-1px;
-  color: var(--mopi-c-alerta);
+:root[data-modo="mopi"] .cal-nav{ display:none; }
+:root[data-modo="mopi"] .cal-semana{
+  position:absolute; left: var(--cal-margen); top: var(--cal-semana-top);
+  width: var(--cal-util);
 }
-.mopi-logo img{
-  position:absolute; left:0; top:0; width:100%; height:100%;
-  object-fit: contain; display:block;
+:root[data-modo="mopi"] .cal-rejilla{
+  position:absolute; left: var(--cal-margen); top: var(--cal-rejilla-top);
+  width: var(--cal-util);
+  grid-auto-rows: var(--cal-card-alto);
 }
-.mopi-h1{
-  position:absolute; left: var(--mopi-margen); top: var(--mopi-h1-top);
-  font-size: var(--mopi-fs-h1); line-height: var(--mopi-lh-h1);
-  font-weight:300; color: var(--mopi-c-blanco); white-space:nowrap;
+:root[data-modo="mopi"] .cal-pie-linea{
+  position:absolute; left: var(--cal-margen); top: var(--cal-pie-linea-top);
+  width: var(--cal-util);
 }
-.mopi-h1 b{ font-weight:700; color: var(--mopi-c-acento); }
-
-/* ---------- cabecera de dias y rejilla ---------- */
-.mopi-semana{
-  position:absolute; left: var(--mopi-margen); top: var(--mopi-semana-top);
-  width: var(--mopi-util);
-  display:grid;
-  grid-template-columns: repeat(5, var(--mopi-card-ancho));
-  gap: var(--mopi-card-hueco-x);
-}
-.mopi-semana span{
-  font-size: var(--mopi-fs-cabecera); font-weight:700;
-  color: var(--mopi-c-cabecera);
-}
-.mopi-rejilla{
-  position:absolute; left: var(--mopi-margen); top: var(--mopi-rejilla-top);
-  width: var(--mopi-util);
-  display:grid;
-  grid-template-columns: repeat(5, var(--mopi-card-ancho));
-  grid-auto-rows: var(--mopi-card-alto);
-  column-gap: var(--mopi-card-hueco-x);
-  row-gap: var(--mopi-card-hueco-y);
-}
-.mopi-card{
-  position:relative;
-  width: var(--mopi-card-ancho); height: var(--mopi-card-alto);
-  background: var(--mopi-c-card-sin);
-  border: 1px solid var(--mopi-c-linea);
-  border-radius: var(--mopi-card-radio);
-  padding: var(--mopi-card-pad-top) var(--mopi-card-pad-x) var(--mopi-card-pad-bot);
-  display:flex; flex-direction:column; justify-content:space-between;
-  text-align:right; overflow:hidden;
-  font-family: var(--mopi-fuente);
-}
-.mopi-card[data-vacia="1"]{ background:transparent; border-color:transparent; }
-.mopi-card[data-eventos="1"]{ background: var(--mopi-c-card-con); }
-.mopi-card[data-hoy="1"]{ box-shadow: inset 0 0 0 3px var(--mopi-c-acento); }
-.mopi-card[data-eventos="1"][data-hoy="1"]{ box-shadow: inset 0 0 0 3px var(--mopi-c-num-con); }
-.mopi-card-num{
-  font-size: var(--mopi-fs-dia); font-weight:700; line-height:1.12;
-  color: var(--mopi-c-num-sin);
-}
-.mopi-card[data-eventos="1"] .mopi-card-num{ color: var(--mopi-c-num-con); }
-.mopi-card-lista{
-  display:block; min-height:0; overflow:hidden;
-}
-.mopi-card-ev{
-  border-top: 1px solid var(--mopi-c-linea-ev);
-  padding-top: 5px; margin-top: 5px;
-  font-size: var(--mopi-fs-evento); font-weight:500;
-  line-height: var(--mopi-lh-evento);
-  color: var(--mopi-c-tinta-card);
-  overflow-wrap: break-word; word-wrap: break-word;
-  overflow:hidden;
-  display:-webkit-box; -webkit-box-orient: vertical;
-  -webkit-line-clamp:2; max-height: 2.4em; max-height: calc(2.4em + 6px);
-}
-/* cuantos menos eventos, mas lineas de titulo caben sin desbordar la card */
-.mopi-card-lista[data-n="1"] .mopi-card-ev{ -webkit-line-clamp:5; max-height: calc(6.0em + 6px); }
-.mopi-card-lista[data-n="2"] .mopi-card-ev{ -webkit-line-clamp:4; max-height: calc(4.8em + 6px); }
-.mopi-card-lista[data-n="3"] .mopi-card-ev{ -webkit-line-clamp:2; max-height: calc(2.4em + 6px); }
-/* el filete es un separador entre eventos: el primero de la card no lo lleva */
-.mopi-card-ev:first-child{ border-top:0; padding-top:0; margin-top:0; max-height: 2.4em; }
-.mopi-card-lista[data-n="1"] .mopi-card-ev:first-child{ max-height: 6.0em; }
-.mopi-card-lista[data-n="2"] .mopi-card-ev:first-child{ max-height: 4.8em; }
-.mopi-card-lista[data-n="3"] .mopi-card-ev:first-child{ max-height: 2.4em; }
-/* con line-clamp el recorte ya es exacto y pinta los puntos suspensivos;
-   el max-height solo hace de red para WebViews que no lo soporten */
-@supports (-webkit-line-clamp: 2){
-  .mopi-card-ev,
-  .mopi-card-ev:first-child,
-  .mopi-card-lista[data-n="1"] .mopi-card-ev,
-  .mopi-card-lista[data-n="2"] .mopi-card-ev,
-  .mopi-card-lista[data-n="3"] .mopi-card-ev,
-  .mopi-card-lista[data-n="1"] .mopi-card-ev:first-child,
-  .mopi-card-lista[data-n="2"] .mopi-card-ev:first-child,
-  .mopi-card-lista[data-n="3"] .mopi-card-ev:first-child{ max-height: none; }
-}
-.mopi-card-ev[data-estado="cancelado"]{ text-decoration: line-through; opacity:.6; }
-.mopi-card-ev b{ font-weight:700; }
-.mopi-card-mas{
-  display:block;
-  border-top: 1px solid var(--mopi-c-linea-ev);
-  padding-top: 5px; margin-top: 5px;
-  font-size: var(--mopi-fs-evento); font-weight:700;
-  line-height: var(--mopi-lh-evento);
-  color: var(--mopi-c-num-con);
+:root[data-modo="mopi"] .cal-pie{
+  position:absolute; left: var(--cal-margen); top: var(--cal-pie-top);
   white-space:nowrap;
 }
-
-/* ---------- pie ---------- */
-.mopi-pie-linea{
-  position:absolute; left: var(--mopi-margen); top: var(--mopi-pie-linea-top);
-  width: var(--mopi-util); height:1px; background: var(--mopi-c-suave);
+/* la mascara del popup tapa solo la banda de la rejilla */
+:root[data-modo="mopi"] .cal-modal-fondo{
+  position:absolute; left:0; top: var(--cal-pop-mask-top);
+  width: var(--cal-ancho); height: var(--cal-pop-mask-alto);
 }
-.mopi-pie{
-  position:absolute; left: var(--mopi-margen); top: var(--mopi-pie-top);
-  font-size: var(--mopi-fs-pie); line-height: var(--mopi-lh-pie);
-  font-weight:300; color: var(--mopi-c-blanco); white-space:nowrap;
-}
-.mopi-pie b{ display:block; font-weight:700; color: var(--mopi-c-acento); }
-
-/* ---------- popup del dia (Figma 12:248 "Muppie_1080x1920_POPUP") ----------
-   La mascara tapa solo la banda de la rejilla: la cabecera con la foto y el
-   pie de contacto siguen a la vista. */
-/* La rejilla se ve detras, desenfocada y teñida de azul. Sin soporte de
-   backdrop-filter el velo sube casi a solido y el resultado sigue siendo legible. */
-.mopi-modal-fondo{
-  position:absolute; left:0; top: var(--mopi-pop-mask-top);
-  width: var(--mopi-ancho); height: var(--mopi-pop-mask-alto);
-  background: var(--mopi-pop-mask-velo-solido);
-  opacity: 0;
-  -webkit-transition: opacity var(--mopi-pop-anim) ease;
-  transition: opacity var(--mopi-pop-anim) ease;
-  /* la tarjeta se centra en la banda: asi crece hacia arriba y hacia abajo
-     y caben tres eventos largos sin deslizar */
-  display:flex; align-items:center; justify-content:center;
-}
-@supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))){
-  .mopi-modal-fondo{
-    background: var(--mopi-pop-mask-velo);
-    -webkit-backdrop-filter: blur(var(--mopi-pop-mask-desenfoque));
-    backdrop-filter: blur(var(--mopi-pop-mask-desenfoque));
-  }
-}
-.mopi-modal-fondo[data-abierto="1"]{ opacity: 1; }
-.mopi-modal{
-  position:relative;
-  opacity: 0;
-  -webkit-transform: translateY(26px) scale(.985);
-  transform: translateY(26px) scale(.985);
-  -webkit-transition: opacity var(--mopi-pop-anim) ease,
-                      -webkit-transform var(--mopi-pop-anim) cubic-bezier(.2,.75,.3,1);
-  transition: opacity var(--mopi-pop-anim) ease,
-              transform var(--mopi-pop-anim) cubic-bezier(.2,.75,.3,1);
-  width: var(--mopi-pop-ancho);
-  /* la tarjeta se ajusta al contenido: con un solo evento corto es baja,
-     y el aire interno lo pone el padding, no un alto minimo */
-  max-height: var(--mopi-pop-alto-max);
-  background: var(--mopi-c-card-con);
-  border-radius: var(--mopi-pop-radio);
-  padding: var(--mopi-pop-pad-top) var(--mopi-pop-pad-der) var(--mopi-pop-pad-bot) var(--mopi-pop-pad-izq);
-  display:flex; flex-direction:column;
-  font-family: var(--mopi-fuente);
-  color: var(--mopi-c-tinta-card);
-}
-.mopi-modal-fondo[data-abierto="1"] .mopi-modal{
-  opacity: 1;
-  -webkit-transform: none;
-  transform: none;
-}
-.mopi-cerrar{
-  position:absolute;
-  top: var(--mopi-pop-cerrar-top); right: var(--mopi-pop-cerrar-der);
-  width: var(--mopi-pop-cerrar-lado); height: var(--mopi-pop-cerrar-lado);
-  background: transparent; color: var(--mopi-c-num-con);
-  display:flex; align-items:center; justify-content:center;
-  border-radius: 2px;
-}
-.mopi-cerrar svg{ width: var(--mopi-pop-icono-cerrar); height: var(--mopi-pop-icono-cerrar); display:block; }
-.mopi-cerrar:active{ background: var(--mopi-c-num-con); color: var(--mopi-c-card-con); }
-
-.mopi-pop-fecha{
-  flex:0 0 auto;
-  font-size: var(--mopi-pop-fs-fecha);
-  line-height: var(--mopi-pop-lh-fecha);
-  font-weight:300;
-  margin-bottom: var(--mopi-pop-hueco-cab);
-  white-space:nowrap;
-}
-.mopi-pop-fecha b{ font-weight:700; color: var(--mopi-c-num-con); }
-
-.mopi-pop-eventos{
-  /* flex-grow 0: la tarjeta crece con el contenido hasta su alto maximo,
-     y solo entonces la lista se encoge y admite scroll interno */
-  flex:0 1 auto; min-height:0;
-  /* solo entra en juego con dias de muchos eventos */
-  overflow-x:hidden; overflow-y:auto; -webkit-overflow-scrolling:touch;
-}
-
-.mopi-ev{ display:flex; align-items:flex-end; gap: var(--mopi-pop-hueco-qr); }
-.mopi-ev + .mopi-ev{
-  margin-top: var(--mopi-pop-sep-arriba);
-  padding-top: var(--mopi-pop-sep-abajo);
-  border-top: 1px solid var(--mopi-c-linea-ev);
-}
-.mopi-ev-txt{ flex:1 1 auto; min-width:0; }
-.mopi-ev-tit{
-  font-size: var(--mopi-pop-fs-titulo);
-  line-height: var(--mopi-pop-lh-titulo);
-  font-weight:700;
-  margin-bottom: var(--mopi-pop-hueco-tit);
-  overflow-wrap: break-word; word-wrap: break-word;
-}
-.mopi-ev-tit-txt{ display:block; }
-.mopi-ev[data-estado="cancelado"] .mopi-ev-tit-txt{ text-decoration: line-through; }
-.mopi-ev-tit .etiqueta{
-  display:inline-block; margin: 10px 0 0;
-  font-size: var(--mopi-pop-fs-etiqueta);
-  padding: 6px 18px;
-}
-
-.mopi-ev-dato{
-  display:flex; align-items:flex-start;
-  gap: var(--mopi-pop-icono-hueco);
-  font-size: var(--mopi-pop-fs-dato);
-  line-height: var(--mopi-pop-lh-dato);
-  font-weight:400;
-}
-.mopi-ev-dato i{
-  flex:0 0 auto;
-  width: var(--mopi-pop-icono);
-  height: calc(var(--mopi-pop-fs-dato) * var(--mopi-pop-lh-dato));
-  display:flex; align-items:center; justify-content:center;
-}
-.mopi-ev-dato svg{
-  width: var(--mopi-pop-icono); height: var(--mopi-pop-icono);
-  display:block; fill:none;
-  stroke: currentColor; stroke-width:2;
-  stroke-linecap:round; stroke-linejoin:round;
-}
-.mopi-ev-dato span{ min-width:0; }
-.mopi-ev-desc{
-  margin-top: var(--mopi-pop-hueco-tit);
-  font-size: var(--mopi-pop-fs-dato);
-  line-height: 1.35;
-  max-height: calc(var(--mopi-pop-fs-dato) * 1.35 * 4);
-  overflow:hidden;
-}
-
-.mopi-ev-qr{ flex:0 0 auto; }
-.mopi-qr-caja{
-  width: var(--mopi-pop-qr); height: var(--mopi-pop-qr);
-  background:#ffffff;
-  display:flex; align-items:center; justify-content:center;
-}
-.mopi-qr-caja canvas{ width:100%; height:100%; display:block; }
-
-/* con muchos eventos la lista se desliza: degradado mas indicador tactil */
-.mopi-pop-mas{
-  position:absolute; left:0; right:0; z-index:2;
-  bottom: calc(var(--mopi-pop-pad-bot) - 22px);
-  display:none; text-align:center; pointer-events:none;
-}
-.mopi-modal[data-scroll="1"] .mopi-pop-mas{ display:block; }
-.mopi-modal[data-fin="1"] .mopi-pop-mas{ display:none; }
-.mopi-pop-mas i{
-  display:inline-flex; align-items:center; justify-content:center;
-  width:62px; height:62px; border-radius:50%;
-  background: rgba(37,39,58,.10);
-  color: var(--mopi-c-num-con);
-  -webkit-animation: mopiBota 1.9s ease-in-out infinite;
-  animation: mopiBota 1.9s ease-in-out infinite;
-}
-.mopi-pop-mas svg{
-  width:30px; height:30px; display:block; fill:none;
-  stroke: currentColor; stroke-width:2.4;
-  stroke-linecap:round; stroke-linejoin:round;
-}
-@-webkit-keyframes mopiBota{
-  0%,100%{ -webkit-transform: translateY(-4px); }
-  50%    { -webkit-transform: translateY(5px); }
-}
-@keyframes mopiBota{
-  0%,100%{ transform: translateY(-4px); }
-  50%    { transform: translateY(5px); }
-}
-@media (prefers-reduced-motion: reduce){
-  .mopi-pop-mas i{ -webkit-animation: none; animation: none; }
-  .mopi-modal-fondo, .mopi-modal{
-    -webkit-transition: none; transition: none;
-  }
-}
-.mopi-modal[data-scroll="1"]::after{
-  content:''; position:absolute; pointer-events:none; z-index:1;
-  left: var(--mopi-pop-pad-izq); right: var(--mopi-pop-pad-der);
-  bottom: var(--mopi-pop-pad-bot); height: 118px;
-  background: -webkit-linear-gradient(top, rgba(255,223,0,0), #ffdf00 80%);
-  background: linear-gradient(to bottom, rgba(255,223,0,0), #ffdf00 80%);
-  -webkit-transition: opacity 220ms ease;
-  transition: opacity 220ms ease;
-}
-.mopi-modal[data-scroll="1"][data-fin="1"]::after{ opacity: 0; }
-.mopi-aviso{
+:root[data-modo="mopi"] .cal-aviso{
   position:absolute; left:0; right:0; bottom:0;
-  padding: 16px var(--mopi-margen);
-  background: var(--mopi-c-alerta); color: var(--mopi-c-blanco);
-  font-family: var(--mopi-fuente);
-  font-size: var(--mopi-fs-aviso); font-weight:700; text-align:center;
-}
-
-/* etiquetas de estado (compartidas de forma explicita por modo) */
-.etiqueta{
-  display:inline-block; border-radius: var(--r-pastilla);
-  font-weight:700; letter-spacing:1px; text-transform:uppercase;
-  white-space:nowrap;
-}
-.etiqueta[data-tipo="cancelado"]{ background: var(--c-alerta-suave); color: var(--c-alerta); }
-.etiqueta[data-tipo="completo"]{ background: var(--c-aviso-suave); color: var(--c-aviso); }
-.etiqueta[data-tipo="categoria"]{ background: var(--c-fondo-hueco); color: var(--c-tinta-media); }
-:root[data-modo="mopi"] .etiqueta{ font-family: var(--mopi-fuente); font-size: var(--mopi-pop-fs-etiqueta); padding: 8px 20px; border-radius:2px; }
-:root[data-modo="mopi"] .etiqueta[data-tipo="cancelado"]{ background: var(--mopi-c-alerta); color:#fff; }
-:root[data-modo="mopi"] .etiqueta[data-tipo="completo"]{ background: var(--mopi-c-acento); color: var(--mopi-c-fondo); }
-/* sobre el amarillo del popup el aforo completo necesita invertirse */
-:root[data-modo="mopi"] .mopi-modal .etiqueta[data-tipo="completo"]{ background: var(--mopi-c-fondo); color: var(--mopi-c-acento); }
-:root[data-modo="escritorio"] .etiqueta{ font-size: 11px; padding: 4px 10px; }
-:root[data-modo="movil"] .etiqueta{ font-size: 11px; padding: 4px 10px; }
-
-/* =========================================================================
-   5. MODO ESCRITORIO - rejilla clasica + modal
-   ========================================================================= */
-:root[data-modo="escritorio"]{
-  --esc-ancho-max: 1180px;
-  --esc-pad: 32px;
-  --esc-celda-min: 132px;
-  --esc-hueco: 6px;
-
-  --esc-fs-mes: 34px;
-  --esc-fs-titulo: 24px;
-  --esc-fs-cuerpo: 15px;
-  --esc-fs-meta: 13px;
-  --esc-fs-min: 12px;
-  --esc-fs-dia: 15px;
-
-  --esc-qr-lado: 240px;
-  --esc-modal-ancho: 720px;
-}
-:root[data-modo="escritorio"] body{ background: var(--c-fondo-alt); }
-
-.esc-envoltorio{ max-width: var(--esc-ancho-max); margin:0 auto; padding: var(--esc-pad); }
-.esc-cab{
-  display:flex; align-items:center; justify-content:space-between;
-  gap:24px; margin-bottom: 20px; flex-wrap:wrap;
-}
-.esc-cab-tit{ font-size: var(--esc-fs-mes); font-weight:700; letter-spacing:-.5px; }
-.esc-cab-tit #escAnio{ color: var(--c-tinta-suave); font-weight:400; margin-left:6px; }
-.esc-nav{ display:flex; align-items:center; gap:8px; }
-.esc-btn{
-  height:38px; min-width:38px; padding:0 12px;
-  border:1px solid var(--c-linea); background:#fff; border-radius: var(--r-m);
-  font-size: var(--esc-fs-cuerpo); color: var(--c-tinta-media);
-}
-.esc-btn:hover{ border-color: var(--c-linea-fuerte); color: var(--c-tinta); }
-.esc-btn:focus-visible{ outline:2px solid var(--c-acento); outline-offset:2px; }
-
-.esc-leyenda{ display:flex; flex-wrap:wrap; gap:6px 16px; margin-bottom:16px; }
-.esc-leyenda span{ display:flex; align-items:center; gap:7px; font-size: var(--esc-fs-meta); color: var(--c-tinta-media); }
-.esc-leyenda i{ width:10px; height:10px; border-radius:3px; background: var(--c-cat-defecto); }
-
-.esc-tabla{ background:#fff; border:1px solid var(--c-linea); border-radius: var(--r-l); overflow:hidden; }
-.esc-semana{ display:grid; grid-template-columns: repeat(7, minmax(0, 1fr)); background: var(--c-fondo-alt); border-bottom:1px solid var(--c-linea); }
-.esc-semana span{
-  padding:10px 12px; font-size: var(--esc-fs-min); font-weight:700;
-  letter-spacing:1px; text-transform:uppercase; color: var(--c-tinta-suave);
-}
-.esc-rejilla{
-  display:grid; grid-template-columns: repeat(7, minmax(0, 1fr));
-  gap:1px; background: var(--c-linea);
-}
-.esc-celda{
-  background:#fff; min-height: var(--esc-celda-min); min-width:0; overflow:hidden;
-  padding:8px; text-align:left; display:flex; flex-direction:column; gap:5px;
-  position:relative;
-}
-.esc-celda[data-eventos="0"]{ cursor:default; }
-.esc-celda[data-eventos="1"]:hover{ background: var(--c-fondo-alt); }
-.esc-celda[data-fuera="1"]{ background: var(--c-fondo-alt); }
-.esc-celda[data-fuera="1"] .esc-celda-num{ color: var(--c-tinta-suave); }
-.esc-celda-num{ font-size: var(--esc-fs-dia); font-weight:600; line-height:1; }
-.esc-celda[data-hoy="1"] .esc-celda-num{
-  background: var(--c-acento); color:#fff; border-radius:50%;
-  width:26px; height:26px; display:flex; align-items:center; justify-content:center;
-  margin:-3px 0 -3px -3px; font-size:13px;
-}
-.esc-chip{
-  display:flex; align-items:center; gap:6px;
-  font-size: var(--esc-fs-meta); line-height:1.25;
-  border-radius: var(--r-s); padding:3px 6px;
-  background: var(--c-fondo-hueco);
-  border-left:3px solid var(--c-cat-defecto);
-  overflow:hidden;
-}
-.esc-chip b{ font-weight:700; flex:0 0 auto; }
-.esc-chip span{ min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-.esc-chip[data-estado="cancelado"] span{ text-decoration: line-through; opacity:.65; }
-.esc-mas{ font-size: var(--esc-fs-min); font-weight:700; color: var(--c-tinta-suave); }
-
-/* modal escritorio */
-.esc-capa{
-  position:fixed; inset:0; top:0; left:0; right:0; bottom:0;
-  background: rgba(20,23,31,.45);
-  display:flex; align-items:center; justify-content:center;
-  padding:24px; z-index:50;
-}
-.esc-modal{
-  background:#fff; border-radius: var(--r-xl); box-shadow: var(--sombra-l);
-  width:100%; max-width: var(--esc-modal-ancho);
-  max-height: 86vh; display:flex; flex-direction:column; overflow:hidden;
-}
-.esc-modal-cab{
-  display:flex; align-items:flex-start; justify-content:space-between; gap:16px;
-  padding:22px 24px 16px; border-bottom:1px solid var(--c-linea);
-}
-.esc-modal-cab h2{ font-size: var(--esc-fs-titulo); font-weight:700; }
-.esc-modal-cab p{ font-size: var(--esc-fs-meta); color: var(--c-tinta-suave); margin-top:4px; }
-.esc-cerrar{ width:34px; height:34px; border-radius: var(--r-m); font-size:20px; color: var(--c-tinta-suave); flex:0 0 auto; }
-.esc-cerrar:hover{ background: var(--c-fondo-alt); color: var(--c-tinta); }
-.esc-modal-cuerpo{ overflow-y:auto; padding:8px 24px 24px; }
-
-.esc-evento{ padding:20px 0; border-bottom:1px solid var(--c-linea); display:flex; gap:24px; }
-.esc-evento:last-child{ border-bottom:0; }
-.esc-evento-txt{ flex:1 1 auto; min-width:0; }
-.esc-evento h3{ font-size:18px; font-weight:700; line-height:1.3; margin-bottom:8px; }
-.esc-evento[data-estado="cancelado"] h3{ text-decoration: line-through; color: var(--c-tinta-media); }
-.esc-evento-tags{ display:flex; flex-wrap:wrap; gap:6px; margin-bottom:10px; }
-.esc-evento-meta{ font-size: var(--esc-fs-cuerpo); color: var(--c-tinta-media); line-height:1.55; margin-bottom:10px; }
-.esc-evento-meta strong{ color: var(--c-tinta); font-weight:600; }
-.esc-evento-desc{ font-size: var(--esc-fs-cuerpo); line-height:1.6; color: var(--c-tinta); }
-.esc-evento-img{ border-radius: var(--r-m); margin:12px 0; border:1px solid var(--c-linea); }
-.esc-evento-qr{ flex:0 0 auto; width: var(--esc-qr-lado); text-align:center; }
-.esc-qr-caja{
-  width: var(--esc-qr-lado); height: var(--esc-qr-lado);
-  background: var(--c-qr-fondo); border:1px solid var(--c-linea);
-  border-radius: var(--r-m); padding:14px;
-  display:flex; align-items:center; justify-content:center;
-}
-.esc-qr-caja canvas{ width:100%; height:100%; display:block; }
-.esc-qr-pie{ font-size: var(--esc-fs-min); color: var(--c-tinta-suave); margin-top:8px; }
-.esc-registro{
-  display:inline-block; margin-top:12px; padding:10px 18px;
-  background: var(--c-acento); color:#fff; border-radius: var(--r-m);
-  font-size: var(--esc-fs-cuerpo); font-weight:600; text-decoration:none;
-}
-.esc-registro:hover{ filter: brightness(.94); }
-.esc-registro[data-desactivado="1"]{
-  background: var(--c-fondo-hueco); color: var(--c-tinta-suave);
-  cursor:not-allowed; pointer-events:none;
-}
-.esc-aviso{
-  margin: 0 auto 16px; max-width: var(--esc-ancho-max);
-  background: var(--c-aviso-suave); color: var(--c-aviso);
-  border-radius: var(--r-m); padding:10px 14px; font-size: var(--esc-fs-meta); font-weight:600;
+  padding: 16px var(--cal-margen);
 }
 
 /* =========================================================================
-   6. MODO MOVIL - rejilla compacta + agenda + detalle a pantalla completa
+   6. ESCRITORIO Y MOVIL - mismo lenguaje, en flujo y fluido
+   Todo se mide con clamp() sobre el ancho de ventana, con minimo y maximo
+   fijados, y se declara siempre un valor de reserva antes por si el
+   navegador no soporta clamp().
    ========================================================================= */
+:root[data-modo="escritorio"],
 :root[data-modo="movil"]{
-  --mov-pad: 16px;
-  --mov-celda-alto: 46px;
+  --cal-pop-radio: 14px;
+  --cal-pop-lh-titulo: 1.15;
+  --cal-pop-lh-dato: 1.35;
+  --cal-pop-icono-hueco: 8px;
+  --cal-pop-hueco-tit: 8px;
+  --cal-pop-sep-arriba: 26px;
+  --cal-pop-sep-abajo: 22px;
+}
+:root[data-modo="escritorio"] body,
+:root[data-modo="movil"] body{
+  min-height:100%;
+  -webkit-text-size-adjust: 100%;
+}
+:root[data-modo="escritorio"] .cal-marco,
+:root[data-modo="movil"] .cal-marco{ display:block; }
+:root[data-modo="escritorio"] .cal-lienzo,
+:root[data-modo="movil"] .cal-lienzo{
+  position:relative;
+  width:100%; max-width: var(--cal-max);
+  margin:0 auto;
+  padding-bottom: var(--cal-margen);
+  transform:none;
+}
+:root[data-modo="escritorio"] .cal-hero,
+:root[data-modo="movil"] .cal-hero{
+  position:relative;
+  height: 260px;
+  height: var(--cal-hero-alto);
+}
+:root[data-modo="escritorio"] .cal-degradado,
+:root[data-modo="movil"] .cal-degradado{
+  position:absolute; left:0; right:0; top:0;
+  height: 260px;
+  height: var(--cal-hero-alto);
+  background: -webkit-linear-gradient(top, rgba(37,39,58,0) 45%, #25273a 100%);
+  background: linear-gradient(to bottom, rgba(37,39,58,0) 45%, #25273a 100%);
+}
+:root[data-modo="escritorio"] .cal-logo,
+:root[data-modo="movil"] .cal-logo{
+  position:absolute; top:0; left: var(--cal-margen);
+  width: var(--cal-logo-lado); height: var(--cal-logo-lado);
+  font-size: var(--cal-logo-lado);
+}
+:root[data-modo="escritorio"] .cal-h1,
+:root[data-modo="movil"] .cal-h1{
+  position:relative;
+  margin: -78px var(--cal-margen) 0;
+  margin-top: calc(-1 * (var(--cal-lh-h1) + 0.42em));
+  padding-right: calc(var(--cal-tactil) * 3.6);
+  white-space:normal;
+}
+:root[data-modo="escritorio"] .cal-nav,
+:root[data-modo="movil"] .cal-nav{
+  position:absolute; right: var(--cal-margen);
+  top: 16px;
+}
+:root[data-modo="escritorio"] .cal-semana,
+:root[data-modo="movil"] .cal-semana{
+  margin: var(--cal-hueco-cab) var(--cal-margen) 10px;
+}
+:root[data-modo="escritorio"] .cal-rejilla,
+:root[data-modo="movil"] .cal-rejilla{
+  margin: 0 var(--cal-margen);
+  grid-auto-rows: auto;
+}
+:root[data-modo="escritorio"] .cal-card,
+:root[data-modo="movil"] .cal-card{
+  min-height: var(--cal-card-min);
+}
+/* en movil la card es un cuadrado con el numero; en escritorio la altura
+   la reparte la rejilla para que el mes entre de una sola pantalla */
+:root[data-modo="movil"] .cal-card{ aspect-ratio: var(--cal-card-ratio); }
+:root[data-modo="escritorio"] .cal-card{ height:100%; }
+:root[data-modo="escritorio"] .cal-lienzo{
+  min-height: 100vh;
+  display:flex; flex-direction:column;
+}
+:root[data-modo="escritorio"] .cal-hero{ flex:0 0 auto; }
+:root[data-modo="escritorio"] .cal-rejilla{
+  flex:1 1 auto;
+  grid-auto-rows: minmax(var(--cal-card-min), 1fr);
+}
+/* el QR y el texto del evento se equilibran centrados fuera del MOPI */
+:root[data-modo="escritorio"] .cal-ev{ align-items:center; }
 
-  --mov-fs-mes: 20px;
-  --mov-fs-titulo: 16px;
-  --mov-fs-cuerpo: 15px;
-  --mov-fs-meta: 13px;
-  --mov-fs-min: 11px;
-  --mov-fs-dia: 14px;
+:root[data-modo="escritorio"] .cal-pie-linea,
+:root[data-modo="movil"] .cal-pie-linea{
+  margin: 40px var(--cal-margen) 0;
 }
-:root[data-modo="movil"] body{ background: var(--c-fondo); }
+:root[data-modo="escritorio"] .cal-pie,
+:root[data-modo="movil"] .cal-pie{
+  margin: 18px var(--cal-margen) 0;
+}
+:root[data-modo="escritorio"] .cal-aviso,
+:root[data-modo="movil"] .cal-aviso{
+  position:fixed; left:0; right:0; bottom:0; z-index:20;
+  padding: 12px 16px;
+}
+/* el popup cubre la ventana entera, no solo la banda de la rejilla */
+:root[data-modo="escritorio"] .cal-modal-fondo,
+:root[data-modo="movil"] .cal-modal-fondo{
+  position:fixed; left:0; top:0; right:0; bottom:0; z-index:50;
+  padding: var(--cal-margen) 12px;
+}
 
-.mov-cab{
-  position:sticky; top:0; z-index:10; background:#fff;
-  border-bottom:1px solid var(--c-linea);
-  padding: 12px var(--mov-pad) 8px;
-}
-.mov-cab-fila{ display:flex; align-items:center; justify-content:space-between; gap:10px; }
-.mov-cab-tit{ font-size: var(--mov-fs-mes); font-weight:700; }
-.mov-cab-tit #movAnio{ color: var(--c-tinta-suave); font-weight:400; }
-.mov-btn{
-  width:40px; height:40px; border-radius: var(--r-m);
-  border:1px solid var(--c-linea); background:#fff; font-size:16px; color: var(--c-tinta-media);
-  display:flex; align-items:center; justify-content:center;
-}
-.mov-btn-hoy{ width:auto; padding:0 12px; font-size: var(--mov-fs-meta); font-weight:600; }
-.mov-nav{ display:flex; gap:6px; }
+/* ---------------------------- escritorio ---------------------------- */
+:root[data-modo="escritorio"]{
+  --cal-max: 1440px;
+  --cal-margen: 40px;
+  --cal-margen: clamp(20px, 3.2vw, 47px);
+  --cal-tactil: 44px;
+  --cal-hero-alto: 260px;
+  --cal-hero-alto: clamp(170px, 21vw, 340px);
+  --cal-logo-lado: 96px;
+  --cal-logo-lado: clamp(64px, 8vw, 121px);
+  --cal-hueco-cab: 26px;
 
-.mov-semana{ display:grid; grid-template-columns: repeat(7, minmax(0, 1fr)); margin-top:10px; }
-.mov-semana span{
-  text-align:center; font-size: var(--mov-fs-min); font-weight:700;
-  letter-spacing:.5px; text-transform:uppercase; color: var(--c-tinta-suave);
-}
-.mov-rejilla{
-  display:grid; grid-template-columns: repeat(7, minmax(0, 1fr));
-  grid-auto-rows: var(--mov-celda-alto);
-  touch-action: pan-y;
-}
-.mov-celda{
-  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px;
-  font-size: var(--mov-fs-dia); border-radius: var(--r-m); position:relative;
-}
-.mov-celda[data-fuera="1"]{ color: var(--c-tinta-suave); opacity:.5; }
-.mov-celda-num{
-  width:28px; height:28px; border-radius:50%;
-  display:flex; align-items:center; justify-content:center; font-weight:600; line-height:1;
-}
-.mov-celda[data-hoy="1"] .mov-celda-num{ background: var(--c-acento); color:#fff; font-weight:700; }
-.mov-celda[data-sel="1"] .mov-celda-num{ background: var(--c-tinta); color:#fff; }
-.mov-celda[data-hoy="1"][data-sel="1"] .mov-celda-num{ background: var(--c-acento); }
-.mov-puntos{ display:flex; gap:3px; height:6px; align-items:center; }
-.mov-puntos i{ width:6px; height:6px; border-radius:50%; background: var(--c-cat-defecto); }
-.mov-puntos i[data-cancelado="1"]{ opacity:.35; }
+  --cal-fs-h1: 48px;
+  --cal-fs-h1: clamp(30px, 4.6vw, 66px);
+  --cal-lh-h1: 1.18em;
+  --cal-fs-cabecera: 14px;
+  --cal-fs-cabecera: clamp(11px, 1.25vw, 18px);
+  --cal-fs-dia: 24px;
+  --cal-fs-dia: clamp(16px, 2.05vw, 30px);
+  --cal-fs-evento: 13px;
+  --cal-fs-evento: clamp(10px, 1.05vw, 15px);
+  --cal-lh-evento: 1.22;
+  --cal-fs-pie: 30px;
+  --cal-fs-pie: clamp(18px, 2.5vw, 38px);
+  --cal-lh-pie: 1.18em;
+  --cal-fs-aviso: 13px;
 
-.mov-agenda{ padding: 8px var(--mov-pad) 48px; }
-.mov-agenda-tit{
-  font-size: var(--mov-fs-min); font-weight:700; letter-spacing:1.5px;
-  text-transform:uppercase; color: var(--c-tinta-suave); margin: 18px 0 8px;
-}
-.mov-grupo{ border-radius: var(--r-l); transition: background .25s; padding:2px; margin:0 -2px; }
-.mov-grupo[data-resaltado="1"]{ background: var(--c-acento-suave); }
-.mov-grupo-fecha{
-  font-size: var(--mov-fs-meta); font-weight:700;
-  padding: 12px 4px 6px; color: var(--c-tinta);
-}
-.mov-grupo-fecha em{ font-style:normal; color: var(--c-acento); }
-.mov-item{
-  display:flex; gap:12px; width:100%; text-align:left;
-  background:#fff; border:1px solid var(--c-linea); border-radius: var(--r-l);
-  padding:12px; margin-bottom:8px; align-items:flex-start;
-}
-.mov-item-barra{ width:4px; align-self:stretch; border-radius: var(--r-pastilla); background: var(--c-cat-defecto); flex:0 0 auto; }
-.mov-item-cuerpo{ display:block; flex:1 1 auto; min-width:0; }
-.mov-item-hora{ display:block; font-size: var(--mov-fs-meta); font-weight:700; color: var(--c-tinta-media); }
-.mov-item-tit{ display:block; font-size: var(--mov-fs-titulo); font-weight:600; line-height:1.3; margin:2px 0 4px; }
-.mov-item[data-estado="cancelado"] .mov-item-tit{ text-decoration: line-through; color: var(--c-tinta-media); }
-.mov-item-meta{ display:block; font-size: var(--mov-fs-meta); color: var(--c-tinta-suave); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-.mov-item-tags{ display:flex; flex-wrap:wrap; gap:5px; margin-top:6px; }
-.mov-sin{ text-align:center; color: var(--c-tinta-suave); font-size: var(--mov-fs-cuerpo); padding:48px 16px; }
+  --cal-card-ratio: 181 / 214.842;
+  --cal-card-min: 96px;
+  --cal-card-hueco-x: 12px;
+  --cal-card-hueco-x: clamp(6px, .95vw, 16px);
+  --cal-card-hueco-y: 12px;
+  --cal-card-hueco-y: clamp(6px, .95vw, 16px);
+  --cal-card-pad-x: 8px;
+  --cal-card-pad-x: clamp(5px, .7vw, 10px);
+  --cal-card-pad-top: 4px;
+  --cal-card-pad-bot: 7px;
 
-.mov-detalle{
-  position:fixed; inset:0; top:0; left:0; right:0; bottom:0; z-index:60;
-  background:#fff; display:flex; flex-direction:column;
+  --cal-pop-ancho: 920px;
+  --cal-pop-ancho: min(920px, 92vw);
+  --cal-pop-alto-max: 86vh;
+  --cal-pop-pad-izq: 30px;
+  --cal-pop-pad-der: 30px;
+  --cal-pop-pad-top: 30px;
+  --cal-pop-pad-bot: 34px;
+  --cal-pop-hueco-cab: 30px;
+  --cal-pop-fs-fecha: 40px;
+  --cal-pop-fs-fecha: clamp(28px, 3.4vw, 48px);
+  --cal-pop-lh-fecha: 1.2em;
+  --cal-pop-fs-titulo: 26px;
+  --cal-pop-fs-titulo: clamp(20px, 2.2vw, 32px);
+  --cal-pop-fs-dato: 17px;
+  --cal-pop-fs-dato: clamp(14px, 1.4vw, 20px);
+  --cal-pop-fs-etiqueta: 12px;
+  --cal-pop-icono: 20px;
+  --cal-pop-icono-cerrar: 26px;
+  --cal-pop-cerrar-lado: 56px;
+  --cal-pop-cerrar-top: 8px;
+  --cal-pop-cerrar-der: 8px;
+  --cal-pop-qr: 130px;
+  --cal-pop-qr: clamp(104px, 11vw, 150px);
+  --cal-pop-hueco-qr: 26px;
 }
-.mov-detalle-cab{
-  display:flex; align-items:center; gap:10px;
-  padding:12px var(--mov-pad); border-bottom:1px solid var(--c-linea); flex:0 0 auto;
+:root[data-modo="escritorio"] .cal-agenda{ display:none; }
+
+/* ------------------------------ movil ------------------------------- */
+:root[data-modo="movil"]{
+  --cal-max: 620px;
+  --cal-margen: 16px;
+  --cal-tactil: 42px;
+  --cal-hero-alto: 180px;
+  --cal-hero-alto: clamp(130px, 40vw, 260px);
+  --cal-logo-lado: 64px;
+  --cal-logo-lado: clamp(52px, 15vw, 84px);
+  --cal-hueco-cab: 22px;
+
+  --cal-fs-h1: 27px;
+  --cal-fs-h1: clamp(21px, 6.8vw, 38px);
+  --cal-lh-h1: 1.2em;
+  --cal-fs-cabecera: 12px;
+  --cal-fs-cabecera: clamp(11px, 3.1vw, 15px);
+  --cal-fs-dia: 15px;
+  --cal-fs-dia: clamp(12px, 3.7vw, 19px);
+  --cal-fs-evento: 11px;
+  --cal-lh-evento: 1.2;
+  --cal-fs-pie: 19px;
+  --cal-fs-pie: clamp(15px, 4.6vw, 26px);
+  --cal-lh-pie: 1.2em;
+  --cal-fs-aviso: 12px;
+
+  --cal-card-ratio: 1 / 1;
+  --cal-card-min: 34px;
+  --cal-card-hueco-x: 5px;
+  --cal-card-hueco-y: 5px;
+  --cal-card-pad-x: 2px;
+  --cal-card-pad-top: 2px;
+  --cal-card-pad-bot: 2px;
+
+  --cal-pop-ancho: min(560px, calc(100vw - 24px));
+  --cal-pop-alto-max: 86vh;
+  --cal-pop-pad-izq: 20px;
+  --cal-pop-pad-der: 20px;
+  --cal-pop-pad-top: 22px;
+  --cal-pop-pad-bot: 24px;
+  --cal-pop-hueco-cab: 20px;
+  --cal-pop-fs-fecha: 30px;
+  --cal-pop-fs-fecha: clamp(24px, 7vw, 36px);
+  --cal-pop-fs-titulo: 20px;
+  --cal-pop-fs-titulo: clamp(17px, 5vw, 24px);
+  --cal-pop-fs-dato: 15px;
+  --cal-pop-fs-dato: clamp(13px, 3.9vw, 17px);
+  --cal-pop-fs-etiqueta: 11px;
+  --cal-pop-icono: 17px;
+  --cal-pop-icono-cerrar: 22px;
+  --cal-pop-cerrar-lado: 48px;
+  --cal-pop-cerrar-top: 4px;
+  --cal-pop-cerrar-der: 4px;
+  --cal-pop-qr: 0px;
+  --cal-pop-hueco-qr: 0px;
 }
-.mov-detalle-cab p{ font-size: var(--mov-fs-meta); font-weight:600; color: var(--c-tinta-media); }
-.mov-detalle-cuerpo{ flex:1 1 auto; overflow-y:auto; -webkit-overflow-scrolling:touch; padding: 18px var(--mov-pad) 32px; }
-.mov-detalle-cuerpo h2{ font-size:22px; font-weight:700; line-height:1.25; margin-bottom:10px; }
-.mov-detalle-cuerpo[data-estado="cancelado"] h2{ text-decoration: line-through; color: var(--c-tinta-media); }
-.mov-detalle-tags{ display:flex; flex-wrap:wrap; gap:6px; margin-bottom:14px; }
-.mov-detalle-meta{ font-size: var(--mov-fs-cuerpo); color: var(--c-tinta-media); line-height:1.6; margin-bottom:14px; }
-.mov-detalle-meta strong{ color: var(--c-tinta); font-weight:600; }
-.mov-detalle-desc{ font-size: var(--mov-fs-cuerpo); line-height:1.65; }
-.mov-detalle-img{ border-radius: var(--r-m); margin-bottom:14px; border:1px solid var(--c-linea); }
-.mov-detalle-pie{
-  flex:0 0 auto; padding: 12px var(--mov-pad);
-  padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
-  border-top:1px solid var(--c-linea); background:#fff;
+/* la card de movil solo lleva el numero, centrado */
+:root[data-modo="movil"] .cal-card{
+  align-items:center; justify-content:center;
+  text-align:center;
 }
-.mov-registro{
-  display:block; width:100%; text-align:center;
-  padding:15px 18px; border-radius: var(--r-l);
-  background: var(--c-acento); color:#fff; font-size: var(--mov-fs-titulo);
-  font-weight:700; text-decoration:none;
+:root[data-modo="movil"] .cal-card-num{ line-height:1; }
+:root[data-modo="movil"] .cal-card-lista{ display:none; }
+:root[data-modo="movil"] .cal-agenda{
+  display:block;
+  margin: 6px var(--cal-margen) 0;
 }
-.mov-registro[data-desactivado="1"]{ background: var(--c-fondo-hueco); color: var(--c-tinta-suave); pointer-events:none; }
-.mov-aviso{
-  background: var(--c-aviso-suave); color: var(--c-aviso);
-  font-size: var(--mov-fs-meta); font-weight:600;
-  padding:8px var(--mov-pad); text-align:center;
-}
+:root[data-modo="movil"] .cal-semana span{ text-align:center; }
+
 </style>
 </head>
 <body>
 
-<!-- ===================== VISTA MOPI ===================== -->
-<div class="vista vista-mopi">
-  <div class="mopi-marco" id="mopiMarco">
-    <div class="mopi-lienzo" id="mopiLienzo">
+<!-- ============ CALENDARIO: una sola vista para los tres modos ============ -->
+<div class="vista vista-cal">
+  <div class="cal-marco" id="calMarco">
+    <div class="cal-lienzo" id="calLienzo">
 
-      <div class="mopi-hero">
+      <div class="cal-hero">
         <img src="assets/img/hero.jpg" alt="" onerror="this.style.display='none'">
       </div>
-      <div class="mopi-degradado"></div>
+      <div class="cal-degradado"></div>
 
-      <div class="mopi-logo">
+      <div class="cal-logo">
         <span aria-hidden="true">savills</span>
         <img src="assets/img/logo-savills.svg" alt="Savills" onerror="this.style.display='none'">
       </div>
 
-      <h1 class="mopi-h1"><b>Eventos</b> <span id="mopiMes">&nbsp;</span> <span id="mopiAnio"></span></h1>
+      <h1 class="cal-h1"><b>Eventos</b> <span id="calMes">&nbsp;</span> <span id="calAnio"></span></h1>
 
-      <div class="mopi-semana" id="mopiSemana"></div>
-      <div class="mopi-rejilla" id="mopiRejilla"></div>
+      <nav class="cal-nav" id="calNav">
+        <button type="button" class="cal-btn" id="calAnterior" aria-label="Mes anterior">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15 5 8 12l7 7"/></svg>
+        </button>
+        <button type="button" class="cal-btn cal-btn-hoy" id="calHoy">Hoy</button>
+        <button type="button" class="cal-btn" id="calSiguiente" aria-label="Mes siguiente">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 5l7 7-7 7"/></svg>
+        </button>
+      </nav>
 
-      <div class="mopi-pie-linea"></div>
-      <div class="mopi-pie">Para más información contacta con<b>eventosmkt@savills.es</b></div>
+      <div class="cal-semana" id="calSemana"></div>
+      <div class="cal-rejilla" id="calRejilla"></div>
 
-      <div class="mopi-modal-fondo oculto" id="mopiModal">
-        <div class="mopi-modal" role="dialog" aria-modal="true" aria-labelledby="mopiModalFecha">
-          <button type="button" class="mopi-cerrar" id="mopiCerrar" aria-label="Cerrar">
+      <div class="cal-agenda" id="calAgenda"></div>
+
+      <div class="cal-pie-linea"></div>
+      <div class="cal-pie">Para más información contacta con<b>eventosmkt@savills.es</b></div>
+
+      <div class="cal-modal-fondo oculto" id="calModal">
+        <div class="cal-modal" role="dialog" aria-modal="true" aria-labelledby="calModalFecha">
+          <button type="button" class="cal-cerrar" id="calCerrar" aria-label="Cerrar">
             <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
               <path d="M5 5 19 19M19 5 5 19" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
             </svg>
           </button>
-          <div class="mopi-pop-fecha" id="mopiModalFecha">&nbsp;</div>
-          <div class="mopi-pop-eventos" id="mopiModalCuerpo"></div>
-          <div class="mopi-pop-mas" aria-hidden="true">
+          <div class="cal-pop-fecha" id="calModalFecha">&nbsp;</div>
+          <div class="cal-pop-eventos" id="calModalCuerpo"></div>
+          <div class="cal-pop-mas" aria-hidden="true">
             <i><svg viewBox="0 0 24 24" focusable="false">
               <path d="M6 7 12 12.5 18 7"/><path d="M6 13.5 12 19 18 13.5"/>
             </svg></i>
@@ -876,76 +958,8 @@ a{ color: inherit; }
         </div>
       </div>
 
-      <div class="mopi-aviso oculto" id="mopiAviso"></div>
+      <div class="cal-aviso oculto" id="calAviso"></div>
     </div>
-  </div>
-</div>
-
-<!-- ===================== VISTA ESCRITORIO ===================== -->
-<div class="vista vista-escritorio">
-  <div class="esc-aviso oculto" id="escAviso"></div>
-  <div class="esc-envoltorio">
-
-    <header class="esc-cab">
-      <h1 class="esc-cab-tit"><span id="escMes">&nbsp;</span> <span id="escAnio"></span></h1>
-      <nav class="esc-nav">
-        <button type="button" class="esc-btn" id="escAnterior" aria-label="Mes anterior">&#8249;</button>
-        <button type="button" class="esc-btn" id="escHoy">Hoy</button>
-        <button type="button" class="esc-btn" id="escSiguiente" aria-label="Mes siguiente">&#8250;</button>
-      </nav>
-    </header>
-
-    <div class="esc-leyenda" id="escLeyenda"></div>
-
-    <div class="esc-tabla">
-      <div class="esc-semana" id="escSemana"></div>
-      <div class="esc-rejilla" id="escRejilla"></div>
-    </div>
-  </div>
-
-  <div class="esc-capa oculto" id="escCapa">
-    <div class="esc-modal" role="dialog" aria-modal="true" aria-labelledby="escModalTitulo">
-      <div class="esc-modal-cab">
-        <div>
-          <h2 id="escModalTitulo">&nbsp;</h2>
-          <p id="escModalSub">&nbsp;</p>
-        </div>
-        <button type="button" class="esc-cerrar" id="escCerrar" aria-label="Cerrar">&#10005;</button>
-      </div>
-      <div class="esc-modal-cuerpo" id="escModalCuerpo"></div>
-    </div>
-  </div>
-</div>
-
-<!-- ===================== VISTA MOVIL ===================== -->
-<div class="vista vista-movil">
-  <div class="mov-aviso oculto" id="movAviso"></div>
-
-  <header class="mov-cab">
-    <div class="mov-cab-fila">
-      <h1 class="mov-cab-tit"><span id="movMes">&nbsp;</span> <span id="movAnio"></span></h1>
-      <nav class="mov-nav">
-        <button type="button" class="mov-btn" id="movAnterior" aria-label="Mes anterior">&#8249;</button>
-        <button type="button" class="mov-btn mov-btn-hoy" id="movHoy">Hoy</button>
-        <button type="button" class="mov-btn" id="movSiguiente" aria-label="Mes siguiente">&#8250;</button>
-      </nav>
-    </div>
-    <div class="mov-semana" id="movSemana"></div>
-    <div class="mov-rejilla" id="movRejilla"></div>
-  </header>
-
-  <main class="mov-agenda">
-    <div class="mov-agenda-tit">Agenda del mes</div>
-    <div id="movLista"></div>
-  </main>
-
-  <div class="mov-detalle oculto" id="movDetalle">
-    <div class="mov-detalle-cab">
-      <button type="button" class="mov-btn" id="movVolver" aria-label="Volver">&#8249;</button>
-      <p id="movDetalleFecha">&nbsp;</p>
-    </div>
-    <div class="mov-detalle-cuerpo" id="movDetalleCuerpo"></div>
-    <div class="mov-detalle-pie oculto" id="movDetallePie"></div>
   </div>
 </div>
 
@@ -970,7 +984,7 @@ var CAL = (function () {
   var MS_INACTIVIDAD = 45 * 1000;        // MOPI: cierra el popup y vuelve al mes
 
   var MOPI_ANCHO = 1080, MOPI_ALTO = 1920;
-  var MS_ANIM = 280;                     // igual que --mopi-pop-anim
+  var MS_ANIM = 280;                     // igual que --cal-pop-anim
   var MOPI_MAX_EVENTOS = 3;              // eventos visibles por card antes del "+N"
   var COLOR_DEFECTO = '#9aa1ae';
 
@@ -983,9 +997,16 @@ var CAL = (function () {
   var MESES = ['enero','febrero','marzo','abril','mayo','junio','julio',
                'agosto','septiembre','octubre','noviembre','diciembre'];
   var DIAS_LARGOS = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
-  var DIAS_CORTOS = ['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
-  var DIAS_MINI   = ['L','M','X','J','V','S','D'];
-  var MOPI_DIAS   = ['Lunes','Martes','Miércoles','Jueves','Viernes'];
+  /* El cartel del MOPI es de lunes a viernes; en escritorio y movil caben los
+     siete dias, asi que los eventos de fin de semana tambien se ven. */
+  var DIAS_LABORABLES = ['Lunes','Martes','Miércoles','Jueves','Viernes'];
+  var DIAS_COMPLETOS  = ['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'];
+  var DIAS_INICIALES  = ['L','M','X','J','V','S','D'];
+  function diasVisibles() {
+    if (est.modo === 'mopi') return DIAS_LABORABLES;
+    if (est.modo === 'movil') return DIAS_INICIALES;
+    return DIAS_COMPLETOS;
+  }
 
   /* Iconos del popup, dibujados a mano con la geometria de akar-icons: el
      entorno no tiene salida a figma.com para exportar los del archivo. */
@@ -1663,7 +1684,7 @@ var CAL = (function () {
      RENDER - MODO MOPI
      ======================================================================= */
   function escalarMopi() {
-    var lienzo = el('mopiLienzo');
+    var lienzo = el('calLienzo');
     if (!lienzo) return;
     var vw = window.innerWidth || MOPI_ANCHO;
     var vh = window.innerHeight || MOPI_ALTO;
@@ -1675,58 +1696,95 @@ var CAL = (function () {
 
   function pintarMopi() {
     var f = est.mesVista, i, j, k;
-    el('mopiMes').textContent = capitalizar(MESES[f.getMonth()]);
-    el('mopiAnio').textContent = f.getFullYear();
+    var dias = diasVisibles(), cols = dias.length;
+    var conTitulos = (est.modo !== 'movil');
+
+    el('calMes').textContent = capitalizar(MESES[f.getMonth()]);
+    el('calAnio').textContent = f.getFullYear();
+    el('calRejilla').style.gridTemplateColumns = 'repeat(' + cols + ', minmax(0, 1fr))';
+    el('calSemana').style.gridTemplateColumns = 'repeat(' + cols + ', minmax(0, 1fr))';
 
     var h = '';
-    for (i = 0; i < MOPI_DIAS.length; i++) { h += '<span>' + MOPI_DIAS[i] + '</span>'; }
-    el('mopiSemana').innerHTML = h;
+    for (i = 0; i < cols; i++) { h += '<span>' + dias[i] + '</span>'; }
+    el('calSemana').innerHTML = h;
 
     var filas = matrizMopi(f), hoy = hoyIso();
     h = '';
     for (i = 0; i < filas.length; i++) {
-      for (j = 0; j < MOPI_DIAS.length; j++) {
+      for (j = 0; j < cols; j++) {
         var c = filas[i][j];
-        if (!c.dentro) { h += '<div class="mopi-card" data-vacia="1"></div>'; continue; }
+        if (!c.dentro) { h += '<div class="cal-card" data-vacia="1"></div>'; continue; }
         var n = c.eventos.length;
-        var vis = n > MOPI_MAX_EVENTOS ? MOPI_MAX_EVENTOS : n;
+        var vis = conTitulos ? (n > MOPI_MAX_EVENTOS ? MOPI_MAX_EVENTOS : n) : 0;
         var lista = '';
         for (k = 0; k < vis; k++) {
           var e = c.eventos[k];
-          lista += '<span class="mopi-card-ev" data-estado="' + e.estado + '">' +
-                     '<span class="mopi-card-t" data-titulo="' + esc(e.titulo) + '">' + esc(e.titulo) + '</span>' +
+          lista += '<span class="cal-card-ev" data-estado="' + e.estado + '">' +
+                     '<span class="cal-card-t" data-titulo="' + esc(e.titulo) + '">' + esc(e.titulo) + '</span>' +
                      (e.estado === 'completo' ? ' <b>(completo)</b>' : '') +
                    '</span>';
         }
-        if (n > MOPI_MAX_EVENTOS) { lista += '<span class="mopi-card-mas">Ver todos (' + n + ')</span>'; }
-        h += '<button type="button" class="mopi-card" data-fecha="' + c.iso + '"' +
+        if (conTitulos && n > MOPI_MAX_EVENTOS) { lista += '<span class="cal-card-mas">Ver todos (' + n + ')</span>'; }
+        h += '<button type="button" class="cal-card" data-fecha="' + c.iso + '"' +
              ' data-eventos="' + (n ? '1' : '0') + '"' +
+             ' data-n="' + n + '"' +
              ' data-hoy="' + (c.iso === hoy ? '1' : '0') + '">' +
-             '<span class="mopi-card-num">' + pad2(c.dia) + '</span>' +
-             '<span class="mopi-card-lista" data-n="' + (n > MOPI_MAX_EVENTOS ? MOPI_MAX_EVENTOS : n) + '">' + lista + '</span>' +
+             '<span class="cal-card-num">' + pad2(c.dia) + '</span>' +
+             '<span class="cal-card-lista" data-n="' + (n > MOPI_MAX_EVENTOS ? MOPI_MAX_EVENTOS : n) + '">' + lista + '</span>' +
              '</button>';
       }
     }
-    el('mopiRejilla').innerHTML = h;
-    recortarTitulos();
+    el('calRejilla').innerHTML = h;
+    if (conTitulos) { recortarTitulos(); }
 
+    pintarAgenda(f);
     avisarFinDeSemana(f);
     pintarPanelMopi();
 
     var aviso = avisoCache();
-    el('mopiAviso').textContent = aviso;
-    mostrar(el('mopiAviso'), !!aviso);
+    el('calAviso').textContent = aviso;
+    mostrar(el('calAviso'), !!aviso);
+  }
+
+  /* En movil las cards solo llevan el numero: el contenido va en la agenda. */
+  function pintarAgenda(f) {
+    var cont = el('calAgenda');
+    if (est.modo !== 'movil') { cont.innerHTML = ''; return; }
+
+    var mes = eventosDelMes(f), i, h = '', ultima = '';
+    if (!mes.length) {
+      cont.innerHTML = '<p class="cal-agenda-vacia">No hay eventos este mes.</p>';
+      return;
+    }
+    for (i = 0; i < mes.length; i++) {
+      var e = mes[i];
+      if (e.fecha !== ultima) {
+        ultima = e.fecha;
+        var d = deIso(e.fecha);
+        h += '<div class="cal-agenda-fecha"><b>' + pad2(d.getDate()) + '</b> ' +
+             capitalizar(DIAS_LARGOS[d.getDay()]) + '</div>';
+      }
+      var datos = '';
+      if (franjaH(e)) { datos += filaDato(ICONOS.reloj, franjaH(e)); }
+      if (e.ubicacion) { datos += filaDato(ICONOS.lugar, e.ubicacion); }
+      h += '<button type="button" class="cal-agenda-item" data-fecha="' + e.fecha + '" data-estado="' + e.estado + '">' +
+             '<span class="cal-agenda-tit"><span class="cal-ev-tit-txt">' + esc(e.titulo) + '</span>' +
+               etiquetasEstado(e) + '</span>' +
+             datos +
+           '</button>';
+    }
+    cont.innerHTML = h;
   }
 
   /* El recorte de CSS corta limpio pero no siempre pinta los puntos
      suspensivos, y un titulo cortado sin marca se lee como si fuera entero.
      Se mide el desbordamiento real y se recorta por busqueda binaria. */
   function recortarTitulos() {
-    var evs = el('mopiRejilla').getElementsByClassName('mopi-card-ev');
+    var evs = el('calRejilla').getElementsByClassName('cal-card-ev');
     var i, caja, t, texto, lo, hi, mid;
     for (i = 0; i < evs.length; i++) {
       caja = evs[i];
-      t = caja.getElementsByClassName('mopi-card-t')[0];
+      t = caja.getElementsByClassName('cal-card-t')[0];
       if (!t) continue;
       texto = t.getAttribute('data-titulo') || '';
       t.textContent = texto;
@@ -1746,11 +1804,12 @@ var CAL = (function () {
      cinco filas laborables, asi que el lienzo de 1920 px siempre cuadra. */
   function matrizMopi(f) {
     var anio = f.getFullYear(), mes = f.getMonth();
+    var cols = diasVisibles().length;
     var desplaz = (new Date(anio, mes, 1).getDay() + 6) % 7;
     var filas = [], i, j;
     for (i = 0; i < 6; i++) {
       var semana = [], hay = false;
-      for (j = 0; j < MOPI_DIAS.length; j++) {
+      for (j = 0; j < cols; j++) {
         var d = new Date(anio, mes, 1 - desplaz + i * 7 + j);
         var dentro = (d.getMonth() === mes && d.getFullYear() === anio);
         if (dentro) { hay = true; }
@@ -1763,6 +1822,7 @@ var CAL = (function () {
   }
 
   function avisarFinDeSemana(f) {
+    if (diasVisibles().length > 5) return;
     var mes = eventosDelMes(f), fuera = [], i, d;
     for (i = 0; i < mes.length; i++) {
       d = deIso(mes[i].fecha).getDay();
@@ -1779,7 +1839,7 @@ var CAL = (function () {
      popup del dia, y solo mientras haya un dia seleccionado. */
   function pintarPanelMopi() {
     if (est.diaSel) { pintarModalMopi(); }
-    else { mostrarAnimado(el('mopiModal'), false); }
+    else { mostrarAnimado(el('calModal'), false); }
   }
 
   /* Horario tal y como lo escribe el diseno: "19:00h" / "19:00h - 21:00h" */
@@ -1789,7 +1849,7 @@ var CAL = (function () {
   }
 
   function filaDato(icono, txt) {
-    return '<div class="mopi-ev-dato"><i>' + icono + '</i><span>' + esc(txt) + '</span></div>';
+    return '<div class="cal-ev-dato"><i>' + icono + '</i><span>' + esc(txt) + '</span></div>';
   }
 
   function eventoPopupMopi(ev) {
@@ -1800,41 +1860,48 @@ var CAL = (function () {
     /* El Figma no muestra el tipo de evento en el popup. Para sacarlo, basta
        con anadir aqui: filaDato(ICONOS.tipo, ev.categoria) */
 
-    var qr = '';
+    /* Escanear un QR desde el propio movil no tiene sentido: ahi va un boton. */
+    var qr = '', boton = '';
     if (ev.url && ev.estado !== 'cancelado') {
-      qr = '<div class="mopi-ev-qr"><div class="mopi-qr-caja" data-qr="' +
-           esc(urlConUtm(ev.url, 'mopi')) + '"></div></div>';
+      if (est.modo === 'movil') {
+        boton = '<a class="cal-ev-boton" href="' + esc(urlConUtm(ev.url, 'movil')) +
+                '" target="_blank" rel="noopener">Más información</a>';
+      } else {
+        qr = '<div class="cal-ev-qr"><div class="cal-qr-caja" data-qr="' +
+             esc(urlConUtm(ev.url, est.modo)) + '"></div></div>';
+      }
     }
 
-    return '<article class="mopi-ev" data-estado="' + ev.estado + '">' +
-             '<div class="mopi-ev-txt">' +
-               '<h3 class="mopi-ev-tit"><span class="mopi-ev-tit-txt">' + esc(ev.titulo) + '</span>' +
+    return '<article class="cal-ev" data-estado="' + ev.estado + '">' +
+             '<div class="cal-ev-txt">' +
+               '<h3 class="cal-ev-tit"><span class="cal-ev-tit-txt">' + esc(ev.titulo) + '</span>' +
                  etiquetasEstado(ev) +
                '</h3>' +
                datos +
-               (ev.descripcion ? '<p class="mopi-ev-desc">' + esc(ev.descripcion) + '</p>' : '') +
+               (ev.descripcion ? '<p class="cal-ev-desc">' + esc(ev.descripcion) + '</p>' : '') +
+               boton +
              '</div>' + qr +
            '</article>';
   }
 
   function pintarModalMopi() {
-    var modal = el('mopiModal'), cuerpo = el('mopiModalCuerpo');
+    var modal = el('calModal'), cuerpo = el('calModalCuerpo');
     var lista = eventosDe(est.diaSel), i, h = '';
 
     if (!lista.length) { est.diaSel = ''; mostrarAnimado(modal, false); return; }
 
     var f = deIso(est.diaSel);
-    el('mopiModalFecha').innerHTML = '<b>' + pad2(f.getDate()) + '</b> ' + capitalizar(MESES[f.getMonth()]);
+    el('calModalFecha').innerHTML = '<b>' + pad2(f.getDate()) + '</b> ' + capitalizar(MESES[f.getMonth()]);
 
     for (i = 0; i < lista.length; i++) { h += eventoPopupMopi(lista[i]); }
     cuerpo.innerHTML = h;
     cuerpo.scrollTop = 0;
 
-    var cajas = cuerpo.getElementsByClassName('mopi-qr-caja');
+    var cajas = cuerpo.getElementsByClassName('cal-qr-caja');
     for (i = 0; i < cajas.length; i++) { pintarQr(cajas[i], cajas[i].getAttribute('data-qr')); }
 
     mostrarAnimado(modal, true);
-    var tarjeta = modal.getElementsByClassName('mopi-modal')[0];
+    var tarjeta = modal.getElementsByClassName('cal-modal')[0];
     if (tarjeta) {
       tarjeta.setAttribute('data-scroll', cuerpo.scrollHeight > cuerpo.clientHeight + 2 ? '1' : '0');
       tarjeta.setAttribute('data-fin', '0');
@@ -1848,269 +1915,24 @@ var CAL = (function () {
   }
 
   /* =======================================================================
-     RENDER - MODO ESCRITORIO
-     ======================================================================= */
-  function pintarEscritorio() {
-    var f = est.mesVista, i;
-    el('escMes').textContent = capitalizar(MESES[f.getMonth()]);
-    el('escAnio').textContent = f.getFullYear();
-
-    var h = '';
-    for (i = 0; i < 7; i++) { h += '<span>' + DIAS_CORTOS[i] + '</span>'; }
-    el('escSemana').innerHTML = h;
-
-    /* leyenda de categorias presentes en el mes */
-    var mes = eventosDelMes(f), vistas = {}, orden = [];
-    for (i = 0; i < mes.length; i++) {
-      var k = clave(mes[i].categoria);
-      if (mes[i].categoria && !vistas[k]) { vistas[k] = true; orden.push(mes[i].categoria); }
-    }
-    h = '';
-    for (i = 0; i < orden.length; i++) {
-      h += '<span><i style="background:' + colorCategoria(orden[i]) + '"></i>' + esc(orden[i]) + '</span>';
-    }
-    el('escLeyenda').innerHTML = h;
-
-    var celdas = matrizMes(f), hoy = hoyIso();
-    h = '';
-    for (i = 0; i < celdas.length; i++) {
-      var c = celdas[i], chips = '', n = c.eventos.length, max = Math.min(n, 3);
-      for (var j = 0; j < max; j++) {
-        var e = c.eventos[j], col = colorCategoria(e.categoria);
-        chips += '<span class="esc-chip" data-estado="' + e.estado + '" style="border-left-color:' + col +
-                 ';background:' + suavizar(col, 0.9) + '">' +
-                 (e.horaInicio ? '<b>' + esc(e.horaInicio) + '</b>' : '') +
-                 '<span>' + esc(e.titulo) + '</span></span>';
-      }
-      if (n > max) { chips += '<span class="esc-mas">+' + (n - max) + ' más</span>'; }
-      h += '<button type="button" class="esc-celda" data-fecha="' + c.iso + '"' +
-           ' data-fuera="' + (c.delMes ? '0' : '1') + '"' +
-           ' data-hoy="' + (c.iso === hoy ? '1' : '0') + '"' +
-           ' data-eventos="' + (n ? '1' : '0') + '">' +
-           '<span class="esc-celda-num">' + c.dia + '</span>' + chips + '</button>';
-    }
-    el('escRejilla').innerHTML = h;
-
-    var aviso = avisoCache();
-    el('escAviso').textContent = aviso;
-    mostrar(el('escAviso'), !!aviso);
-
-    if (est.diaSel) { abrirModalEscritorio(est.diaSel); }
-  }
-
-  function eventoEscritorio(ev) {
-    var meta = '';
-    if (franja(ev)) { meta += '<div><strong>' + esc(franja(ev)) + '</strong></div>'; }
-    if (ev.ubicacion) { meta += '<div>' + esc(ev.ubicacion) + '</div>'; }
-    if (ev.ponentes.length) { meta += '<div>' + esc(ev.ponentes.join(' · ')) + '</div>'; }
-
-    var tags = '';
-    if (ev.categoria) {
-      var col = colorCategoria(ev.categoria);
-      tags += '<span class="etiqueta" data-tipo="categoria" style="background:' + suavizar(col, 0.85) + ';color:' + col + '">' +
-              esc(ev.categoria) + '</span>';
-    }
-    tags += etiquetasEstado(ev);
-
-    var img = ev.imagen
-      ? '<img class="esc-evento-img" src="assets/img/' + esc(ev.imagen) + '" alt="" onerror="this.style.display=\'none\'">'
-      : '';
-
-    var qr = '';
-    if (ev.url && ev.estado !== 'cancelado') {
-      qr = '<div class="esc-evento-qr">' +
-             '<div class="esc-qr-caja" data-qr="' + esc(urlConUtm(ev.url, 'escritorio')) + '"></div>' +
-             '<div class="esc-qr-pie">Escanea o usa el botón</div>' +
-             (ev.estado === 'completo'
-               ? '<span class="esc-registro" data-desactivado="1">Aforo completo</span>'
-               : '<a class="esc-registro" href="' + esc(urlConUtm(ev.url, 'escritorio')) + '" target="_blank" rel="noopener">Inscribirme</a>') +
-           '</div>';
-    }
-
-    return '<article class="esc-evento" data-estado="' + ev.estado + '">' +
-             '<div class="esc-evento-txt">' +
-               '<div class="esc-evento-tags">' + tags + '</div>' +
-               '<h3>' + esc(ev.titulo) + '</h3>' +
-               '<div class="esc-evento-meta">' + meta + '</div>' +
-               img +
-               '<div class="esc-evento-desc">' + esc(ev.descripcion) + '</div>' +
-             '</div>' + qr +
-           '</article>';
-  }
-
-  function abrirModalEscritorio(isoStr) {
-    var lista = eventosDe(isoStr);
-    if (!lista.length) return;
-    est.diaSel = isoStr;
-    el('escModalTitulo').textContent = capitalizar(fechaLarga(isoStr));
-    el('escModalSub').textContent = lista.length === 1 ? '1 evento' : lista.length + ' eventos';
-    var h = '';
-    for (var i = 0; i < lista.length; i++) { h += eventoEscritorio(lista[i]); }
-    var cuerpo = el('escModalCuerpo');
-    cuerpo.innerHTML = h;
-    cuerpo.scrollTop = 0;
-    var cajas = cuerpo.getElementsByClassName('esc-qr-caja');
-    for (var q = 0; q < cajas.length; q++) { pintarQr(cajas[q], cajas[q].getAttribute('data-qr')); }
-    mostrar(el('escCapa'), true);
-  }
-  function cerrarModalEscritorio() {
-    est.diaSel = '';
-    mostrar(el('escCapa'), false);
-  }
-
-  /* =======================================================================
-     RENDER - MODO MOVIL
-     ======================================================================= */
-  function pintarMovil() {
-    var f = est.mesVista, i;
-    el('movMes').textContent = capitalizar(MESES[f.getMonth()]);
-    el('movAnio').textContent = f.getFullYear();
-
-    var h = '';
-    for (i = 0; i < 7; i++) { h += '<span>' + DIAS_MINI[i] + '</span>'; }
-    el('movSemana').innerHTML = h;
-
-    var celdas = matrizMes(f), hoy = hoyIso();
-    h = '';
-    for (i = 0; i < celdas.length; i++) {
-      var c = celdas[i], puntos = '', n = c.eventos.length, max = Math.min(n, 3);
-      for (var j = 0; j < max; j++) {
-        puntos += '<i style="background:' + colorCategoria(c.eventos[j].categoria) + '"' +
-                  (c.eventos[j].estado === 'cancelado' ? ' data-cancelado="1"' : '') + '></i>';
-      }
-      h += '<button type="button" class="mov-celda" data-fecha="' + c.iso + '"' +
-           ' data-fuera="' + (c.delMes ? '0' : '1') + '"' +
-           ' data-hoy="' + (c.iso === hoy ? '1' : '0') + '"' +
-           ' data-eventos="' + (n ? '1' : '0') + '"' +
-           ' data-sel="' + (c.iso === est.diaSel ? '1' : '0') + '">' +
-           '<span class="mov-celda-num">' + c.dia + '</span>' +
-           '<span class="mov-puntos">' + puntos + '</span></button>';
-    }
-    el('movRejilla').innerHTML = h;
-
-    var mes = eventosDelMes(f);
-    if (!mes.length) {
-      el('movLista').innerHTML = '<p class="mov-sin">No hay eventos programados este mes.</p>';
-    } else {
-      h = '';
-      var fechaActual = '';
-      for (i = 0; i < mes.length; i++) {
-        var e = mes[i];
-        if (e.fecha !== fechaActual) {
-          if (fechaActual) { h += '</div>'; }
-          fechaActual = e.fecha;
-          h += '<div class="mov-grupo" id="grupo-' + e.fecha + '">' +
-               '<div class="mov-grupo-fecha">' + (e.fecha === hoy ? '<em>Hoy · </em>' : '') +
-               esc(fechaCorta(e.fecha)) + '</div>';
-        }
-        h += '<button type="button" class="mov-item" data-evento="' + esc(e.id) + '" data-estado="' + e.estado + '">' +
-               '<i class="mov-item-barra" style="background:' + colorCategoria(e.categoria) + '"></i>' +
-               '<span class="mov-item-cuerpo">' +
-                 (e.horaInicio ? '<span class="mov-item-hora">' + esc(franja(e)) + '</span>' : '') +
-                 '<span class="mov-item-tit">' + esc(e.titulo) + '</span>' +
-                 (e.ubicacion ? '<span class="mov-item-meta">' + esc(e.ubicacion) + '</span>' : '') +
-                 '<span class="mov-item-tags">' +
-                   (e.categoria ? '<span class="etiqueta" data-tipo="categoria" style="background:' +
-                      suavizar(colorCategoria(e.categoria), 0.85) + ';color:' + colorCategoria(e.categoria) + '">' +
-                      esc(e.categoria) + '</span>' : '') +
-                   etiquetasEstado(e) +
-                 '</span>' +
-               '</span>' +
-             '</button>';
-      }
-      if (fechaActual) { h += '</div>'; }
-      el('movLista').innerHTML = h;
-    }
-
-    var aviso = avisoCache();
-    el('movAviso').textContent = aviso;
-    mostrar(el('movAviso'), !!aviso);
-  }
-
-  function abrirDetalleMovil(ev) {
-    est.eventoSel = ev;
-    el('movDetalleFecha').textContent = capitalizar(fechaLarga(ev.fecha)) + (franja(ev) ? ' · ' + franja(ev) : '');
-
-    var meta = '';
-    if (ev.ubicacion) { meta += '<div>' + esc(ev.ubicacion) + '</div>'; }
-    if (ev.ponentes.length) { meta += '<div>' + esc(ev.ponentes.join(' · ')) + '</div>'; }
-
-    var tags = '';
-    if (ev.categoria) {
-      var col = colorCategoria(ev.categoria);
-      tags += '<span class="etiqueta" data-tipo="categoria" style="background:' + suavizar(col, 0.85) + ';color:' + col + '">' +
-              esc(ev.categoria) + '</span>';
-    }
-    tags += etiquetasEstado(ev);
-
-    var img = ev.imagen
-      ? '<img class="mov-detalle-img" src="assets/img/' + esc(ev.imagen) + '" alt="" onerror="this.style.display=\'none\'">'
-      : '';
-
-    el('movDetalleCuerpo').innerHTML =
-      '<div class="mov-detalle-tags">' + tags + '</div>' +
-      '<h2>' + esc(ev.titulo) + '</h2>' +
-      (meta ? '<div class="mov-detalle-meta">' + meta + '</div>' : '') +
-      img +
-      '<div class="mov-detalle-desc">' + esc(ev.descripcion) + '</div>';
-    el('movDetalleCuerpo').setAttribute('data-estado', ev.estado);
-    el('movDetalleCuerpo').scrollTop = 0;
-
-    var pie = el('movDetallePie');
-    if (ev.estado === 'cancelado' || !ev.url) {
-      pie.innerHTML = '';
-      mostrar(pie, false);
-    } else if (ev.estado === 'completo') {
-      pie.innerHTML = '<span class="mov-registro" data-desactivado="1">Aforo completo</span>';
-      mostrar(pie, true);
-    } else {
-      pie.innerHTML = '<a class="mov-registro" href="' + esc(urlConUtm(ev.url, 'movil')) +
-                      '" target="_blank" rel="noopener">Inscribirme</a>';
-      mostrar(pie, true);
-    }
-    mostrar(el('movDetalle'), true);
-  }
-  function cerrarDetalleMovil() {
-    est.eventoSel = null;
-    mostrar(el('movDetalle'), false);
-  }
-  function irAlDiaMovil(isoStr) {
-    est.diaSel = isoStr;
-    pintarMovil();
-    var grupo = el('grupo-' + isoStr);
-    if (!grupo) return;
-    var cab = document.getElementsByClassName('mov-cab')[0];
-    var alto = cab ? cab.offsetHeight : 0;
-    var y = grupo.getBoundingClientRect().top +
-            (window.pageYOffset || document.documentElement.scrollTop || 0) - alto - 8;
-    window.scrollTo(0, Math.max(0, y));
-    grupo.setAttribute('data-resaltado', '1');
-    if (tResalte) { clearTimeout(tResalte); }
-    tResalte = setTimeout(function () { grupo.setAttribute('data-resaltado', '0'); }, 2200);
-  }
-
-  /* =======================================================================
      PINTADO GENERAL Y CAMBIO DE MODO
      ======================================================================= */
   function pintar() {
     if (!est.mesVista) { est.mesVista = primerDiaMes(new Date()); }
-    if (est.modo === 'mopi') { pintarMopi(); escalarMopi(); }
-    else if (est.modo === 'movil') { pintarMovil(); }
-    else { pintarEscritorio(); }
+    pintarMopi();
+    if (est.modo === 'mopi') { escalarMopi(); }
   }
 
   function detectarModo() {
     var forzado = clave(paramUrl('modo'));
     if (forzado === 'mopi' || forzado === 'escritorio' || forzado === 'movil') return forzado;
 
-    if (window.matchMedia) {
-      if (window.matchMedia('(orientation: portrait) and (min-width: 1000px)').matches) return 'mopi';
-      if (window.matchMedia('(orientation: portrait) and (max-width: 999px)').matches) return 'movil';
-      if (window.matchMedia('(orientation: landscape)').matches) return 'escritorio';
-    }
-    var an = window.innerWidth || document.documentElement.clientWidth;
-    var al = window.innerHeight || document.documentElement.clientHeight;
-    if (al >= an) { return an >= 1000 ? 'mopi' : 'movil'; }
+    var an = window.innerWidth || document.documentElement.clientWidth || 1080;
+    var al = window.innerHeight || document.documentElement.clientHeight || 1920;
+    /* el MOPI es un totem 9:16: vertical, grande y de proporcion muy estrecha.
+       Una tablet en vertical (3:4) NO es un MOPI, se lleva el diseno de escritorio. */
+    if (al > an && an >= 1000 && (an / al) <= 0.66) { return 'mopi'; }
+    if (an < 760) { return 'movil'; }
     return 'escritorio';
   }
 
@@ -2119,11 +1941,12 @@ var CAL = (function () {
     est.modo = nuevo;
     document.documentElement.setAttribute('data-modo', nuevo);
 
-    /* al cambiar de modo se cierra cualquier capa abierta y se limpia la seleccion */
-    mostrar(el('escCapa'), false);
-    mostrar(el('movDetalle'), false);
+    /* al cambiar de modo se cierra el popup y se limpia la seleccion */
+    mostrar(el('calModal'), false);
+    el('calModal').setAttribute('data-abierto', '0');
     est.diaSel = '';
     est.eventoSel = null;
+    if (est.modo !== 'mopi') { el('calLienzo').style.transform = ''; el('calLienzo').style.left = ''; el('calLienzo').style.top = ''; }
 
     pararTemporizadoresMopi();
     if (nuevo === 'mopi') { reiniciarInactividad(); }
@@ -2134,6 +1957,9 @@ var CAL = (function () {
     var nuevo = detectarModo();
     if (nuevo !== est.modo) { aplicarModo(nuevo); }
     else if (nuevo === 'mopi') { escalarMopi(); }
+    /* en escritorio las cards son fluidas: al cambiar de ancho hay que
+       volver a medir donde cortar los titulos */
+    else if (nuevo === 'escritorio') { recortarTitulos(); }
   }
 
   /* =======================================================================
@@ -2144,16 +1970,12 @@ var CAL = (function () {
     est.mesVista = new Date(f.getFullYear(), f.getMonth() + delta, 1);
     est.diaSel = '';
     est.eventoSel = null;
-    mostrar(el('escCapa'), false);
-    mostrar(el('movDetalle'), false);
     pintar();
   }
   function irAHoy() {
     est.mesVista = primerDiaMes(new Date());
     est.diaSel = '';
     est.eventoSel = null;
-    mostrar(el('escCapa'), false);
-    mostrar(el('movDetalle'), false);
     pintar();
   }
 
@@ -2196,19 +2018,29 @@ var CAL = (function () {
   }
 
   function conectarEventos() {
-    /* --- MOPI (sin navegacion: el cartel muestra siempre el mes en curso) --- */
-    escuchar(el('mopiRejilla'), 'click', function (e) {
-      var celda = celdaPulsada(e, 'mopi-card');
+    /* --- rejilla: un dia con eventos abre el popup --- */
+    escuchar(el('calRejilla'), 'click', function (e) {
+      var celda = celdaPulsada(e, 'cal-card');
       if (!celda || celda.getAttribute('data-eventos') !== '1') return;
       est.diaSel = celda.getAttribute('data-fecha');
       est.eventoSel = null;
       pintarPanelMopi();
     });
 
-    escuchar(el('mopiCerrar'), 'click', function () { cerrarPopupMopi(); });
+    /* --- agenda de movil: cada evento abre el popup de su dia --- */
+    escuchar(el('calAgenda'), 'click', function (e) {
+      var item = celdaPulsada(e, 'cal-agenda-item');
+      if (!item) return;
+      est.diaSel = item.getAttribute('data-fecha');
+      est.eventoSel = null;
+      pintarPanelMopi();
+    });
 
-    escuchar(el('mopiModalCuerpo'), 'scroll', function () {
-      var c = el('mopiModalCuerpo');
+    /* --- popup --- */
+    escuchar(el('calCerrar'), 'click', function () { cerrarPopupMopi(); });
+
+    escuchar(el('calModalCuerpo'), 'scroll', function () {
+      var c = el('calModalCuerpo');
       var tarjeta = c.parentNode;
       if (!tarjeta) return;
       var fin = (c.scrollTop + c.clientHeight >= c.scrollHeight - 8);
@@ -2216,53 +2048,31 @@ var CAL = (function () {
     });
 
     /* tocar fuera de la tarjeta cierra el popup */
-    escuchar(el('mopiModal'), 'click', function (e) {
-      if (e.target === el('mopiModal')) { cerrarPopupMopi(); }
+    escuchar(el('calModal'), 'click', function (e) {
+      if (e.target === el('calModal')) { cerrarPopupMopi(); }
     });
 
-    /* --- ESCRITORIO --- */
-    escuchar(el('escAnterior'), 'click', function () { irAMes(-1); });
-    escuchar(el('escSiguiente'), 'click', function () { irAMes(1); });
-    escuchar(el('escHoy'), 'click', function () { irAHoy(); });
-    escuchar(el('escCerrar'), 'click', cerrarModalEscritorio);
-    escuchar(el('escCapa'), 'click', function (e) {
-      if (e.target === el('escCapa')) { cerrarModalEscritorio(); }
-    });
-    escuchar(el('escRejilla'), 'click', function (e) {
-      var celda = celdaPulsada(e, 'esc-celda');
-      if (!celda || celda.getAttribute('data-eventos') !== '1') return;
-      abrirModalEscritorio(celda.getAttribute('data-fecha'));
+    /* --- navegacion de mes (oculta en el MOPI) --- */
+    escuchar(el('calAnterior'), 'click', function () { irAMes(-1); });
+    escuchar(el('calSiguiente'), 'click', function () { irAMes(1); });
+    escuchar(el('calHoy'), 'click', function () { irAHoy(); });
+
+    /* --- teclado: flechas cambian de mes, Escape cierra --- */
+    escuchar(document, 'keydown', function (e) {
+      var k = e.keyCode || e.which;
+      if (k === 27) { cerrarPopupMopi(); return; }
+      if (est.modo === 'mopi') return;
+      if (el('calModal').className.indexOf('oculto') === -1) return;
+      if (k === 37) { irAMes(-1); }
+      else if (k === 39) { irAMes(1); }
     });
 
-    /* --- MOVIL --- */
-    escuchar(el('movAnterior'), 'click', function () { irAMes(-1); });
-    escuchar(el('movSiguiente'), 'click', function () { irAMes(1); });
-    escuchar(el('movHoy'), 'click', function () { irAHoy(); });
-    escuchar(el('movVolver'), 'click', cerrarDetalleMovil);
-    escuchar(el('movRejilla'), 'click', function (e) {
-      var celda = celdaPulsada(e, 'mov-celda');
-      if (!celda) return;
-      var f = celda.getAttribute('data-fecha');
-      if (f.slice(0, 7) !== claveMes(est.mesVista)) {
-        est.mesVista = deIso(f.slice(0, 8) + '01');
-        est.diaSel = f;
-        pintarMovil();
-      }
-      if (celda.getAttribute('data-eventos') === '1') { irAlDiaMovil(f); }
-      else { est.diaSel = f; pintarMovil(); }
-    });
-    escuchar(el('movLista'), 'click', function (e) {
-      var item = celdaPulsada(e, 'mov-item');
-      if (!item) return;
-      var ev = porId(item.getAttribute('data-evento'));
-      if (ev) { abrirDetalleMovil(ev); }
-    });
-
-    /* swipe horizontal para cambiar de mes en movil */
+    /* --- swipe horizontal sobre la rejilla para cambiar de mes --- */
     (function () {
       var x0 = 0, y0 = 0, activo = false;
-      var zona = el('movRejilla');
+      var zona = el('calRejilla');
       escuchar(zona, 'touchstart', function (e) {
+        if (est.modo === 'mopi') { activo = false; return; }
         if (!e.touches || e.touches.length !== 1) { activo = false; return; }
         x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; activo = true;
       });
@@ -2275,20 +2085,6 @@ var CAL = (function () {
       });
     }());
 
-    /* --- teclado (escritorio) --- */
-    escuchar(document, 'keydown', function (e) {
-      var k = e.keyCode || e.which;
-      if (k === 27) {
-        if (est.modo === 'escritorio') { cerrarModalEscritorio(); }
-        else if (est.modo === 'movil') { cerrarDetalleMovil(); }
-        return;
-      }
-      if (est.modo !== 'escritorio') return;
-      if (el('escCapa').className.indexOf('oculto') === -1) return;
-      if (k === 37) { irAMes(-1); }
-      else if (k === 39) { irAMes(1); }
-    });
-
     /* --- redimension / rotacion --- */
     function alRedimensionar() {
       if (tResize) { clearTimeout(tResize); }
@@ -2297,7 +2093,7 @@ var CAL = (function () {
     escuchar(window, 'resize', alRedimensionar);
     escuchar(window, 'orientationchange', alRedimensionar);
     if (window.matchMedia) {
-      var consultas = ['(orientation: portrait)', '(min-width: 1000px)'];
+      var consultas = ['(orientation: portrait)', '(min-width: 760px)', '(min-width: 1000px)'];
       for (var i = 0; i < consultas.length; i++) {
         var mq = window.matchMedia(consultas[i]);
         if (mq.addEventListener) { mq.addEventListener('change', alRedimensionar); }
@@ -2350,7 +2146,7 @@ var CAL = (function () {
     pintar();
     if (document.fonts && document.fonts.ready && document.fonts.ready.then) {
       document.fonts.ready.then(function () {
-        if (est.modo === 'mopi') { recortarTitulos(); }
+        if (est.modo !== 'movil') { recortarTitulos(); }
       });
     }
     cargarDatos(true);
