@@ -206,7 +206,7 @@ no entienda `clamp()` se queda con el valor plano.
 | Archivo | Qué es |
 |---|---|
 | `assets/img/hero.jpg` | Foto de cabecera, 1080×542. Sustitúyela por la del Figma arrastrándola encima. |
-| `assets/img/logo-savills.svg` | Logo de la esquina superior izquierda, 121×121. |
+| `assets/img/logo-savills.svg` | Logo de la esquina superior izquierda, 121×121. Es además el **favicon**, embebido en base64 dentro del `<head>` para no pedir ningún archivo: si lo cambias, hay que volver a embeberlo. |
 
 Las dos son **provisionales**: se generaron aquí porque el entorno no tiene
 acceso de red a `figma.com` para exportarlas. Sustituirlas es arrastrar el
