@@ -723,7 +723,6 @@ body{
 }
 :root[data-modo="escritorio"] .cal-marco,
 :root[data-modo="movil"] .cal-marco{ display:block; }
-:root[data-modo="escritorio"] .cal-lienzo,
 :root[data-modo="movil"] .cal-lienzo{
   position:relative;
   width:100%; max-width: var(--cal-max);
@@ -731,53 +730,11 @@ body{
   padding-bottom: var(--cal-margen);
   transform:none;
 }
-
-/* En escritorio el calendario ocupa exactamente la ventana: ni un pixel de
-   scroll. La rejilla se queda con el alto que sobra entre cabecera y pie,
-   y los tamanos se miden contra el menor de ancho y alto para que una
-   ventana baja y ancha no reviente las cards. */
-:root[data-modo="escritorio"], :root[data-modo="escritorio"] body{
-  height:100%; overflow:hidden;
-}
-:root[data-modo="escritorio"] .cal-marco{
-  height: 100vh;
-  height: 100dvh;
-  overflow:hidden;
-}
-:root[data-modo="escritorio"] .cal-lienzo{
-  height:100%; max-width:none;
-  padding-bottom:0;
-  display:flex; flex-direction:column;
-  overflow:hidden;
-}
-:root[data-modo="escritorio"] .cal-hero,
-:root[data-modo="escritorio"] .cal-h1,
-:root[data-modo="escritorio"] .cal-semana,
-:root[data-modo="escritorio"] .cal-pie-linea,
-:root[data-modo="escritorio"] .cal-pie{ flex:0 0 auto; }
-:root[data-modo="escritorio"] .cal-rejilla{
-  flex:1 1 auto; min-height:0;
-  grid-auto-rows: minmax(0, 1fr);
-}
-
-:root[data-modo="escritorio"] .cal-card{ min-height:0; height:auto; }
-/* ventana demasiado baja para repartir cinco filas: se devuelve el scroll
-   antes que dejar las cards ilegibles */
-@media (max-height: 480px){
-  :root[data-modo="escritorio"], :root[data-modo="escritorio"] body{
-    height:auto; overflow:visible;
-  }
-  :root[data-modo="escritorio"] .cal-marco{ height:auto; overflow:visible; }
-  :root[data-modo="escritorio"] .cal-lienzo{ height:auto; display:block; }
-  :root[data-modo="escritorio"] .cal-card{ min-height: 72px; }
-}
-:root[data-modo="escritorio"] .cal-hero,
 :root[data-modo="movil"] .cal-hero{
   position:relative;
   height: 260px;
   height: var(--cal-hero-alto);
 }
-:root[data-modo="escritorio"] .cal-degradado,
 :root[data-modo="movil"] .cal-degradado{
   position:absolute; left:0; right:0; top:0;
   height: 260px;
@@ -785,13 +742,11 @@ body{
   background: -webkit-linear-gradient(top, rgba(37,39,58,0) 45%, #25273a 100%);
   background: linear-gradient(to bottom, rgba(37,39,58,0) 45%, #25273a 100%);
 }
-:root[data-modo="escritorio"] .cal-logo,
 :root[data-modo="movil"] .cal-logo{
   position:absolute; top:0; left: var(--cal-margen);
   width: var(--cal-logo-lado); height: var(--cal-logo-lado);
   font-size: var(--cal-logo-lado);
 }
-:root[data-modo="escritorio"] .cal-h1,
 :root[data-modo="movil"] .cal-h1{
   position:relative;
   margin: -78px var(--cal-margen) 0;
@@ -799,21 +754,17 @@ body{
   padding-right: calc(var(--cal-tactil) * 3.6);
   white-space:normal;
 }
-:root[data-modo="escritorio"] .cal-nav,
 :root[data-modo="movil"] .cal-nav{
   position:absolute; right: var(--cal-margen);
   top: 16px;
 }
-:root[data-modo="escritorio"] .cal-semana,
 :root[data-modo="movil"] .cal-semana{
   margin: var(--cal-hueco-cab) var(--cal-margen) 10px;
 }
-:root[data-modo="escritorio"] .cal-rejilla,
 :root[data-modo="movil"] .cal-rejilla{
   margin: 0 var(--cal-margen);
 }
 :root[data-modo="movil"] .cal-rejilla{ grid-auto-rows: auto; }
-:root[data-modo="escritorio"] .cal-card,
 :root[data-modo="movil"] .cal-card{
   min-height: var(--cal-card-min);
 }
@@ -833,26 +784,11 @@ body{
      siendo cuadradas y el mes no deja un agujero antes del boton */
   align-content: space-between;
 }
-:root[data-modo="escritorio"] .cal-card{ height:100%; }
-/* el QR y el texto del evento se equilibran centrados fuera del MOPI */
-:root[data-modo="escritorio"] .cal-ev{ align-items:center; }
-
-:root[data-modo="escritorio"] .cal-pie-linea,
 :root[data-modo="movil"] .cal-pie-linea{
   margin: 40px var(--cal-margen) 0;
 }
-:root[data-modo="escritorio"] .cal-pie,
 :root[data-modo="movil"] .cal-pie{
   margin: 18px var(--cal-margen) 0;
-}
-:root[data-modo="escritorio"] .cal-pie-linea{
-  margin-top: 24px;
-  margin-top: clamp(12px, 2.6vh, 38px);
-}
-:root[data-modo="escritorio"] .cal-pie{
-  margin-top: 14px;
-  margin-top: clamp(8px, 1.7vh, 22px);
-  padding-bottom: var(--cal-margen);
 }
 :root[data-modo="escritorio"] .cal-aviso,
 :root[data-modo="movil"] .cal-aviso{
@@ -870,19 +806,43 @@ body{
 :root[data-modo="escritorio"]{
   /* sin ancho maximo: el calendario ocupa el 100% de la ventana */
   --cal-max: none;
-  --cal-margen: 32px;
-  --cal-margen: clamp(14px, min(2.6vw, 3.4vh), 44px);
+  --cal-margen: 32px;                                   /* margen izquierdo */
+  --cal-margen: clamp(14px, min(3.1vw, 4.2vh), 50px);
+  --cal-margen-der: 44px;
+  --cal-margen-der: clamp(16px, min(4.4vw, 6vh), 70px);
+  --cal-margen-y: 34px;                                 /* solo abajo: el logo va al filo */
+  --cal-margen-y: clamp(14px, 5.5vh, 60px);
   --cal-tactil: 42px;
   --cal-tactil: clamp(34px, min(3.1vw, 5vh), 50px);
-  --cal-hero-alto: 190px;
-  --cal-hero-alto: clamp(90px, 18.5vh, 260px);
   --cal-logo-lado: 84px;
-  --cal-logo-lado: clamp(44px, min(7vw, 11.5vh), 112px);
-  --cal-hueco-cab: 16px;
-  --cal-hueco-cab: clamp(8px, 1.9vh, 26px);
+  --cal-logo-lado: clamp(44px, min(8vw, 12.3vh), 124px);
+  --cal-hueco-cab: 12px;
+  --cal-hueco-cab: clamp(6px, 1.5vh, 20px);
+  --cal-h1-hueco: 16px;
+  --cal-h1-hueco: clamp(8px, 2.2vh, 30px);
+  --cal-pie-hueco: 26px;
+  --cal-pie-hueco: clamp(10px, 3.4vh, 46px);
+
+  /* rail de meses */
+  --cal-rail-ancho: 180px;
+  --cal-rail-ancho: clamp(112px, 15vw, 240px);
+  --cal-rail-hueco: 26px;
+  --cal-rail-hueco: clamp(12px, 2.1vw, 34px);
+  --cal-rail-hueco-cab: 22px;
+  --cal-rail-hueco-cab: clamp(10px, 3vh, 40px);
+  --cal-rail-fs-mes: 18px;
+  --cal-rail-fs-mes: clamp(11px, min(1.35vw, 2.1vh), 22px);
+  --cal-rail-fs-anio: 19px;
+  --cal-rail-fs-anio: clamp(12px, min(1.5vw, 2.3vh), 24px);
+  --cal-rail-flecha: 24px;
+  --cal-rail-flecha: clamp(18px, 2.6vh, 30px);
+
+  /* la foto pasa a fondo de ventana: el azul la deja en textura */
+  --cal-velo-solido: rgba(37,39,58,.94);
+  --cal-c-rail: #8a8ba0;
 
   --cal-fs-h1: 44px;
-  --cal-fs-h1: clamp(22px, min(4.3vw, 6.2vh), 60px);
+  --cal-fs-h1: clamp(22px, min(4.2vw, 6.5vh), 66px);
   --cal-lh-h1: 1.18em;
   --cal-fs-cabecera: 13px;
   --cal-fs-cabecera: clamp(10px, min(1.15vw, 1.7vh), 17px);
@@ -891,8 +851,8 @@ body{
   --cal-fs-evento: 12px;
   --cal-fs-evento: clamp(9px, min(1vw, 1.5vh), 15px);
   --cal-lh-evento: 1.2;
-  --cal-fs-pie: 26px;
-  --cal-fs-pie: clamp(14px, min(2.2vw, 3.3vh), 34px);
+  --cal-fs-pie: 22px;
+  --cal-fs-pie: clamp(13px, min(1.9vw, 2.9vh), 30px);
   --cal-lh-pie: 1.18em;
   --cal-fs-aviso: 13px;
 
@@ -933,7 +893,163 @@ body{
   --cal-pop-qr: clamp(104px, 11vw, 150px);
   --cal-pop-hueco-qr: 26px;
 }
-:root[data-modo="escritorio"] .cal-agenda{ display:none; }
+:root[data-modo="escritorio"] .cal-agenda,
+:root[data-modo="escritorio"] .cal-ver-todos,
+:root[data-modo="escritorio"] .cal-nav,
+:root[data-modo="escritorio"] .cal-pie-linea{ display:none; }
+
+/* -------- maqueta de escritorio (Figma 19:24 MacBook Pro 14") --------
+   Retícula de dos columnas a pantalla completa: a la izquierda el logo y
+   el histórico de meses, a la derecha el calendario. La foto pasa a ser
+   fondo de toda la ventana, atenuada con el azul de marca. */
+:root[data-modo="escritorio"], :root[data-modo="escritorio"] body{
+  height:100%; overflow:hidden;
+}
+:root[data-modo="escritorio"] .cal-marco{
+  position:relative;
+  height: 100vh;
+  height: 100dvh;
+  overflow:hidden;
+}
+:root[data-modo="escritorio"] .cal-lienzo{
+  position:relative; z-index:1;
+  height:100%; max-width:none; margin:0;
+  padding: var(--cal-margen-y) var(--cal-margen-der) var(--cal-margen-y) var(--cal-margen);
+  transform:none;
+  display:grid;
+  grid-template-columns: var(--cal-rail-ancho) minmax(0, 1fr);
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  column-gap: var(--cal-rail-hueco);
+}
+/* la foto cubre la ventana entera detras de todo. El velo tambien esta
+   posicionado, asi que el contenido necesita su propio z-index para no
+   quedar debajo. */
+:root[data-modo="escritorio"] .cal-hero{
+  position:absolute; left:0; top:0; right:0; bottom:0;
+  z-index:0;
+}
+:root[data-modo="escritorio"] .cal-degradado{
+  position:absolute; left:0; top:0; right:0; bottom:0;
+  z-index:0;
+  background: var(--cal-velo-solido);
+}
+:root[data-modo="escritorio"] .cal-logo,
+:root[data-modo="escritorio"] .cal-h1,
+:root[data-modo="escritorio"] .cal-rail,
+:root[data-modo="escritorio"] .cal-semana,
+:root[data-modo="escritorio"] .cal-rejilla,
+:root[data-modo="escritorio"] .cal-pie{ position:relative; z-index:1; }
+:root[data-modo="escritorio"] .cal-logo{
+  position:relative;
+  grid-column:1; grid-row:1;
+  width: var(--cal-logo-lado); height: var(--cal-logo-lado);
+  font-size: var(--cal-logo-lado);
+  margin-bottom: var(--cal-rail-hueco-cab);
+}
+:root[data-modo="escritorio"] .cal-h1{
+  grid-column:2; grid-row:1;
+  align-self:end;
+  margin:0 0 var(--cal-h1-hueco);
+  white-space:nowrap;
+  overflow:hidden; text-overflow:ellipsis;
+}
+:root[data-modo="escritorio"] .cal-rail{
+  /* el rail acaba donde acaba la rejilla, no donde acaba el pie */
+  grid-column:1; grid-row: 2 / span 2;
+  align-self:start;
+  display:flex; flex-direction:column;
+  min-width:0;
+}
+:root[data-modo="escritorio"] .cal-rejilla,
+:root[data-modo="escritorio"] .cal-semana{
+  margin-left:0; margin-right:0;
+}
+:root[data-modo="escritorio"] .cal-semana{
+  grid-column:2; grid-row:2;
+  margin:0 0 var(--cal-hueco-cab);
+}
+:root[data-modo="escritorio"] .cal-rejilla{
+  grid-column:2; grid-row:3;
+  align-self:start;
+  margin:0; min-height:0; height:100%;
+  grid-auto-rows: minmax(0, 1fr);
+}
+:root[data-modo="escritorio"] .cal-card{ min-height:0; height:100%; }
+:root[data-modo="escritorio"] .cal-pie{
+  grid-column:2; grid-row:4;
+  margin: var(--cal-pie-hueco) 0 0;
+  white-space:nowrap;
+  overflow:hidden; text-overflow:ellipsis;
+}
+/* en el Figma el contacto va en una sola linea, con el correo en amarillo */
+:root[data-modo="escritorio"] .cal-pie b{
+  display:inline; margin-left:.32em;
+}
+/* el QR y el texto del evento se equilibran centrados fuera del MOPI */
+:root[data-modo="escritorio"] .cal-ev{ align-items:center; }
+
+/* ---- rail: año + meses ---- */
+.cal-rail{ display:none; }
+.cal-rail-anio{
+  flex:0 0 auto;
+  display:flex; align-items:center; gap: 4px;
+  margin-bottom: var(--cal-rail-hueco-cab);
+  font-size: var(--cal-rail-fs-anio);
+  font-weight:700; color: var(--cal-c-blanco);
+  letter-spacing:.04em;
+}
+.cal-rail-anio span{ min-width:0; }
+.cal-rail-flecha{
+  width: var(--cal-rail-flecha); height: var(--cal-rail-flecha);
+  min-width: var(--cal-rail-flecha);
+  background:transparent; border:0; padding:0;
+  color: var(--cal-c-rail);
+  display:flex; align-items:center; justify-content:center;
+}
+.cal-rail-flecha:last-of-type{ margin-right: .2em; }
+.cal-rail-flecha svg{ width:70%; height:70%; display:block; }
+.cal-rail-flecha:active{ color: var(--cal-c-acento); }
+.cal-rail-meses{
+  flex:1 1 auto; min-height:0;
+  list-style:none; margin:0; padding:0;
+  display:flex; flex-direction:column; justify-content:space-between;
+}
+.cal-rail-mes{
+  display:block; width:100%; text-align:left;
+  background:transparent; border:0; padding:0;
+  font-family: var(--cal-fuente);
+  font-size: var(--cal-rail-fs-mes);
+  line-height:1.2;
+  font-weight:300; color: var(--cal-c-rail);
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  -webkit-transition: color 160ms ease;
+  transition: color 160ms ease;
+}
+.cal-rail-mes:active{ color: var(--cal-c-blanco); }
+.cal-rail-mes[data-activo="1"]{
+  font-weight:700; color: var(--cal-c-acento);
+}
+/* un mes con eventos se marca con un punto para que el historico se lea */
+.cal-rail-mes[data-eventos="1"]::after{
+  content:''; display:inline-block;
+  width: .32em; height: .32em; border-radius:50%;
+  margin-left: .45em; vertical-align: .18em;
+  background: var(--cal-c-acento);
+}
+.cal-rail-mes[data-activo="1"]::after{ background: var(--cal-c-acento); }
+
+/* ventana demasiado baja para repartir cinco filas: se devuelve el scroll
+   antes que dejar las cards ilegibles */
+@media (max-height: 480px){
+  :root[data-modo="escritorio"], :root[data-modo="escritorio"] body{
+    height:auto; overflow:visible;
+  }
+  :root[data-modo="escritorio"] .cal-marco{ height:auto; overflow:visible; }
+  :root[data-modo="escritorio"] .cal-lienzo{
+    grid-template-rows: auto auto auto auto;
+  }
+  :root[data-modo="escritorio"] .cal-card{ min-height: 72px; }
+}
 
 /* ------------------------------ movil ------------------------------- */
 :root[data-modo="movil"]{
@@ -1045,6 +1161,25 @@ body{
       </nav>
 
       <div class="cal-semana" id="calSemana"></div>
+      <nav class="cal-rail" id="calRail" aria-label="Meses">
+        <div class="cal-rail-anio">
+          <button type="button" class="cal-rail-flecha" id="calAnioAnterior" aria-label="Año anterior">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.4"
+                    stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <span id="calRailAnio">&nbsp;</span>
+          <button type="button" class="cal-rail-flecha" id="calAnioSiguiente" aria-label="Año siguiente">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.4"
+                    stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+        <ul class="cal-rail-meses" id="calRailMeses"></ul>
+      </nav>
+
       <div class="cal-rejilla" id="calRejilla"></div>
 
       <button type="button" class="cal-ver-todos" id="calVerTodos"
@@ -1861,6 +1996,7 @@ var CAL = (function () {
     el('calRejilla').innerHTML = h;
     ajustarRejilla();
 
+    pintarRail(f);
     pintarAgenda(f);
     avisarFinDeSemana(f);
     pintarPanelMopi();
@@ -1868,6 +2004,35 @@ var CAL = (function () {
     var aviso = avisoCache();
     el('calAviso').textContent = aviso;
     mostrar(el('calAviso'), !!aviso);
+  }
+
+  /* El rail de escritorio es el historico del ano: doce meses, el visible
+     en amarillo y un punto en los que tienen algo. */
+  function pintarRail(f) {
+    if (est.modo !== 'escritorio') { return; }
+    var anio = f.getFullYear(), mesVisto = f.getMonth();
+    var conEventos = mesesConEventos(anio), i, h = '';
+    el('calRailAnio').textContent = anio;
+    for (i = 0; i < 12; i++) {
+      h += '<li><button type="button" class="cal-rail-mes" data-mes="' + i + '"' +
+           ' data-activo="' + (i === mesVisto ? '1' : '0') + '"' +
+           ' data-eventos="' + (conEventos[i] ? '1' : '0') + '"' +
+           (i === mesVisto ? ' aria-current="true"' : '') + '>' +
+           capitalizar(MESES[i]) + '</button></li>';
+    }
+    el('calRailMeses').innerHTML = h;
+  }
+
+  function mesesConEventos(anio) {
+    var pre = String(anio) + '-', r = [], i;
+    for (i = 0; i < 12; i++) { r.push(false); }
+    for (i = 0; i < est.eventos.length; i++) {
+      var fec = est.eventos[i].fecha;
+      if (fec.slice(0, 5) !== pre) { continue; }
+      var m = parseInt(fec.slice(5, 7), 10) - 1;
+      if (m >= 0 && m < 12) { r[m] = true; }
+    }
+    return r;
   }
 
   /* En movil las cards solo llevan el numero: el contenido va en la agenda,
@@ -1957,16 +2122,21 @@ var CAL = (function () {
      esto la casilla se lee como una banda, asi que se estrecha la rejilla
      y se centra en vez de estirarla de lado a lado. */
   var CARD_PROPORCION_MAX = 1.45;
+  /* y por debajo de esto la casilla sale espigada (ventana estrecha y alta):
+     entonces lo que se recorta es el alto de la rejilla. */
+  var CARD_PROPORCION_MIN = 0.85;
 
   function encuadrarRejilla() {
-    var rej = el('calRejilla'), sem = el('calSemana'), i;
+    var rej = el('calRejilla'), sem = el('calSemana'), rail = el('calRail'), i;
     var cajas = [rej, sem];
-    /* se parte siempre del ancho natural: si no, se mide el encuadre anterior */
+    /* se parte siempre de la medida natural: si no, se mide el encuadre anterior */
     for (i = 0; i < cajas.length; i++) {
       cajas[i].style.width = '';
       cajas[i].style.marginLeft = '';
       cajas[i].style.marginRight = '';
     }
+    rej.style.height = '';
+    rail.style.height = '';
     if (est.modo !== 'escritorio') { return; }
 
     var cols = diasVisibles().length;
@@ -1978,21 +2148,36 @@ var CAL = (function () {
     var gx = parseFloat(cs.columnGap) || 0;
     var gy = parseFloat(cs.rowGap) || 0;
     var margen = parseFloat(cs.marginLeft) || 0;
-    var disponible = rej.clientWidth;
-    var altoCard = (rej.clientHeight - gy * (filas - 1)) / filas;
-    if (!(altoCard > 0) || !(disponible > 0)) { return; }
+    var dispAncho = rej.clientWidth;
+    var dispAlto = rej.clientHeight;
+    if (!(dispAncho > 0) || !(dispAlto > 0)) { return; }
 
+    var altoCard = (dispAlto - gy * (filas - 1)) / filas;
+    var anchoCard = (dispAncho - gx * (cols - 1)) / cols;
+
+    /* demasiado apaisada: se estrecha la rejilla y se centra, con la
+       cabecera de dias alineada */
     var ancho = Math.floor(altoCard * CARD_PROPORCION_MAX * cols + gx * (cols - 1));
-    if (ancho >= disponible) { return; }
-
-    /* el hueco que sobra se reparte a los dos lados: la rejilla y la
-       cabecera de dias quedan centradas y alineadas entre si */
-    var lado = Math.round(margen + (disponible - ancho) / 2);
-    for (i = 0; i < cajas.length; i++) {
-      cajas[i].style.width = ancho + 'px';
-      cajas[i].style.marginLeft = lado + 'px';
-      cajas[i].style.marginRight = lado + 'px';
+    if (ancho < dispAncho) {
+      var lado = Math.round(margen + (dispAncho - ancho) / 2);
+      for (i = 0; i < cajas.length; i++) {
+        cajas[i].style.width = ancho + 'px';
+        cajas[i].style.marginLeft = lado + 'px';
+        cajas[i].style.marginRight = lado + 'px';
+      }
+      anchoCard = (ancho - gx * (cols - 1)) / cols;
     }
+
+    /* demasiado espigada: se le quita alto a la rejilla y el sobrante
+       queda entre el calendario y el pie */
+    var alto = Math.floor((anchoCard / CARD_PROPORCION_MIN) * filas + gy * (filas - 1));
+    if (alto < dispAlto) { rej.style.height = alto + 'px'; }
+
+    /* los doce meses se reparten justo el alto del calendario: diciembre
+       acaba a la altura de la ultima semana */
+    var arriba = sem.getBoundingClientRect().top;
+    var abajo = rej.getBoundingClientRect().bottom;
+    if (abajo > arriba) { rail.style.height = Math.round(abajo - arriba) + 'px'; }
   }
 
   var NIVELES_FIT = ['2', '1'];
@@ -2225,6 +2410,16 @@ var CAL = (function () {
     est.eventoSel = null;
     pintar();
   }
+  function irAMesConcreto(anio, mes) {
+    est.mesVista = new Date(anio, mes, 1);
+    est.diaSel = '';
+    est.eventoSel = null;
+    pintar();
+  }
+  function irAAnio(delta) {
+    var f = est.mesVista;
+    irAMesConcreto(f.getFullYear() + delta, f.getMonth());
+  }
   function irAHoy() {
     est.mesVista = primerDiaMes(new Date());
     est.diaSel = '';
@@ -2279,6 +2474,15 @@ var CAL = (function () {
       est.eventoSel = null;
       pintarPanelMopi();
     });
+
+    /* --- rail de escritorio: mes e historico de anos --- */
+    escuchar(el('calRailMeses'), 'click', function (e) {
+      var b = celdaPulsada(e, 'cal-rail-mes');
+      if (!b) { return; }
+      irAMesConcreto(est.mesVista.getFullYear(), parseInt(b.getAttribute('data-mes'), 10));
+    });
+    escuchar(el('calAnioAnterior'), 'click', function () { irAAnio(-1); });
+    escuchar(el('calAnioSiguiente'), 'click', function () { irAAnio(1); });
 
     /* --- movil: el boton despliega la lista del mes --- */
     escuchar(el('calVerTodos'), 'click', function () { alternarAgenda(); });
