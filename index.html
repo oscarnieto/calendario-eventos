@@ -832,10 +832,6 @@ body{
   --cal-rail-hueco-cab: clamp(10px, 3vh, 40px);
   --cal-rail-fs-mes: 18px;
   --cal-rail-fs-mes: clamp(11px, min(1.35vw, 2.1vh), 22px);
-  --cal-rail-fs-anio: 19px;
-  --cal-rail-fs-anio: clamp(12px, min(1.5vw, 2.3vh), 24px);
-  --cal-rail-flecha: 24px;
-  --cal-rail-flecha: clamp(18px, 2.6vh, 30px);
 
   /* la foto pasa a fondo de ventana: el azul la deja en textura */
   --cal-velo-solido: rgba(37,39,58,.94);
@@ -990,25 +986,6 @@ body{
 
 /* ---- rail: año + meses ---- */
 .cal-rail{ display:none; }
-.cal-rail-anio{
-  flex:0 0 auto;
-  display:flex; align-items:center; gap: 4px;
-  margin-bottom: var(--cal-rail-hueco-cab);
-  font-size: var(--cal-rail-fs-anio);
-  font-weight:700; color: var(--cal-c-blanco);
-  letter-spacing:.04em;
-}
-.cal-rail-anio span{ min-width:0; }
-.cal-rail-flecha{
-  width: var(--cal-rail-flecha); height: var(--cal-rail-flecha);
-  min-width: var(--cal-rail-flecha);
-  background:transparent; border:0; padding:0;
-  color: var(--cal-c-rail);
-  display:flex; align-items:center; justify-content:center;
-}
-.cal-rail-flecha:last-of-type{ margin-right: .2em; }
-.cal-rail-flecha svg{ width:70%; height:70%; display:block; }
-.cal-rail-flecha:active{ color: var(--cal-c-acento); }
 .cal-rail-meses{
   flex:1 1 auto; min-height:0;
   list-style:none; margin:0; padding:0;
@@ -1021,22 +998,25 @@ body{
   font-size: var(--cal-rail-fs-mes);
   line-height:1.2;
   font-weight:300; color: var(--cal-c-rail);
-  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
-  -webkit-transition: color 160ms ease;
-  transition: color 160ms ease;
+  white-space:nowrap;
+  /* el aumento del dock va por transform desde el borde izquierdo: no
+     mueve la maqueta, asi que la lista no da saltos al pasar por encima */
+  -webkit-transform-origin: 0% 50%;
+  transform-origin: 0% 50%;
+  -webkit-transition: -webkit-transform 90ms linear, color 90ms linear;
+  transition: transform 90ms linear, color 90ms linear;
+  will-change: transform;
 }
-.cal-rail-mes:active{ color: var(--cal-c-blanco); }
 .cal-rail-mes[data-activo="1"]{
   font-weight:700; color: var(--cal-c-acento);
 }
-/* un mes con eventos se marca con un punto para que el historico se lea */
-.cal-rail-mes[data-eventos="1"]::after{
-  content:''; display:inline-block;
-  width: .32em; height: .32em; border-radius:50%;
-  margin-left: .45em; vertical-align: .18em;
-  background: var(--cal-c-acento);
+@media (prefers-reduced-motion: reduce){
+  .cal-rail-mes{
+    -webkit-transition: none; transition: none;
+    -webkit-transform: none !important; transform: none !important;
+  }
+  .cal-rail-mes:hover{ color: var(--cal-c-blanco); }
 }
-.cal-rail-mes[data-activo="1"]::after{ background: var(--cal-c-acento); }
 
 /* ventana demasiado baja para repartir cinco filas: se devuelve el scroll
    antes que dejar las cards ilegibles */
@@ -1162,21 +1142,6 @@ body{
 
       <div class="cal-semana" id="calSemana"></div>
       <nav class="cal-rail" id="calRail" aria-label="Meses">
-        <div class="cal-rail-anio">
-          <button type="button" class="cal-rail-flecha" id="calAnioAnterior" aria-label="Año anterior">
-            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-              <path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.4"
-                    stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </button>
-          <span id="calRailAnio">&nbsp;</span>
-          <button type="button" class="cal-rail-flecha" id="calAnioSiguiente" aria-label="Año siguiente">
-            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-              <path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.4"
-                    stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </button>
-        </div>
         <ul class="cal-rail-meses" id="calRailMeses"></ul>
       </nav>
 
@@ -2006,33 +1971,83 @@ var CAL = (function () {
     mostrar(el('calAviso'), !!aviso);
   }
 
-  /* El rail de escritorio es el historico del ano: doce meses, el visible
-     en amarillo y un punto en los que tienen algo. */
+  /* El rail de escritorio son los doce meses del ano visible, con el mes
+     en curso en amarillo. */
   function pintarRail(f) {
     if (est.modo !== 'escritorio') { return; }
-    var anio = f.getFullYear(), mesVisto = f.getMonth();
-    var conEventos = mesesConEventos(anio), i, h = '';
-    el('calRailAnio').textContent = anio;
+    var mesVisto = f.getMonth(), i, h = '';
     for (i = 0; i < 12; i++) {
       h += '<li><button type="button" class="cal-rail-mes" data-mes="' + i + '"' +
            ' data-activo="' + (i === mesVisto ? '1' : '0') + '"' +
-           ' data-eventos="' + (conEventos[i] ? '1' : '0') + '"' +
            (i === mesVisto ? ' aria-current="true"' : '') + '>' +
            capitalizar(MESES[i]) + '</button></li>';
     }
     el('calRailMeses').innerHTML = h;
+    medirDock();
   }
 
-  function mesesConEventos(anio) {
-    var pre = String(anio) + '-', r = [], i;
-    for (i = 0; i < 12; i++) { r.push(false); }
-    for (i = 0; i < est.eventos.length; i++) {
-      var fec = est.eventos[i].fecha;
-      if (fec.slice(0, 5) !== pre) { continue; }
-      var m = parseInt(fec.slice(5, 7), 10) - 1;
-      if (m >= 0 && m < 12) { r[m] = true; }
+  /* ---------------------------------------------------------------------
+     Efecto dock: el mes bajo el cursor crece y los vecinos lo acompanan
+     segun se alejan, con una campana de Gauss. Va por transform, asi que
+     no reflota la maqueta ni mueve el resto de la pagina.
+     --------------------------------------------------------------------- */
+  var DOCK_MAX = 1.85;       /* aumento del mes que tiene el cursor encima */
+  var DOCK_ALCANCE = 1.35;   /* radio de la campana, en huecos entre meses */
+  var dockItems = null, dockCentros = null, dockRadio = 0;
+  var dockDentro = false, dockY = 0, dockRaf = 0;
+
+  function medirDock() {
+    dockItems = el('calRailMeses').getElementsByClassName('cal-rail-mes');
+    dockCentros = [];
+    if (est.modo !== 'escritorio') { return; }
+    var i, r;
+    for (i = 0; i < dockItems.length; i++) {
+      dockItems[i].style.transform = '';
+      dockItems[i].style.color = '';
     }
-    return r;
+    for (i = 0; i < dockItems.length; i++) {
+      r = dockItems[i].getBoundingClientRect();
+      dockCentros.push(r.top + r.height / 2);
+    }
+    var hueco = dockCentros.length > 1 ? (dockCentros[1] - dockCentros[0]) : 40;
+    dockRadio = hueco * DOCK_ALCANCE;
+    /* si el cursor sigue encima (repintado tras pulsar un mes) se vuelve a
+       aplicar el aumento en vez de esperar al siguiente movimiento */
+    if (dockDentro) { pintarDock(); }
+  }
+
+  function pintarDock() {
+    dockRaf = 0;
+    if (!dockItems || !dockCentros || !dockCentros.length) { return; }
+    var i, d, f, esc;
+    for (i = 0; i < dockItems.length; i++) {
+      if (dockDentro && dockRadio > 0) {
+        d = dockCentros[i] - dockY;
+        f = Math.exp(-(d * d) / (2 * dockRadio * dockRadio));
+      } else {
+        f = 0;
+      }
+      esc = 1 + (DOCK_MAX - 1) * f;
+      dockItems[i].style.transform = f > 0.002 ? 'scale(' + esc.toFixed(3) + ')' : '';
+      /* el mes activo ya va en amarillo: solo se aclaran los demas */
+      if (dockItems[i].getAttribute('data-activo') !== '1') {
+        dockItems[i].style.color = f > 0.002 ? mezclarHaciaBlanco(f) : '';
+      }
+    }
+  }
+
+  /* del gris del rail al blanco, segun la cercania al cursor */
+  function mezclarHaciaBlanco(f) {
+    var r = Math.round(138 + (255 - 138) * f);
+    var g = Math.round(139 + (255 - 139) * f);
+    var b = Math.round(160 + (255 - 160) * f);
+    return 'rgb(' + r + ',' + g + ',' + b + ')';
+  }
+
+  function pedirDock() {
+    if (dockRaf) { return; }
+    if (window.requestAnimationFrame) { dockRaf = window.requestAnimationFrame(pintarDock); }
+    else { dockRaf = setTimeout(pintarDock, 16); }
   }
 
   /* En movil las cards solo llevan el numero: el contenido va en la agenda,
@@ -2178,6 +2193,8 @@ var CAL = (function () {
     var arriba = sem.getBoundingClientRect().top;
     var abajo = rej.getBoundingClientRect().bottom;
     if (abajo > arriba) { rail.style.height = Math.round(abajo - arriba) + 'px'; }
+    /* al cambiar el alto del rail cambian los centros del dock */
+    medirDock();
   }
 
   var NIVELES_FIT = ['2', '1'];
@@ -2416,10 +2433,6 @@ var CAL = (function () {
     est.eventoSel = null;
     pintar();
   }
-  function irAAnio(delta) {
-    var f = est.mesVista;
-    irAMesConcreto(f.getFullYear() + delta, f.getMonth());
-  }
   function irAHoy() {
     est.mesVista = primerDiaMes(new Date());
     est.diaSel = '';
@@ -2475,14 +2488,22 @@ var CAL = (function () {
       pintarPanelMopi();
     });
 
-    /* --- rail de escritorio: mes e historico de anos --- */
+    /* --- rail de escritorio: el mes y el efecto dock --- */
     escuchar(el('calRailMeses'), 'click', function (e) {
       var b = celdaPulsada(e, 'cal-rail-mes');
       if (!b) { return; }
       irAMesConcreto(est.mesVista.getFullYear(), parseInt(b.getAttribute('data-mes'), 10));
     });
-    escuchar(el('calAnioAnterior'), 'click', function () { irAAnio(-1); });
-    escuchar(el('calAnioSiguiente'), 'click', function () { irAAnio(1); });
+    escuchar(el('calRail'), 'mousemove', function (e) {
+      if (est.modo !== 'escritorio') { return; }
+      dockDentro = true;
+      dockY = e.clientY;
+      pedirDock();
+    });
+    escuchar(el('calRail'), 'mouseleave', function () {
+      dockDentro = false;
+      pedirDock();
+    });
 
     /* --- movil: el boton despliega la lista del mes --- */
     escuchar(el('calVerTodos'), 'click', function () { alternarAgenda(); });

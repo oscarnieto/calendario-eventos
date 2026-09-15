@@ -163,9 +163,15 @@ no entienda `clamp()` se queda con el valor plano.
   izquierda el logo y el **histórico de meses**, a la derecha el calendario.
   La foto pasa a ser fondo de toda la ventana, atenuada con el azul de marca
   (`--cal-velo-solido`), y el contacto va en una sola línea bajo el calendario.
-  - El **rail** lista los doce meses del año repartidos justo sobre el alto del
-    calendario: el mes visible en amarillo y un punto en los que tienen algún
-    evento. Encima, `‹ año ›` para moverse por el histórico.
+  - El **menú vertical** lista los doce meses del año repartidos justo sobre el
+    alto del calendario, con el mes visible en amarillo. Al pasar el ratón por
+    encima hace el **efecto dock del Mac**: el mes bajo el cursor crece y los
+    vecinos lo acompañan según se alejan, con una campana de Gauss
+    (`DOCK_MAX` y `DOCK_ALCANCE` en el script). Va por `transform`, así que no
+    mueve la maqueta; con `prefers-reduced-motion` se desactiva y queda un
+    simple resaltado al pasar por encima.
+    No hay selector de año: las teclas ← → cruzan de diciembre a enero y el
+    menú se repinta con los meses del año nuevo.
   - Los tamaños se miden contra el **menor** de ancho y alto (`min(Xvw, Yvh)`),
     para que una ventana baja y ancha no reviente las cards.
   - Las cards se mantienen entre **0,85 y 1,45 de ancho por 1 de alto**: en
@@ -186,8 +192,9 @@ no entienda `clamp()` se queda con el valor plano.
   hace nada.
   En el popup no hay QR —no tiene sentido escanear desde el propio móvil—: hay
   un botón **Apúntate aquí**.
-- **Navegación de mes.** En escritorio manda el rail (y las teclas ← →); en
-  móvil, las flechas `‹ Hoy ›` arriba a la derecha y deslizar sobre la rejilla.
+- **Navegación de mes.** En escritorio manda el menú vertical (y las teclas
+  ← →); en móvil, las flechas `‹ Hoy ›` arriba a la derecha y deslizar sobre la
+  rejilla.
 
 ### Imágenes de marca
 
