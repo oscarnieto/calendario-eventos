@@ -168,7 +168,8 @@ no entienda `clamp()` se queda con el valor plano.
   (`--cal-velo-solido`), y el contacto va en una sola línea bajo el calendario.
   En el popup no hay QR: botón **Apúntate aquí** a la derecha de cada evento.
   - El **menú vertical** lista los doce meses del año repartidos justo sobre el
-    alto del calendario, con el mes visible en amarillo. Al pasar el ratón por
+    alto del calendario, con el mes visible en amarillo y 5 px más grande que
+    el resto. El logo va pegado al borde superior de la pantalla. Al pasar el ratón por
     encima hace el **efecto dock del Mac**: el mes bajo el cursor crece y los
     vecinos lo acompañan según se alejan, con una campana de Gauss
     (`DOCK_MAX` y `DOCK_ALCANCE` en el script). Va por `transform`, así que no
