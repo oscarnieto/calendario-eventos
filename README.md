@@ -149,28 +149,35 @@ Todo el color, la tipografía y la geometría viven en variables CSS bajo
 
 ## Diseño de escritorio y móvil
 
-Mismo lenguaje visual que el MOPI —foto de cabecera con degradado, logo, titular
-`Eventos` + mes, cards amarillas y azules, pie de contacto— pero con medidas
-fluidas: cada tamaño se declara primero en píxeles y después con `clamp()`, de
-modo que un navegador que no entienda `clamp()` se queda con el valor plano.
+Mismo lenguaje visual que el MOPI —foto, logo, titular `Eventos` + mes, cards
+amarillas y azules, pie de contacto— pero con medidas fluidas: cada tamaño se
+declara primero en píxeles y después con `clamp()`, de modo que un navegador que
+no entienda `clamp()` se queda con el valor plano.
 
 - **Rejilla de lunes a domingo**, 7 columnas. A diferencia del MOPI, aquí sí se
   ven los eventos de sábado y domingo.
-- **Escritorio: sin scroll.** El calendario ocupa el 100 % del ancho y del alto
-  de la ventana. La rejilla se queda con todo el alto que sobra entre la
-  cabecera y el pie, y las cinco filas se reparten a partes iguales. Los tamaños
-  se miden contra el **menor** de ancho y alto (`min(Xvw, Yvh)`), para que una
-  ventana baja y ancha no reviente las cards.
-  Las cards no pasan de una proporción de **1,45 de ancho por 1 de alto**: en
-  pantallas muy apaisadas la rejilla se estrecha y se centra —cabecera de días
-  incluida— en vez de estirarse de lado a lado, para que el día se siga leyendo
-  como una casilla y no como una banda.
-  Cuando una card no da de sí, el ajuste va por pasos antes que perder
-  información: primero baja el título a dos líneas, luego a una, y solo si aun
-  así no cabe esconde los últimos eventos y remata con **Ver todos (N)**, que
-  abre el popup del día con la lista completa. Todo se vuelve a medir al
-  redimensionar la ventana. Por debajo de 480 px de alto se devuelve el scroll:
-  antes eso que dejar las cards ilegibles.
+- **Escritorio: retícula a pantalla completa.** Implementa el frame
+  `19:24 MacBook Pro 14"` del Figma
+  [Calendario](https://www.figma.com/design/LqOyrOC477j02aAt3ok6az/Calendario?node-id=19-24).
+  Dos columnas al 100 % del ancho y del alto de la ventana, sin scroll: a la
+  izquierda el logo y el **histórico de meses**, a la derecha el calendario.
+  La foto pasa a ser fondo de toda la ventana, atenuada con el azul de marca
+  (`--cal-velo-solido`), y el contacto va en una sola línea bajo el calendario.
+  - El **rail** lista los doce meses del año repartidos justo sobre el alto del
+    calendario: el mes visible en amarillo y un punto en los que tienen algún
+    evento. Encima, `‹ año ›` para moverse por el histórico.
+  - Los tamaños se miden contra el **menor** de ancho y alto (`min(Xvw, Yvh)`),
+    para que una ventana baja y ancha no reviente las cards.
+  - Las cards se mantienen entre **0,85 y 1,45 de ancho por 1 de alto**: en
+    pantallas muy apaisadas la rejilla se estrecha y se centra —cabecera de días
+    incluida—, y en ventanas estrechas y altas se le recorta alto, para que el
+    día se lea siempre como una casilla.
+  - Cuando una card no da de sí, el ajuste va por pasos antes que perder
+    información: primero baja el título a dos líneas, luego a una, y solo si aun
+    así no cabe esconde los últimos eventos y remata con **Ver todos (N)**, que
+    abre el popup del día con la lista completa. Todo se vuelve a medir al
+    redimensionar. Por debajo de 480 px de alto se devuelve el scroll: antes eso
+    que dejar las cards ilegibles.
 - **Móvil.** La rejilla se reduce a cuadrados con el número del día (cabeceras
   `L M X J V S D`) y el mes entra de una pantalla. Debajo, un botón
   **Ver todos los eventos (N)** despliega la **agenda** del mes agrupada por
@@ -179,8 +186,8 @@ modo que un navegador que no entienda `clamp()` se queda con el valor plano.
   hace nada.
   En el popup no hay QR —no tiene sentido escanear desde el propio móvil—: hay
   un botón **Apúntate aquí**.
-- **Navegación de mes** en las dos: flechas `‹ Hoy ›` arriba a la derecha,
-  teclas ← → en escritorio y deslizar sobre la rejilla en móvil.
+- **Navegación de mes.** En escritorio manda el rail (y las teclas ← →); en
+  móvil, las flechas `‹ Hoy ›` arriba a la derecha y deslizar sobre la rejilla.
 
 ### Imágenes de marca
 
