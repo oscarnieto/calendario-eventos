@@ -116,10 +116,13 @@ datos viejos sin darte cuenta.
   Excel no se puede descargar, el calendario pinta desde esa copia y muestra un
   aviso discreto con la fecha del último dato bueno. El Excel siempre manda
   cuando está disponible.
-- **QR.** Se generan en el navegador a partir de la columna `Link QR`, con corrección
-  de errores M y zona de silencio, y llevan UTM según el modo
-  (`mopi/cartel`, `email/escritorio`, `email/movil`). En móvil no hay QR: hay
-  botón directo.
+- **QR: solo en el MOPI.** Es la única pantalla que se escanea desde otro
+  aparato. Se generan en el navegador a partir de la columna `Link QR`, con
+  corrección de errores M y zona de silencio. En escritorio y en móvil, donde el
+  enlace se pulsa, va en su lugar un botón **Apúntate aquí**: en escritorio
+  ocupa el sitio del QR, a la derecha del evento; en móvil, ancho completo bajo
+  los datos. Los tres llevan UTM según el modo (`mopi/cartel`,
+  `email/escritorio`, `email/movil`).
 - **MOPI.** El cartel está siempre en pantalla. A los 45 s sin tocar se cierra el
   popup abierto y vuelve la vista del mes.
 
@@ -163,6 +166,7 @@ no entienda `clamp()` se queda con el valor plano.
   izquierda el logo y el **histórico de meses**, a la derecha el calendario.
   La foto pasa a ser fondo de toda la ventana, atenuada con el azul de marca
   (`--cal-velo-solido`), y el contacto va en una sola línea bajo el calendario.
+  En el popup no hay QR: botón **Apúntate aquí** a la derecha de cada evento.
   - El **menú vertical** lista los doce meses del año repartidos justo sobre el
     alto del calendario, con el mes visible en amarillo. Al pasar el ratón por
     encima hace el **efecto dock del Mac**: el mes bajo el cursor crece y los
@@ -190,8 +194,8 @@ no entienda `clamp()` se queda con el valor plano.
   fecha; vuelve a pulsarse para plegarla. Empieza plegada, así que la página de
   entrada es el mes y nada más. En un mes sin eventos el botón lo dice y no
   hace nada.
-  En el popup no hay QR —no tiene sentido escanear desde el propio móvil—: hay
-  un botón **Apúntate aquí**.
+  En el popup no hay QR —el QR es solo para el MOPI—: hay un botón
+  **Apúntate aquí**.
 - **Navegación de mes.** En escritorio manda el menú vertical (y las teclas
   ← →); en móvil, las flechas `‹ Hoy ›` arriba a la derecha y deslizar sobre la
   rejilla.

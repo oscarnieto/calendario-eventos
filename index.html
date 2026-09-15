@@ -432,7 +432,7 @@ body{
   max-height: calc(var(--cal-pop-fs-dato) * 1.35 * 4);
   overflow:hidden;
 }
-/* en movil, en vez de QR, un boton directo */
+/* fuera del MOPI, en vez de QR, un boton directo */
 .cal-ev-boton{
   display:block; margin-top: 18px;
   padding: 14px 20px; border-radius: 2px;
@@ -441,6 +441,13 @@ body{
   text-align:center; text-decoration:none;
 }
 .cal-ev-boton:active{ background: var(--cal-c-num-con); color: var(--cal-c-blanco); }
+/* en escritorio el boton ocupa el sitio que tenia el QR, a la derecha */
+.cal-ev-accion{ flex:0 0 auto; }
+.cal-ev-accion .cal-ev-boton{
+  margin-top:0;
+  white-space:nowrap;
+  padding: 14px 26px;
+}
 
 .cal-ev-qr{ flex:0 0 auto; }
 .cal-qr-caja{
@@ -2315,15 +2322,19 @@ var CAL = (function () {
     /* El Figma no muestra el tipo de evento en el popup. Para sacarlo, basta
        con anadir aqui: filaDato(ICONOS.tipo, ev.categoria) */
 
-    /* Escanear un QR desde el propio movil no tiene sentido: ahi va un boton. */
-    var qr = '', boton = '';
+    /* El QR es cosa del MOPI: es la unica pantalla que se escanea desde otro
+       aparato. En escritorio y en movil se pulsa, asi que va un boton. */
+    var qr = '', boton = '', accion = '';
     if (ev.url && ev.estado !== 'cancelado') {
-      if (est.modo === 'movil') {
-        boton = '<a class="cal-ev-boton" href="' + esc(urlConUtm(ev.url, 'movil')) +
-                '" target="_blank" rel="noopener">Apúntate aquí</a>';
-      } else {
+      var enlace = '<a class="cal-ev-boton" href="' + esc(urlConUtm(ev.url, est.modo)) +
+                   '" target="_blank" rel="noopener">Apúntate aquí</a>';
+      if (est.modo === 'mopi') {
         qr = '<div class="cal-ev-qr"><div class="cal-qr-caja" data-qr="' +
-             esc(urlConUtm(ev.url, est.modo)) + '"></div></div>';
+             esc(urlConUtm(ev.url, 'mopi')) + '"></div></div>';
+      } else if (est.modo === 'movil') {
+        boton = enlace;
+      } else {
+        accion = '<div class="cal-ev-accion">' + enlace + '</div>';
       }
     }
 
@@ -2335,7 +2346,7 @@ var CAL = (function () {
                datos +
                (ev.descripcion ? '<p class="cal-ev-desc">' + esc(ev.descripcion) + '</p>' : '') +
                boton +
-             '</div>' + qr +
+             '</div>' + qr + accion +
            '</article>';
   }
 
