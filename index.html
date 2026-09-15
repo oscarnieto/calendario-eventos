@@ -825,8 +825,8 @@ body{
   --cal-logo-lado: clamp(44px, min(8vw, 12.3vh), 124px);
   --cal-hueco-cab: 12px;
   --cal-hueco-cab: clamp(6px, 1.5vh, 20px);
-  --cal-h1-hueco: 16px;
-  --cal-h1-hueco: clamp(8px, 2.2vh, 30px);
+  --cal-h1-hueco: 30px;
+  --cal-h1-hueco: clamp(16px, 4.4vh, 56px);
   --cal-pie-hueco: 26px;
   --cal-pie-hueco: clamp(10px, 3.4vh, 46px);
 
@@ -835,8 +835,8 @@ body{
   --cal-rail-ancho: clamp(112px, 15vw, 240px);
   --cal-rail-hueco: 26px;
   --cal-rail-hueco: clamp(12px, 2.1vw, 34px);
-  --cal-rail-hueco-cab: 22px;
-  --cal-rail-hueco-cab: clamp(10px, 3vh, 40px);
+  --cal-rail-hueco-cab: 40px;
+  --cal-rail-hueco-cab: clamp(20px, 5.4vh, 70px);
   --cal-rail-fs-mes: 18px;
   --cal-rail-fs-mes: clamp(11px, min(1.35vw, 2.1vh), 22px);
 
@@ -997,10 +997,14 @@ body{
 .cal-rail-meses{
   flex:1 1 auto; min-height:0;
   list-style:none; margin:0; padding:0;
-  display:flex; flex-direction:column; justify-content:space-between;
+  /* se apilan desde arriba: el hueco entre meses lo calcula el JS, la
+     mitad del que quedaria repartiendolos por todo el alto */
+  display:flex; flex-direction:column; justify-content:flex-start;
 }
 .cal-rail-mes{
-  display:block; width:100%; text-align:left;
+  /* ancho al contenido: al aumentar con el dock, una caja al 100% se
+     estiraria por encima del calendario y le robaria los clics */
+  display:inline-block; width:auto; max-width:100%; text-align:left;
   background:transparent; border:0; padding:0;
   font-family: var(--cal-fuente);
   /* el menu va 5px por debajo del mes en curso, que es el que manda */
@@ -2204,8 +2208,22 @@ var CAL = (function () {
     var arriba = sem.getBoundingClientRect().top;
     var abajo = rej.getBoundingClientRect().bottom;
     if (abajo > arriba) { rail.style.height = Math.round(abajo - arriba) + 'px'; }
+    espaciarMeses();
     /* al cambiar el alto del rail cambian los centros del dock */
     medirDock();
+  }
+
+  /* Repartidos por todo el alto del calendario los meses quedan sueltos:
+     se les deja la mitad de ese hueco y se apilan arriba. */
+  function espaciarMeses() {
+    var ul = el('calRailMeses');
+    ul.style.rowGap = '';
+    var items = ul.getElementsByClassName('cal-rail-mes');
+    if (items.length < 2) { return; }
+    var suma = 0, i;
+    for (i = 0; i < items.length; i++) { suma += items[i].offsetHeight; }
+    var hueco = (ul.clientHeight - suma) / (items.length - 1);
+    if (hueco > 0) { ul.style.rowGap = Math.round(hueco / 2) + 'px'; }
   }
 
   var NIVELES_FIT = ['2', '1'];
