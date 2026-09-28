@@ -324,6 +324,25 @@ body{
   font-weight:300; color: var(--cal-c-blanco);
 }
 .cal-pie b{ display:block; font-weight:700; color: var(--cal-c-acento); }
+/* el correo abre el cliente de correo; hereda el estilo del pie */
+.cal-pie-correo{
+  color: inherit; text-decoration: none;
+  border-bottom: 1px solid transparent;
+  -webkit-transition: border-color 200ms ease;
+  transition: border-color 200ms ease;
+}
+@media (hover: hover) and (pointer: fine){
+  .cal-pie-correo:hover{ border-bottom-color: currentColor; }
+}
+@media (prefers-reduced-motion: reduce){
+  .cal-pie-correo{ -webkit-transition: none; transition: none; }
+}
+/* en el MOPI no: es un cartel de oficina, ahi no hay cliente de correo y
+   un mailto solo sirve para sacar al usuario del calendario */
+:root[data-modo="mopi"] .cal-pie-correo{
+  pointer-events: none;
+  border-bottom-color: transparent;
+}
 
 .cal-aviso{
   background: var(--cal-c-alerta); color: var(--cal-c-blanco);
@@ -1248,7 +1267,7 @@ body{
       <div class="cal-agenda" id="calAgenda"></div>
 
       <div class="cal-pie-linea"></div>
-      <div class="cal-pie">Para más información contacta con<b>marketing@savills.es</b></div>
+      <div class="cal-pie">Para más información contacta con<b><a class="cal-pie-correo" href="mailto:marketing@savills.es">marketing@savills.es</a></b></div>
 
       <div class="cal-modal-fondo oculto" id="calModal">
         <div class="cal-modal" role="dialog" aria-modal="true" aria-labelledby="calModalFecha">

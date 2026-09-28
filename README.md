@@ -203,6 +203,10 @@ no entienda `clamp()` se queda con el valor plano.
   hace nada.
   En el popup no hay QR —el QR es solo para el MOPI—: hay un botón
   **Apúntate aquí**.
+- **Contacto.** El correo del pie es un `mailto:` en escritorio y móvil, con
+  subrayado al pasar el ratón. En el MOPI queda inerte: es un cartel de oficina,
+  ahí no hay cliente de correo y un `mailto:` solo serviría para sacar al
+  usuario del calendario.
 - **Navegación de mes.** En escritorio manda el menú vertical (y las teclas
   ← →); en móvil, las flechas `‹ Hoy ›` arriba a la derecha y deslizar sobre la
   rejilla.
