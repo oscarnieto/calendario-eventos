@@ -84,6 +84,20 @@ escritorio. Al redimensionar, `revisarModo()` decide si repinta.
 | `pintarPanelMopi()` / `pintarModalMopi()` | el popup del día |
 | `cargarDatos()` / `leerLibro()` / `aFechasIso()` | lectura y saneado del Excel |
 
+### Fondo
+
+`assets/img/calendarioBG.mp4` en bucle, mudo, sin controles y con
+`playsinline`, dentro de `.cal-hero` — el mismo hueco que ocupaba la foto, así
+que en el MOPI y en móvil es la banda de cabecera y en escritorio es el fondo de
+toda la ventana. `arrancarVideoFondo()` fuerza el `muted` por propiedad (iOS no
+se fía del atributo), reintenta el `play()` y esconde el vídeo si falla.
+
+Debajo, el CSS pinta `calendarioBG-poster.jpg` —el **primer fotograma** del
+vídeo— como `background-image` de `.cal-hero`: hace de portada mientras carga y
+se queda si el vídeo no puede reproducirse o si el usuario tiene
+`prefers-reduced-motion`. **Si se cambia el vídeo hay que volver a exportar ese
+fotograma.**
+
 ### Datos
 
 `datos/calendario.xlsx` con cache-busting `?v=' + Date.now()`, caché en

@@ -146,16 +146,25 @@ body{
 /* ---------- cabecera: foto, degradado, logo, titular ---------- */
 .cal-hero{
   background-color: var(--cal-c-card-sin);
+  /* el primer fotograma del video hace de portada mientras carga, y se
+     queda puesto si el video no llega a reproducirse */
   background-image: linear-gradient(135deg, #3a3c5c 0%, #25273a 100%);
-  background-position: center top;
+  background-image: url('assets/img/calendarioBG-poster.jpg');
+  background-position: center 45%;
   background-size: cover;
   background-repeat: no-repeat;
   overflow:hidden;
 }
-.cal-hero img{
+.cal-hero img,
+.cal-hero-video{
   width:100%; height:100%;
   object-fit: cover; object-position: center 45%;
   display:block;
+  border:0; background:transparent;
+}
+/* sin animacion: se queda la portada quieta */
+@media (prefers-reduced-motion: reduce){
+  .cal-hero-video{ display:none; }
 }
 .cal-degradado{
   background: -webkit-linear-gradient(top, rgba(37,39,58,0) 0%, #25273a 80%);
@@ -1136,7 +1145,12 @@ body{
     <div class="cal-lienzo" id="calLienzo">
 
       <div class="cal-hero">
-        <img src="assets/img/hero.jpg" alt="" onerror="this.style.display='none'">
+        <video class="cal-hero-video" id="calHeroVideo"
+               autoplay muted loop playsinline webkit-playsinline
+               preload="auto" disablepictureinpicture
+               poster="assets/img/calendarioBG-poster.jpg">
+          <source src="assets/img/calendarioBG.mp4" type="video/mp4">
+        </video>
       </div>
       <div class="cal-degradado"></div>
 
@@ -2413,6 +2427,41 @@ var CAL = (function () {
     if (est.modo === 'mopi') { escalarMopi(); }
   }
 
+  /* El video de fondo. Se deja reproducir solo; si no puede (autoplay
+     bloqueado, WebView sin codec, red caida) se esconde y queda la portada
+     que el CSS pinta debajo, que es su primer fotograma. */
+  function arrancarVideoFondo() {
+    var v = el('calHeroVideo');
+    if (!v) { return; }
+
+    if (window.matchMedia &&
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      v.removeAttribute('autoplay');
+      return;
+    }
+
+    /* iOS solo autoreproduce si la propiedad va puesta, no basta el atributo */
+    v.muted = true;
+    v.defaultMuted = true;
+    v.setAttribute('muted', '');
+
+    escuchar(v, 'error', function () { v.style.display = 'none'; });
+    escuchar(v, 'stalled', reintentar);
+    /* algun reproductor ignora el loop: se le vuelve a dar al play */
+    escuchar(v, 'ended', reintentar);
+
+    function reintentar() {
+      try {
+        if (v.ended) { v.currentTime = 0; }
+        var p = v.play();
+        if (p && p['catch']) { p['catch'](function () {}); }
+      } catch (e) {
+        console.warn('[calendario] no se pudo reproducir el video de fondo.', e);
+      }
+    }
+    reintentar();
+  }
+
   function detectarModo() {
     var forzado = clave(paramUrl('modo'));
     if (forzado === 'mopi' || forzado === 'escritorio' || forzado === 'movil') return forzado;
@@ -2659,6 +2708,7 @@ var CAL = (function () {
     document.documentElement.setAttribute('data-modo', est.modo);
 
     conectarEventos();
+    arrancarVideoFondo();
     pintar();
     if (document.fonts && document.fonts.ready && document.fonts.ready.then) {
       document.fonts.ready.then(function () {
