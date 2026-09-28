@@ -21,8 +21,14 @@ Vienen del encargo original y condicionan cualquier cambio:
    `index.html`. Nada de `<link>` ni `<script src>` a terceros.
 2. **Cero peticiones a CDN o APIs externas.** El player del MOPI puede tener la
    red capada. Todo lo que hace falta va embebido: SheetJS (`xlsx.mini.min.js`
-   0.18.5), `qrcode-generator` 1.4.4, la tipografía Montserrat en base64
-   (Light/Medium/Bold, WOFF2 + WOFF de reserva) y el favicon.
+   0.18.5), `qrcode-generator` 1.4.4 y la tipografía Montserrat en base64
+   (Light/Medium/Bold, WOFF2 + WOFF de reserva). Los archivos del propio sitio
+   (el Excel, el vídeo, el logo, el favicon) sí se piden: la regla es no
+   depender de terceros, no evitar el propio servidor.
+   El **favicon** es la excepción a embeber: va en archivos de verdad en la raíz
+   (`favicon.ico`, `favicon-32.png`, `favicon.svg`, `apple-touch-icon.png`)
+   porque Safari y varios players se saltan los favicon en `data:` URI. Si
+   cambia el logo, hay que regenerar los cuatro.
 3. **Sin build, sin npm, sin framework.** HTML, CSS y JavaScript planos. Nada de
    React, Vue ni empaquetadores.
 4. **Sintaxis conservadora (ES5).** El player puede ser un WebView antiguo
