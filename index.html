@@ -772,9 +772,13 @@ body{
   position:relative;
   margin: -78px var(--cal-margen) 0;
   margin-top: calc(-1 * (var(--cal-lh-h1) + 0.42em));
-  padding-right: calc(var(--cal-tactil) * 3.6);
   white-space:normal;
 }
+/* dos lineas y no tres: "Eventos" arriba y el mes con el ano debajo.
+   La navegacion va pegada al borde superior, muy por encima del titular,
+   asi que aqui no hace falta reservarle sitio a la derecha. */
+:root[data-modo="movil"] .cal-h1 b{ display:block; }
+:root[data-modo="movil"] .cal-h1-fecha{ white-space:nowrap; }
 :root[data-modo="movil"] .cal-nav{
   position:absolute; right: var(--cal-margen);
   top: 16px;
@@ -1162,7 +1166,7 @@ body{
         <img src="assets/img/logo-savills.svg" alt="Savills" onerror="this.style.display='none'">
       </div>
 
-      <h1 class="cal-h1"><b>Eventos</b> <span id="calMes">&nbsp;</span> <span id="calAnio"></span></h1>
+      <h1 class="cal-h1"><b>Eventos</b> <span class="cal-h1-fecha"><span id="calMes">&nbsp;</span> <span id="calAnio"></span></span></h1>
 
       <nav class="cal-nav" id="calNav">
         <button type="button" class="cal-btn" id="calAnterior" aria-label="Mes anterior">

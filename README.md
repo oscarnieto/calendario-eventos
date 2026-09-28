@@ -189,8 +189,9 @@ no entienda `clamp()` se queda con el valor plano.
     abre el popup del día con la lista completa. Todo se vuelve a medir al
     redimensionar. Por debajo de 480 px de alto se devuelve el scroll: antes eso
     que dejar las cards ilegibles.
-- **Móvil.** La rejilla se reduce a cuadrados con el número del día (cabeceras
-  `L M X J V S D`) y el mes entra de una pantalla. Debajo, un botón
+- **Móvil.** El titular va a dos líneas fijas —«Eventos» y debajo el mes con el
+  año, que no se separan— y la rejilla se reduce a cuadrados con el número del
+  día (cabeceras `L M X J V S D`) y el mes entra de una pantalla. Debajo, un botón
   **Ver todos los eventos (N)** despliega la **agenda** del mes agrupada por
   fecha; vuelve a pulsarse para plegarla. Empieza plegada, así que la página de
   entrada es el mes y nada más. En un mes sin eventos el botón lo dice y no
