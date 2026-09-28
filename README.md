@@ -208,7 +208,7 @@ no entienda `clamp()` se queda con el valor plano.
 | `assets/img/calendarioBG.mp4` | **Vídeo de fondo** (1920×1080, 15,6 s, 5,9 MB). Se reproduce en bucle, mudo y sin controles, en los tres modos. |
 | `assets/img/calendarioBG-poster.jpg` | **Portada**: el primer fotograma del vídeo. Se ve mientras el vídeo carga y se queda puesta si no puede reproducirse. **Si cambias el vídeo, hay que volver a exportar este fotograma** (`ffmpeg -i calendarioBG.mp4 -frames:v 1 calendarioBG-poster.jpg`). |
 | `assets/img/hero.jpg` | La foto de cabecera anterior. Ya no se usa: la sustituyó el vídeo. |
-| `assets/img/logo-savills.svg` | Logo de la esquina superior izquierda, 121×121. Es además el **favicon**, embebido en base64 dentro del `<head>` para no pedir ningún archivo: si lo cambias, hay que volver a embeberlo. |
+| `assets/img/logo-savills.svg` | Logo de la esquina superior izquierda, 121×121. De aquí sale también el **favicon**, reencuadrado sobre el propio logotipo para que se lea a 16 px y embebido en el `<head>` en PNG (32 y 180) y SVG: si cambias el logo, hay que volver a generarlo. |
 
 Las dos son **provisionales**: se generaron aquí porque el entorno no tiene
 acceso de red a `figma.com` para exportarlas. Sustituirlas es arrastrar el
