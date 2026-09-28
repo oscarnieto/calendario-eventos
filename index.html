@@ -998,6 +998,56 @@ body{
   grid-auto-rows: minmax(0, 1fr);
 }
 :root[data-modo="escritorio"] .cal-card{ min-height:0; height:100%; }
+
+/* ---- lo que se puede pulsar se nota al pasar el raton ----
+   Solo los dias con eventos abren algo: los vacios se quedan con la flecha
+   normal, que si no el cursor promete un clic que no hace nada. */
+:root[data-modo="escritorio"] .cal-card{ cursor: default; }
+:root[data-modo="escritorio"] .cal-card[data-eventos="1"]{
+  cursor: pointer;
+  -webkit-transition: -webkit-transform 260ms cubic-bezier(.2,.7,.3,1),
+                      box-shadow 260ms ease;
+  transition: transform 260ms cubic-bezier(.2,.7,.3,1),
+              box-shadow 260ms ease;
+}
+:root[data-modo="escritorio"] .cal-rail-mes,
+:root[data-modo="escritorio"] .cal-cerrar,
+:root[data-modo="escritorio"] .cal-ev-boton{ cursor: pointer; }
+
+/* hover solo donde hay raton de verdad: en tactil se queda pegado */
+@media (hover: hover) and (pointer: fine){
+  :root[data-modo="escritorio"] .cal-card[data-eventos="1"]:hover{
+    /* se levanta un pelo y se pone por encima de sus vecinas */
+    -webkit-transform: scale(1.035);
+    transform: scale(1.035);
+    z-index: 3;
+    box-shadow: 0 6px 18px rgba(0,0,0,.28);
+  }
+  :root[data-modo="escritorio"] .cal-card[data-eventos="1"]:active{
+    -webkit-transform: scale(1.012);
+    transform: scale(1.012);
+  }
+  :root[data-modo="escritorio"] .cal-ev-boton{
+    -webkit-transition: -webkit-transform 200ms cubic-bezier(.2,.7,.3,1),
+                        background-color 200ms ease;
+    transition: transform 200ms cubic-bezier(.2,.7,.3,1),
+                background-color 200ms ease;
+  }
+  :root[data-modo="escritorio"] .cal-ev-boton:hover{
+    -webkit-transform: scale(1.04);
+    transform: scale(1.04);
+  }
+}
+@media (prefers-reduced-motion: reduce){
+  :root[data-modo="escritorio"] .cal-card[data-eventos="1"],
+  :root[data-modo="escritorio"] .cal-ev-boton{
+    -webkit-transition: none; transition: none;
+  }
+  :root[data-modo="escritorio"] .cal-card[data-eventos="1"]:hover,
+  :root[data-modo="escritorio"] .cal-ev-boton:hover{
+    -webkit-transform: none; transform: none;
+  }
+}
 :root[data-modo="escritorio"] .cal-pie{
   grid-column:2; grid-row:4;
   margin: var(--cal-pie-hueco) 0 0;

@@ -183,6 +183,11 @@ no entienda `clamp()` se queda con el valor plano.
     pantallas muy apaisadas la rejilla se estrecha y se centra —cabecera de días
     incluida—, y en ventanas estrechas y altas se le recorta alto, para que el
     día se lea siempre como una casilla.
+  - Al pasar el ratón por un día **con eventos**, el cursor pasa a mano y la
+    card crece un 3,5 % con una sombra suave, en 260 ms. Los días sin eventos
+    no hacen nada: se quedan con la flecha, que si no el cursor promete un clic
+    que no existe. En táctil no se aplica, para que el efecto no se quede
+    pegado.
   - Cuando una card no da de sí, el ajuste va por pasos antes que perder
     información: primero baja el título a dos líneas, luego a una, y solo si aun
     así no cabe esconde los últimos eventos y remata con **Ver todos (N)**, que
