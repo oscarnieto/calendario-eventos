@@ -104,7 +104,31 @@ se queda si el vídeo no puede reproducirse o si el usuario tiene
 `prefers-reduced-motion`. **Si se cambia el vídeo hay que volver a exportar ese
 fotograma.**
 
+### Buscador
+
+Tres desplegables (departamento, ciudad, tipo de evento) en escritorio y móvil,
+nunca en el MOPI. Viven en `est.filtros` y **no tocan `est.eventos`**: todo lo
+que se pinta sale de `eventosVisibles()`, así que quitar un filtro no recarga
+nada. `eventosDe()` y `eventosDelMes()` ya leen de ahí, de modo que rejilla,
+popup, agenda y menú de meses se filtran solos.
+
+- `claveFiltro()` agrupa valores ignorando mayúsculas, tildes, espacios y
+  signos sueltos de los extremos (en el Excel hay un `´Madrid`). Las **erratas
+  reales no se tocan** (`Madird` sale como ciudad aparte): se ven y se corrigen
+  en el Excel.
+- `aplicarFiltro()` salta al primer mes con resultados; si no, filtrar en un
+  mes vacío parecería que no hay nada.
+- En móvil, con filtro puesto la agenda pasa a mostrar **todo el año**
+  (`eventosDeLaAgenda()`), que es lo que se espera de una búsqueda.
+- Los `<select>` solo se rehacen cuando cambian los datos (firma por
+  `length|origen|tsDatos`); el valor y el amarillo de «filtro puesto» se
+  sincronizan en cada pintado.
+
 ### Datos
+
+**El archivo tiene que ser `.xlsx`**: el SheetJS mini embebido no trae el
+parser de `.xlsb` (falla con `parse_sty_bin is not defined`). Si llega un
+`.xlsb`, hay que convertirlo antes de meterlo en `datos/`.
 
 `datos/calendario.xlsx` con cache-busting `?v=' + Date.now()`, caché en
 `localStorage` (**el Excel manda siempre que se pueda leer**), recarga cada 30

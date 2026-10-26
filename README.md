@@ -44,10 +44,16 @@ filas en blanco o un título encima no molestan.
 | `Nombre evento` | **Sí** | Título del evento |
 | `Fecha` | **Sí** | Formato fecha de Excel, o `DD/MM/AAAA` escrito a mano |
 | `Horario` | No | `19:00`, o un rango en la misma casilla: `19:00 - 21:00`, `09:30 a 13:00` |
-| `Lugar` | No | Sale bajo el título en el popup |
-| `Tipo de evento` | No | Se muestra como etiqueta |
+| `Lugar` | No | Sale bajo el título, junto a la ciudad |
+| `Ciudad` | No | Se junta con el lugar (`Savills Café, Madrid`) y **filtra en el buscador** |
+| `Departamento` | No | Sale con su icono y **filtra en el buscador** |
+| `Tipo de evento` | No | **Filtra en el buscador** |
 | `¿Quién participa?` | No | Varios nombres separados por punto y coma `;` |
 | `Link QR` | No | De aquí sale el QR. Sin link, no se reserva el hueco |
+
+> **El archivo tiene que ser `.xlsx`.** El `.xlsb` (binario) no se puede leer:
+> la librería que lleva el calendario dentro no trae ese formato. En Excel,
+> *Guardar como* → *Libro de Excel (.xlsx)*.
 
 ### Un evento de varios días
 
@@ -57,6 +63,7 @@ Se puede escribir en una sola fila y sale en todos los días que le toquen:
 |---|---|
 | `08, 09 y 19 /09/2026` | 8, 9 y 19 de septiembre |
 | `22, 23 y 24/09/2026` | 22, 23 y 24 de septiembre |
+| `07 al 10/07/2026` | del 7 al 10 de julio, los cuatro días |
 | `29, 30 ,1 y 2 /09 y 10/2026` | 29 y 30 de septiembre, 1 y 2 de octubre |
 
 Con dos meses, los días se reparten en orden: cuando el número de día baja
@@ -78,6 +85,8 @@ signos (`¿?`) y espacios sobrantes, y cada campo acepta varios nombres:
 | Hora | `Horario`, `Hora`, `Hora inicio`, `Inicio` |
 | Hora de fin | `Hora fin`, `Fin`, `Hasta` |
 | Lugar | `Lugar`, `Ubicación`, `Sala`, `Dónde` |
+| Ciudad | `Ciudad`, `Población`, `Localidad`, `Plaza` |
+| Departamento | `Departamento`, `Depto`, `Área`, `Equipo`, `Negocio` |
 | Tipo | `Tipo de evento`, `Tipo`, `Categoría` |
 | Participantes | `¿Quién participa?`, `Ponentes`, `Participantes` |
 | Enlace | `Link`, `Link QR`, `QR`, `URL`, `Enlace`, `Inscripción` |
@@ -203,6 +212,20 @@ no entienda `clamp()` se queda con el valor plano.
   hace nada.
   En el popup no hay QR —el QR es solo para el MOPI—: hay un botón
   **Apúntate aquí**.
+- **Buscador** (escritorio y móvil; en el MOPI no). Tres desplegables
+  —**Departamento**, **Ciudad** y **Tipo de evento**— que se rellenan solos con
+  lo que haya en el Excel. Se combinan entre sí y:
+  - cuentan los resultados («8 eventos · 5 en Enero»);
+  - saltan al primer mes que tenga resultados, para no ir mes a mes;
+  - **apagan en el menú lateral los meses sin resultados**, para ver de un
+    vistazo dónde está lo que buscas;
+  - en móvil, la lista desplegable deja de ser «el mes» y pasa a ser «lo que
+    has buscado» en todo el año, con el mes en cada fecha.
+
+  Los valores se agrupan ignorando mayúsculas, tildes y espacios sobrantes
+  (`Con Clientes` y `Con clientes` son el mismo), pero **las erratas no se
+  corrigen solas**: si en el Excel pone `Madird`, sale `Madird` como ciudad
+  aparte. Es a propósito: así se ven y se arreglan en el origen.
 - **Contacto.** El correo del pie es un `mailto:` en escritorio y móvil, con
   subrayado al pasar el ratón. En el MOPI queda inerte: es un cartel de oficina,
   ahí no hay cliente de correo y un `mailto:` solo serviría para sacar al

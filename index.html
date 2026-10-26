@@ -535,6 +535,76 @@ body{
 }
 .cal-modal[data-scroll="1"][data-fin="1"]::after{ opacity: 0; }
 
+/* ---------- buscador (escritorio y movil; en el MOPI no) ---------- */
+.cal-filtros{ display:none; }
+.cal-filtro{
+  display:flex; flex-direction:column; gap: 4px;
+  min-width:0;
+}
+.cal-filtro > span{
+  font-size: var(--cal-fs-cabecera);
+  font-weight:700; letter-spacing:.06em; text-transform:uppercase;
+  color: var(--cal-c-cabecera);
+}
+.cal-filtro select{
+  width:100%; min-width:0;
+  font-family: var(--cal-fuente);
+  font-size: var(--cal-fs-filtro);
+  font-weight:500; line-height:1.3;
+  color: var(--cal-c-blanco);
+  background: rgba(255,255,255,.07);
+  border: 1px solid var(--cal-c-linea);
+  border-radius: 2px;
+  padding: 8px 10px;
+  -webkit-appearance:none; appearance:none;
+  /* la flecha va dibujada, que el select nativo pinta una distinta en cada sistema */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 9l6 6 6-6' fill='none' stroke='%23ffffff' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;
+  background-position: right 8px center;
+  background-size: 16px 16px;
+  padding-right: 28px;
+  cursor: pointer;
+  -webkit-transition: border-color 180ms ease, background-color 180ms ease;
+  transition: border-color 180ms ease, background-color 180ms ease;
+}
+.cal-filtro select:focus{ outline: 2px solid var(--cal-c-acento); outline-offset: 1px; }
+.cal-filtro select option{ color:#1a1b28; background:#ffffff; }
+/* el filtro que esta puesto se marca en amarillo */
+.cal-filtro select[data-activo="1"]{
+  border-color: var(--cal-c-acento);
+  color: var(--cal-c-acento);
+  background-color: rgba(255,223,0,.10);
+}
+@media (hover: hover) and (pointer: fine){
+  .cal-filtro select:hover{ border-color: var(--cal-c-suave); }
+}
+.cal-filtros-info{
+  margin:0; align-self:end;
+  font-size: var(--cal-fs-filtro);
+  color: var(--cal-c-suave);
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.cal-filtros-info b{ color: var(--cal-c-acento); font-weight:700; }
+.cal-filtros-limpiar{
+  align-self:end;
+  font-family: var(--cal-fuente);
+  font-size: var(--cal-fs-filtro); font-weight:700;
+  color: var(--cal-c-blanco);
+  background:transparent;
+  border:1px solid var(--cal-c-suave);
+  border-radius:2px;
+  padding: 8px 14px;
+  white-space:nowrap;
+  cursor:pointer;
+  -webkit-transition: border-color 180ms ease, color 180ms ease;
+  transition: border-color 180ms ease, color 180ms ease;
+}
+@media (hover: hover) and (pointer: fine){
+  .cal-filtros-limpiar:hover{ border-color: var(--cal-c-acento); color: var(--cal-c-acento); }
+}
+/* un mes sin resultados se apaga en el menu */
+.cal-rail-mes[data-vacio="1"]{ opacity:.35; }
+
 /* ---------- agenda desplegable (solo en movil) ---------- */
 .cal-ver-todos{ display:none; }
 :root[data-modo="movil"] .cal-ver-todos{
@@ -867,6 +937,12 @@ body{
   --cal-h1-hueco: clamp(16px, 4.4vh, 56px);
   --cal-pie-hueco: 26px;
   --cal-pie-hueco: clamp(10px, 3.4vh, 46px);
+  --cal-filtros-hueco: 14px;
+  --cal-filtros-hueco: clamp(8px, 1.1vw, 20px);
+  --cal-filtros-abajo: 18px;
+  --cal-filtros-abajo: clamp(10px, 2.4vh, 32px);
+  --cal-fs-filtro: 14px;
+  --cal-fs-filtro: clamp(11px, min(1.05vw, 1.6vh), 17px);
 
   /* rail de meses */
   --cal-rail-ancho: 180px;
@@ -960,7 +1036,8 @@ body{
   transform:none;
   display:grid;
   grid-template-columns: var(--cal-rail-ancho) minmax(0, 1fr);
-  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  /* cabecera / buscador / dias / rejilla / pie */
+  grid-template-rows: auto auto auto minmax(0, 1fr) auto;
   column-gap: var(--cal-rail-hueco);
 }
 /* la foto cubre la ventana entera detras de todo. El velo tambien esta
@@ -978,6 +1055,7 @@ body{
 :root[data-modo="escritorio"] .cal-logo,
 :root[data-modo="escritorio"] .cal-h1,
 :root[data-modo="escritorio"] .cal-rail,
+:root[data-modo="escritorio"] .cal-filtros,
 :root[data-modo="escritorio"] .cal-semana,
 :root[data-modo="escritorio"] .cal-rejilla,
 :root[data-modo="escritorio"] .cal-pie{ position:relative; z-index:1; }
@@ -997,7 +1075,7 @@ body{
 }
 :root[data-modo="escritorio"] .cal-rail{
   /* el rail acaba donde acaba la rejilla, no donde acaba el pie */
-  grid-column:1; grid-row: 2 / span 2;
+  grid-column:1; grid-row: 2 / span 3;
   align-self:start;
   display:flex; flex-direction:column;
   min-width:0;
@@ -1006,12 +1084,20 @@ body{
 :root[data-modo="escritorio"] .cal-semana{
   margin-left:0; margin-right:0;
 }
-:root[data-modo="escritorio"] .cal-semana{
+:root[data-modo="escritorio"] .cal-filtros{
   grid-column:2; grid-row:2;
+  display:grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) auto auto;
+  gap: var(--cal-filtros-hueco);
+  align-items:end;
+  margin: 0 0 var(--cal-filtros-abajo);
+}
+:root[data-modo="escritorio"] .cal-semana{
+  grid-column:2; grid-row:3;
   margin:0 0 var(--cal-hueco-cab);
 }
 :root[data-modo="escritorio"] .cal-rejilla{
-  grid-column:2; grid-row:3;
+  grid-column:2; grid-row:4;
   align-self:start;
   margin:0; min-height:0; height:100%;
   grid-auto-rows: minmax(0, 1fr);
@@ -1068,7 +1154,7 @@ body{
   }
 }
 :root[data-modo="escritorio"] .cal-pie{
-  grid-column:2; grid-row:4;
+  grid-column:2; grid-row:5;
   margin: var(--cal-pie-hueco) 0 0;
   white-space:nowrap;
   overflow:hidden; text-overflow:ellipsis;
@@ -1129,7 +1215,7 @@ body{
   }
   :root[data-modo="escritorio"] .cal-marco{ height:auto; overflow:visible; }
   :root[data-modo="escritorio"] .cal-lienzo{
-    grid-template-rows: auto auto auto auto;
+    grid-template-rows: auto auto auto auto auto;
   }
   :root[data-modo="escritorio"] .cal-card{ min-height: 72px; }
 }
@@ -1211,6 +1297,24 @@ body{
   .cal-ver-todos svg{ -webkit-transition: none; transition: none; }
 }
 :root[data-modo="movil"] .cal-semana span{ text-align:center; }
+:root[data-modo="movil"] .cal-filtros{
+  display:grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 18px var(--cal-margen) 0;
+}
+/* el tipo de evento ocupa la fila entera: es la etiqueta mas larga */
+:root[data-modo="movil"] .cal-filtro:nth-of-type(3){ grid-column: 1 / -1; }
+:root[data-modo="movil"] .cal-filtros-info{
+  grid-column: 1 / -1;
+  align-self:center; white-space:normal;
+}
+:root[data-modo="movil"] .cal-filtros-limpiar{
+  grid-column: 1 / -1;
+  align-self:stretch; width:100%;
+  min-height: var(--cal-tactil);
+}
+:root[data-modo="movil"]{ --cal-fs-filtro: 14px; }
 
 </style>
 </head>
@@ -1249,6 +1353,23 @@ body{
       </nav>
 
       <div class="cal-semana" id="calSemana"></div>
+      <form class="cal-filtros" id="calFiltros" autocomplete="off" onsubmit="return false">
+        <label class="cal-filtro">
+          <span>Departamento</span>
+          <select id="calFiltroDepto"><option value="">Todos</option></select>
+        </label>
+        <label class="cal-filtro">
+          <span>Ciudad</span>
+          <select id="calFiltroCiudad"><option value="">Todas</option></select>
+        </label>
+        <label class="cal-filtro">
+          <span>Tipo de evento</span>
+          <select id="calFiltroTipo"><option value="">Todos</option></select>
+        </label>
+        <p class="cal-filtros-info" id="calFiltrosInfo" role="status"></p>
+        <button type="button" class="cal-filtros-limpiar" id="calFiltrosLimpiar" hidden>Quitar filtros</button>
+      </form>
+
       <nav class="cal-rail" id="calRail" aria-label="Meses">
         <ul class="cal-rail-meses" id="calRailMeses"></ul>
       </nav>
@@ -1348,7 +1469,11 @@ var CAL = (function () {
              '<circle cx="12" cy="7.8" r="3.8"/><path d="M4.6 20.6c0-3.8 3.4-5.9 7.4-5.9s7.4 2.1 7.4 5.9"/></svg>',
     tipo:    '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">' +
              '<path d="M3.6 10.7V4.9a1.3 1.3 0 0 1 1.3-1.3h5.8L20.4 13 13 20.4z"/>' +
-             '<circle cx="8" cy="8" r="1.4"/></svg>'
+             '<circle cx="8" cy="8" r="1.4"/></svg>',
+    equipo:  '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">' +
+             '<path d="M3.4 8.6h17.2v11.2H3.4z"/>' +
+             '<path d="M9 8.6V6.1a1.2 1.2 0 0 1 1.2-1.2h3.6A1.2 1.2 0 0 1 15 6.1v2.5"/>' +
+             '<path d="M3.4 13.4h17.2"/></svg>'
   };
 
   /* Cada campo acepta varias cabeceras: el equipo escribe el Excel en
@@ -1362,6 +1487,8 @@ var CAL = (function () {
     descripcion:  ['descripcion', 'detalle', 'detalles', 'resumen', 'de_que_va'],
     categoria:    ['categoria', 'tipo_de_evento', 'tipo', 'tipologia'],
     ubicacion:    ['ubicacion', 'lugar', 'sala', 'sitio', 'donde'],
+    ciudad:       ['ciudad', 'poblacion', 'localidad', 'plaza'],
+    departamento: ['departamento', 'depto', 'area', 'equipo', 'negocio'],
     ponentes:     ['ponentes', 'quien_participa', 'participa', 'participantes', 'ponente'],
     url_registro: ['url_registro', 'link_qr', 'qr', 'link', 'url', 'enlace', 'inscripcion', 'registro'],
     imagen:       ['imagen', 'foto', 'img'],
@@ -1380,6 +1507,7 @@ var CAL = (function () {
     tsDatos: 0,
     mesVista: null,          // Date, dia 1 del mes visible
     mesReal: '',             // 'AAAA-MM' del mes en curso, para detectar el salto
+    filtros: { departamento: '', ciudad: '', categoria: '' },
     diaSel: '',              // ISO del dia seleccionado
     eventoSel: null,
     agendaAbierta: false,    // movil: la lista del mes empieza plegada
@@ -1486,7 +1614,7 @@ var CAL = (function () {
     var partes = v.split('/');
     if (partes.length !== 3) return [];
 
-    var dias = numerosDe(partes[0]);
+    var dias = diasDe(partes[0]);
     var meses = numerosDe(partes[1]);
     var anios = numerosDe(partes[2]);
     if (!dias.length || !meses.length || !anios.length) return [];
@@ -1504,6 +1632,22 @@ var CAL = (function () {
       if (iso) { salida.push(iso); }
     }
     return salida;
+  }
+
+  /* Los dias de un evento de varias jornadas vienen de dos formas:
+     enumerados ("22, 23 y 24") o como rango ("07 al 10", "7-10"). El rango
+     se despliega; si no, el dia de en medio no saldria en el calendario. */
+  function diasDe(s) {
+    var txt = ' ' + clave(s) + ' ';
+    var rango = txt.match(/(\d+)\s*(?:al?|-|–|hasta)\s*(\d+)/);
+    if (rango) {
+      var a = parseInt(rango[1], 10), b = parseInt(rango[2], 10), r = [], i;
+      if (b > a && b - a <= 31) {
+        for (i = a; i <= b; i++) { r.push(i); }
+        return r;
+      }
+    }
+    return numerosDe(s);
   }
 
   function numerosDe(s) {
@@ -1830,6 +1974,8 @@ var CAL = (function () {
           descripcion: texto(celda(fila, 'descripcion')),
           categoria: categoria,
           ubicacion: texto(celda(fila, 'ubicacion')),
+          ciudad: texto(celda(fila, 'ciudad')),
+          departamento: texto(celda(fila, 'departamento')),
           ponentes: ponentes,
           url: url,
           imagen: texto(celda(fila, 'imagen')),
@@ -1965,18 +2111,175 @@ var CAL = (function () {
 
   /* ---------------- Consultas sobre los datos ---------------- */
   function eventosDe(isoStr) {
-    var r = [];
-    for (var i = 0; i < est.eventos.length; i++) {
-      if (est.eventos[i].fecha === isoStr) { r.push(est.eventos[i]); }
+    var vis = eventosVisibles(), r = [];
+    for (var i = 0; i < vis.length; i++) {
+      if (vis[i].fecha === isoStr) { r.push(vis[i]); }
     }
     return r;
   }
-  function eventosDelMes(f) {
-    var pre = claveMes(f), r = [];
-    for (var i = 0; i < est.eventos.length; i++) {
-      if (est.eventos[i].fecha.slice(0, 7) === pre) { r.push(est.eventos[i]); }
+  /* ---------------------------------------------------------------------
+     Buscador. Los filtros no tocan est.eventos: se aplican al vuelo, para
+     que al quitarlos vuelva todo sin recargar el Excel.
+     --------------------------------------------------------------------- */
+  var CAMPOS_FILTRO = ['departamento', 'ciudad', 'categoria'];
+
+  /* como clave(), pero ademas se come los signos sueltos de los extremos:
+     en el Excel hay un "´Madrid" que si no saldria como ciudad aparte */
+  function claveFiltro(v) {
+    return clave(v).replace(/^[^0-9a-z]+/, '').replace(/[^0-9a-z)]+$/, '');
+  }
+
+  function hayFiltro() {
+    for (var i = 0; i < CAMPOS_FILTRO.length; i++) {
+      if (est.filtros[CAMPOS_FILTRO[i]]) { return true; }
+    }
+    return false;
+  }
+
+  function pasaFiltro(ev) {
+    for (var i = 0; i < CAMPOS_FILTRO.length; i++) {
+      var c = CAMPOS_FILTRO[i];
+      if (est.filtros[c] && claveFiltro(ev[c]) !== est.filtros[c]) { return false; }
+    }
+    return true;
+  }
+
+  /* todo lo que se pinta sale de aqui, no de est.eventos */
+  function eventosVisibles() {
+    if (!hayFiltro()) { return est.eventos; }
+    var r = [], i;
+    for (i = 0; i < est.eventos.length; i++) {
+      if (pasaFiltro(est.eventos[i])) { r.push(est.eventos[i]); }
     }
     return r;
+  }
+
+  /* valores distintos de un campo, ordenados y sin repetir por may/min ni
+     por acentos; se queda con la primera forma que aparece en el Excel */
+  function valoresDe(campo) {
+    var vistos = {}, lista = [], i, v, k;
+    for (i = 0; i < est.eventos.length; i++) {
+      v = est.eventos[i][campo];
+      if (!v) { continue; }
+      k = claveFiltro(v);
+      if (!k || vistos[k]) { continue; }
+      vistos[k] = true;
+      lista.push({ clave: k, texto: String(v).replace(/\s+/g, ' ').replace(/^ | $/g, '') });
+    }
+    lista.sort(function (a, b) { return a.clave < b.clave ? -1 : (a.clave > b.clave ? 1 : 0); });
+    return lista;
+  }
+
+  var SELECTS = {
+    departamento: 'calFiltroDepto',
+    ciudad: 'calFiltroCiudad',
+    categoria: 'calFiltroTipo'
+  };
+  var VACIO = { departamento: 'Todos', ciudad: 'Todas', categoria: 'Todos' };
+
+  /* los <select> solo se rehacen cuando cambian los datos: si no, se
+     reconstruirian en cada cambio de mes y con el menu abierto molesta */
+  var firmaFiltros = '';
+  function pintarFiltros() {
+    if (est.modo === 'mopi') { return; }
+    var firma = est.eventos.length + '|' + est.origen + '|' + est.tsDatos;
+    var rehacer = (firma !== firmaFiltros);
+    firmaFiltros = firma;
+
+    var i, j, campo, sel, vals, h;
+    for (i = 0; i < CAMPOS_FILTRO.length; i++) {
+      campo = CAMPOS_FILTRO[i];
+      sel = el(SELECTS[campo]);
+      if (rehacer) {
+        vals = valoresDe(campo);
+        h = '<option value="">' + VACIO[campo] + '</option>';
+        for (j = 0; j < vals.length; j++) {
+          h += '<option value="' + esc(vals[j].clave) + '">' + esc(vals[j].texto) + '</option>';
+        }
+        sel.innerHTML = h;
+        /* si el valor elegido ya no esta en el Excel nuevo, se suelta */
+        if (est.filtros[campo] && !existeClave(vals, est.filtros[campo])) { est.filtros[campo] = ''; }
+        sel.disabled = !vals.length;
+      }
+      /* esto si va siempre: el amarillo del filtro puesto y, al limpiar,
+         devolver el <select> a "Todos" */
+      sel.value = est.filtros[campo];
+      sel.setAttribute('data-activo', est.filtros[campo] ? '1' : '0');
+    }
+    pintarResumenFiltros();
+  }
+
+  function existeClave(lista, k) {
+    for (var i = 0; i < lista.length; i++) { if (lista[i].clave === k) { return true; } }
+    return false;
+  }
+
+  function pintarResumenFiltros() {
+    var info = el('calFiltrosInfo'), limpiar = el('calFiltrosLimpiar');
+    if (!hayFiltro()) {
+      info.innerHTML = '';
+      limpiar.hidden = true;
+      return;
+    }
+    var vis = eventosVisibles();
+    var mes = 0, pre = claveMes(est.mesVista), i;
+    for (i = 0; i < vis.length; i++) {
+      if (vis[i].fecha.slice(0, 7) === pre) { mes++; }
+    }
+    info.innerHTML = vis.length
+      ? '<b>' + vis.length + '</b> ' + (vis.length === 1 ? 'evento' : 'eventos') +
+        ' · ' + (mes ? mes + ' en ' + capitalizar(MESES[est.mesVista.getMonth()]) : 'ninguno este mes')
+      : 'Ningún evento con estos filtros';
+    limpiar.hidden = false;
+  }
+
+  function aplicarFiltro(campo, valor) {
+    est.filtros[campo] = valor || '';
+    est.diaSel = '';
+    est.eventoSel = null;
+    cerrarPopupMopi();
+    /* con un filtro puesto, el mes en curso puede quedarse sin nada: se
+       salta al primer mes que si tenga resultados */
+    irAPrimerMesConResultados();
+    pintar();
+  }
+
+  function limpiarFiltros() {
+    var i;
+    for (i = 0; i < CAMPOS_FILTRO.length; i++) { est.filtros[CAMPOS_FILTRO[i]] = ''; }
+    est.diaSel = '';
+    est.eventoSel = null;
+    cerrarPopupMopi();
+    pintar();
+  }
+
+  function irAPrimerMesConResultados() {
+    if (!hayFiltro()) { return; }
+    var vis = eventosVisibles();
+    if (!vis.length) { return; }
+    var pre = claveMes(est.mesVista), i;
+    for (i = 0; i < vis.length; i++) {
+      if (vis[i].fecha.slice(0, 7) === pre) { return; }   // el mes actual ya vale
+    }
+    /* el primero que caiga a partir del mes visible; si no, el primero de todos */
+    var destino = vis[0].fecha;
+    for (i = 0; i < vis.length; i++) {
+      if (vis[i].fecha.slice(0, 7) >= pre) { destino = vis[i].fecha; break; }
+    }
+    est.mesVista = primerDiaMes(deIso(destino));
+  }
+
+  function eventosDelMes(f) {
+    var vis = eventosVisibles(), pre = claveMes(f), r = [];
+    for (var i = 0; i < vis.length; i++) {
+      if (vis[i].fecha.slice(0, 7) === pre) { r.push(vis[i]); }
+    }
+    return r;
+  }
+  /* con un filtro puesto, la lista de movil deja de ser "el mes" y pasa a
+     ser "lo que has buscado", en todo el ano */
+  function eventosDeLaAgenda(f) {
+    return hayFiltro() ? eventosVisibles() : eventosDelMes(f);
   }
   function porId(id) {
     for (var i = 0; i < est.eventos.length; i++) {
@@ -1995,6 +2298,31 @@ var CAL = (function () {
     }
     return celdas;
   }
+  /* El lugar y la ciudad van juntos: "Savills Cafe, Madrid". En el Excel
+     el lugar a veces ya trae la ciudad dentro ("Palais des Festivals,
+     Cannes" + "Cannes, Francia"), asi que se juntan por trozos y se quitan
+     los repetidos: queda "Palais des Festivals, Cannes, Francia". */
+  function sitio(ev) {
+    var trozos = partirSitio(ev.ubicacion).concat(partirSitio(ev.ciudad));
+    var vistos = {}, salida = [], i, k;
+    for (i = 0; i < trozos.length; i++) {
+      k = claveFiltro(trozos[i]);
+      if (!k || vistos[k]) { continue; }
+      vistos[k] = true;
+      salida.push(trozos[i]);
+    }
+    return salida.join(', ');
+  }
+  function partirSitio(v) {
+    if (!v) { return []; }
+    var partes = String(v).split(','), r = [], i, t;
+    for (i = 0; i < partes.length; i++) {
+      t = texto(partes[i]);
+      if (t) { r.push(t); }
+    }
+    return r;
+  }
+
   function etiquetasEstado(ev) {
     var h = '';
     if (ev.estado === 'cancelado') { h += '<span class="etiqueta" data-tipo="cancelado">Cancelado</span>'; }
@@ -2070,6 +2398,7 @@ var CAL = (function () {
     ajustarRejilla();
 
     pintarRail(f);
+    if (est.modo !== 'mopi') { pintarResumenFiltros(); }
     pintarAgenda(f);
     avisarFinDeSemana(f);
     pintarPanelMopi();
@@ -2083,15 +2412,29 @@ var CAL = (function () {
      en curso en amarillo. */
   function pintarRail(f) {
     if (est.modo !== 'escritorio') { return; }
-    var mesVisto = f.getMonth(), i, h = '';
+    var mesVisto = f.getMonth(), anio = f.getFullYear(), i, h = '';
+    var conResultados = mesesConResultados(anio);
     for (i = 0; i < 12; i++) {
       h += '<li><button type="button" class="cal-rail-mes" data-mes="' + i + '"' +
            ' data-activo="' + (i === mesVisto ? '1' : '0') + '"' +
+           ' data-vacio="' + (conResultados[i] ? '0' : '1') + '"' +
            (i === mesVisto ? ' aria-current="true"' : '') + '>' +
            capitalizar(MESES[i]) + '</button></li>';
     }
     el('calRailMeses').innerHTML = h;
     medirDock();
+  }
+
+  /* que meses del ano tienen algo que ver, con los filtros puestos */
+  function mesesConResultados(anio) {
+    var vis = eventosVisibles(), pre = String(anio) + '-', r = [], i, m;
+    for (i = 0; i < 12; i++) { r.push(false); }
+    for (i = 0; i < vis.length; i++) {
+      if (vis[i].fecha.slice(0, 5) !== pre) { continue; }
+      m = parseInt(vis[i].fecha.slice(5, 7), 10) - 1;
+      if (m >= 0 && m < 12) { r[m] = true; }
+    }
+    return r;
   }
 
   /* ---------------------------------------------------------------------
@@ -2168,10 +2511,12 @@ var CAL = (function () {
       return;
     }
 
-    var mes = eventosDelMes(f), i, h = '', ultima = '';
+    var mes = eventosDeLaAgenda(f), i, h = '', ultima = '';
+    var buscando = hayFiltro();
     pintarBotonAgenda(mes.length);
     if (!mes.length) {
-      cont.innerHTML = '<p class="cal-agenda-vacia">No hay eventos este mes.</p>';
+      cont.innerHTML = '<p class="cal-agenda-vacia">' +
+        (buscando ? 'Ningún evento con estos filtros.' : 'No hay eventos este mes.') + '</p>';
       return;
     }
     for (i = 0; i < mes.length; i++) {
@@ -2179,12 +2524,15 @@ var CAL = (function () {
       if (e.fecha !== ultima) {
         ultima = e.fecha;
         var d = deIso(e.fecha);
+        /* buscando se recorre todo el ano: el dia solo no basta */
         h += '<div class="cal-agenda-fecha"><b>' + pad2(d.getDate()) + '</b> ' +
-             capitalizar(DIAS_LARGOS[d.getDay()]) + '</div>';
+             capitalizar(DIAS_LARGOS[d.getDay()]) +
+             (buscando ? ' · ' + capitalizar(MESES[d.getMonth()]) : '') + '</div>';
       }
       var datos = '';
       if (franjaH(e)) { datos += filaDato(ICONOS.reloj, franjaH(e)); }
-      if (e.ubicacion) { datos += filaDato(ICONOS.lugar, e.ubicacion); }
+      if (sitio(e)) { datos += filaDato(ICONOS.lugar, sitio(e)); }
+      if (e.departamento) { datos += filaDato(ICONOS.equipo, e.departamento); }
       h += '<button type="button" class="cal-agenda-item" data-fecha="' + e.fecha + '" data-estado="' + e.estado + '">' +
              '<span class="cal-agenda-tit"><span class="cal-ev-tit-txt">' + esc(e.titulo) + '</span>' +
                etiquetasEstado(e) + '</span>' +
@@ -2198,11 +2546,16 @@ var CAL = (function () {
   function pintarBotonAgenda(cuantos) {
     var boton = el('calVerTodos'), txt = el('calVerTodosTxt');
     var abierta = est.agendaAbierta && cuantos > 0;
+    var buscando = hayFiltro();
     boton.setAttribute('aria-expanded', abierta ? 'true' : 'false');
     boton.setAttribute('data-vacio', cuantos ? '0' : '1');
-    if (!cuantos) { txt.textContent = 'No hay eventos este mes'; return; }
-    txt.textContent = abierta
-      ? 'Ocultar los eventos'
+    if (!cuantos) {
+      txt.textContent = buscando ? 'Ningún evento con estos filtros' : 'No hay eventos este mes';
+      return;
+    }
+    if (abierta) { txt.textContent = 'Ocultar los eventos'; return; }
+    txt.textContent = buscando
+      ? 'Ver ' + (cuantos === 1 ? 'el resultado' : 'los ' + cuantos + ' resultados')
       : 'Ver todos los eventos (' + cuantos + ')';
   }
 
@@ -2211,7 +2564,7 @@ var CAL = (function () {
     if (el('calVerTodos').getAttribute('data-vacio') === '1') { return; }
     est.agendaAbierta = !est.agendaAbierta;
     cont.setAttribute('data-abierta', est.agendaAbierta ? '1' : '0');
-    pintarBotonAgenda(eventosDelMes(est.mesVista).length);
+    pintarBotonAgenda(eventosDeLaAgenda(est.mesVista).length);
   }
 
   /* El recorte de CSS corta limpio pero no siempre pinta los puntos
@@ -2432,7 +2785,8 @@ var CAL = (function () {
   function eventoPopupMopi(ev) {
     var datos = '';
     if (franjaH(ev)) { datos += filaDato(ICONOS.reloj, franjaH(ev)); }
-    if (ev.ubicacion) { datos += filaDato(ICONOS.lugar, ev.ubicacion); }
+    if (sitio(ev)) { datos += filaDato(ICONOS.lugar, sitio(ev)); }
+    if (ev.departamento) { datos += filaDato(ICONOS.equipo, ev.departamento); }
     if (ev.ponentes.length) { datos += filaDato(ICONOS.persona, 'Participa: ' + ev.ponentes.join(', ')); }
     /* El Figma no muestra el tipo de evento en el popup. Para sacarlo, basta
        con anadir aqui: filaDato(ICONOS.tipo, ev.categoria) */
@@ -2500,6 +2854,7 @@ var CAL = (function () {
      ======================================================================= */
   function pintar() {
     if (!est.mesVista) { est.mesVista = primerDiaMes(new Date()); }
+    pintarFiltros();
     pintarMopi();
     if (est.modo === 'mopi') { escalarMopi(); }
   }
@@ -2556,6 +2911,7 @@ var CAL = (function () {
     if (nuevo === est.modo && !forzarPintado) { if (nuevo === 'mopi') { escalarMopi(); } return; }
     est.modo = nuevo;
     document.documentElement.setAttribute('data-modo', nuevo);
+    firmaFiltros = '';
 
     /* al cambiar de modo se cierra el popup y se limpia la seleccion */
     mostrar(el('calModal'), false);
@@ -2648,6 +3004,19 @@ var CAL = (function () {
       est.eventoSel = null;
       pintarPanelMopi();
     });
+
+    /* --- buscador --- */
+    (function () {
+      var campos = CAMPOS_FILTRO, i;
+      for (i = 0; i < campos.length; i++) {
+        (function (campo) {
+          escuchar(el(SELECTS[campo]), 'change', function (e) {
+            aplicarFiltro(campo, e.target.value);
+          });
+        }(campos[i]));
+      }
+      escuchar(el('calFiltrosLimpiar'), 'click', function () { limpiarFiltros(); });
+    }());
 
     /* --- rail de escritorio: el mes y el efecto dock --- */
     escuchar(el('calRailMeses'), 'click', function (e) {
