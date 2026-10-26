@@ -83,6 +83,7 @@ escritorio. Al redimensionar, `revisarModo()` decide si repinta.
 | `pintarMopi()` | el renderizador único: cabecera, rejilla, rail, agenda |
 | `ajustarRejilla()` | encuadre + recorte de títulos + encaje de cards, con segunda pasada diferida |
 | `encuadrarRejilla()` | acota la proporción de la card entre 0,85 y 1,45 y centra la rejilla |
+| `matrizMopi()` / `filasFijas()` | el mes en semanas, **siempre el mismo número de filas** (6, o 5 en el MOPI) |
 | `recortarTitulos()` | busca por bisección dónde cortar cada título y le pone `…` |
 | `ajustarCards()` | baja el título a 2 líneas, luego a 1, y solo entonces esconde eventos |
 | `pintarRail()` / `espaciarMeses()` / `medirDock()` | el menú de meses de escritorio y su efecto dock |
@@ -228,6 +229,10 @@ Cosas que ya han mordido una vez:
   de la fuente pueden llegar después y descuadrar por tres píxeles.
 - **`clamp()` sin valor de reserva.** Rompe el layout entero en el WebView del
   MOPI. Declara siempre el valor plano antes.
+- **Número de filas variable.** Un mes ocupa de cuatro a seis semanas; si la
+  rejilla pinta solo las que tienen días, las cards cambian de tamaño de un mes
+  a otro y el calendario baila. `matrizMopi()` rellena hasta `filasFijas()`.
+  Verificado de 2024 a 2035: ningún día se pierde en ninguno de los tres modos.
 
 ---
 

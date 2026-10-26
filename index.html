@@ -2732,12 +2732,20 @@ var CAL = (function () {
 
   /* La rejilla del Figma es de lunes a viernes. Un mes nunca ocupa mas de
      cinco filas laborables, asi que el lienzo de 1920 px siempre cuadra. */
+  /* La rejilla tiene SIEMPRE el mismo numero de filas, tenga el mes cuatro
+     semanas o seis: si no, las cards cambiarian de tamano al pasar de mes y
+     el calendario entero bailaria. Las filas que sobran van vacias.
+     Seis semanas es el peor caso de un mes de lunes a domingo; de lunes a
+     viernes (el MOPI) nunca hacen falta mas de cinco. */
+  function filasFijas() { return diasVisibles().length > 5 ? 6 : 5; }
+
   function matrizMopi(f) {
     var anio = f.getFullYear(), mes = f.getMonth();
     var cols = diasVisibles().length;
+    var tope = filasFijas();
     var desplaz = (new Date(anio, mes, 1).getDay() + 6) % 7;
     var filas = [], i, j;
-    for (i = 0; i < 6; i++) {
+    for (i = 0; i < 6 && filas.length < tope; i++) {
       var semana = [], hay = false;
       for (j = 0; j < cols; j++) {
         var d = new Date(anio, mes, 1 - desplaz + i * 7 + j);
@@ -2746,9 +2754,20 @@ var CAL = (function () {
         var s = isoDe(d);
         semana.push({ iso: s, dia: d.getDate(), dentro: dentro, eventos: dentro ? eventosDe(s) : [] });
       }
-      if (hay) { filas.push(semana); }
+      /* la primera fila que se guarda es la que estrena el mes; a partir de
+         ahi se guardan todas, aunque ya sean del mes siguiente */
+      if (hay || filas.length) { filas.push(semana); }
     }
+    while (filas.length < tope) { filas.push(semanaVacia(cols)); }
     return filas;
+  }
+
+  function semanaVacia(cols) {
+    var semana = [], j;
+    for (j = 0; j < cols; j++) {
+      semana.push({ iso: '', dia: 0, dentro: false, eventos: [] });
+    }
+    return semana;
   }
 
   function avisarFinDeSemana(f) {

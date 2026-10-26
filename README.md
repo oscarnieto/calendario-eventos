@@ -168,6 +168,10 @@ no entienda `clamp()` se queda con el valor plano.
 
 - **Rejilla de lunes a domingo**, 7 columnas. A diferencia del MOPI, aquí sí se
   ven los eventos de sábado y domingo.
+- **La rejilla tiene siempre el mismo tamaño**, tenga el mes cuatro semanas o
+  seis: se pintan siempre seis filas (cinco en el MOPI, que va de lunes a
+  viernes) y las que sobran quedan vacías. Si no, las cards cambiarían de
+  tamaño al pasar de mes y el calendario entero bailaría.
 - **Escritorio: retícula a pantalla completa.** Implementa el frame
   `19:24 MacBook Pro 14"` del Figma
   [Calendario](https://www.figma.com/design/LqOyrOC477j02aAt3ok6az/Calendario?node-id=19-24).
