@@ -2597,7 +2597,11 @@ var CAL = (function () {
   /* Proporcion maxima ancho/alto de una card de escritorio. Por encima de
      esto la casilla se lee como una banda, asi que se estrecha la rejilla
      y se centra en vez de estirarla de lado a lado. */
-  var CARD_PROPORCION_MAX = 1.45;
+  /* Tope alto a proposito: con seis filas fijas y el buscador ocupando sitio,
+     un tope bajo estrechaba la rejilla y dejaba el calendario perdido en medio
+     de la pantalla. Lo normal es que no llegue a actuar y se use todo el ancho;
+     solo salta en ventanas muy apaisadas, donde la card ya seria una banda. */
+  var CARD_PROPORCION_MAX = 2.4;
   /* y por debajo de esto la casilla sale espigada (ventana estrecha y alta):
      entonces lo que se recorta es el alto de la rejilla. */
   var CARD_PROPORCION_MIN = 0.85;

@@ -82,7 +82,7 @@ escritorio. Al redimensionar, `revisarModo()` decide si repinta.
 |---|---|
 | `pintarMopi()` | el renderizador único: cabecera, rejilla, rail, agenda |
 | `ajustarRejilla()` | encuadre + recorte de títulos + encaje de cards, con segunda pasada diferida |
-| `encuadrarRejilla()` | acota la proporción de la card entre 0,85 y 1,45 y centra la rejilla |
+| `encuadrarRejilla()` | la rejilla usa todo el ancho; acota la proporción de la card entre 0,85 y 2,4 |
 | `matrizMopi()` / `filasFijas()` | el mes en semanas, **siempre el mismo número de filas** (6, o 5 en el MOPI) |
 | `recortarTitulos()` | busca por bisección dónde cortar cada título y le pone `…` |
 | `ajustarCards()` | baja el título a 2 líneas, luego a 1, y solo entonces esconde eventos |
@@ -199,7 +199,8 @@ automatizado (Playwright sirve) en varias resoluciones a la vez, comprobando:
 
 - que en escritorio **no hay scroll** y el pie entra en la ventana;
 - que ninguna `.cal-card-lista` desborda (`scrollHeight > clientHeight`);
-- que la proporción de la card se queda entre 0,85 y 1,45;
+- que la rejilla usa el ancho disponible y la proporción de la card
+  se queda entre 0,85 y 2,4;
 - que no hay scroll horizontal en ningún modo;
 - que el MOPI sigue midiendo exactamente 1920 de alto.
 

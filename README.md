@@ -192,10 +192,12 @@ no entienda `clamp()` se queda con el valor plano.
     menú se repinta con los meses del año nuevo.
   - Los tamaños se miden contra el **menor** de ancho y alto (`min(Xvw, Yvh)`),
     para que una ventana baja y ancha no reviente las cards.
-  - Las cards se mantienen entre **0,85 y 1,45 de ancho por 1 de alto**: en
-    pantallas muy apaisadas la rejilla se estrecha y se centra —cabecera de días
-    incluida—, y en ventanas estrechas y altas se le recorta alto, para que el
-    día se lea siempre como una casilla.
+  - **La rejilla usa todo el ancho disponible.** Solo se estrecha —y entonces
+    se centra, cabecera de días incluida— si la card fuera a pasar de **2,4 de
+    ancho por 1 de alto**, que es cuando el día deja de leerse como casilla y
+    parece una banda; con las resoluciones normales eso no llega a pasar. Al
+    revés, en ventanas estrechas y altas se le recorta alto para que la card no
+    baje de **0,85**.
   - Al pasar el ratón por un día **con eventos**, el cursor pasa a mano y la
     card crece un 3,5 % con una sombra suave, en 260 ms. Los días sin eventos
     no hacen nada: se quedan con la flecha, que si no el cursor promete un clic
